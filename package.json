@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "supabase:gen": "npx supabase gen types typescript --linked > src/types/supabase.ts",
+    "supabase:db:reset": "npx supabase db reset --linked",
+    "supabase:migration:new": "npx supabase migration new"
   },
   "dependencies": {
     "@supabase/ssr": "^0.4.0",
