@@ -9,10 +9,10 @@ export async function register(form: FormData) {
   const supabase = createClient();
 
   const {
-    data: { user },
+    data: { user: auth },
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!auth) {
     redirect("/login");
   }
 
@@ -21,7 +21,7 @@ export async function register(form: FormData) {
   try {
     const data = UserOptionalDefaultsSchema.parse({
       // TODO: id to optional(use auth.uid())
-      id: user.id,
+      id: auth.id,
       account_name: form.get("account_name") as string,
       display_name: form.get("display_name") as string,
     });

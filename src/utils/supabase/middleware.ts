@@ -35,11 +35,11 @@ export async function updateSession(request: NextRequest) {
   // issues with users being randomly logged out.
 
   const {
-    data: { user },
+    data: { user: auth },
   } = await supabase.auth.getUser();
 
   if (
-    !user &&
+    !auth &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {
@@ -49,11 +49,11 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user) {
+  if (auth) {
     const { count } = await supabase
       .from(Prisma.ModelName.User)
       .select("*", { count: "exact", head: true })
-      .eq(Prisma.UserScalarFieldEnum.id, user.id);
+      .eq(Prisma.UserScalarFieldEnum.id, auth.id);
 
     const registerd = (count ?? 0) !== 0;
 
