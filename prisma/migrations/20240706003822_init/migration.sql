@@ -4,10 +4,10 @@ CREATE TABLE "User" (
     "account_name" VARCHAR(32) NOT NULL,
     "display_name" VARCHAR(32) NOT NULL,
     "biography" TEXT,
-    "external_url" VARCHAR,
-    "icon_url" VARCHAR,
-    "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "external_url" VARCHAR(192),
+    "icon_url" VARCHAR(192),
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deleted_at" TIMESTAMP(3),
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -15,11 +15,18 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Post" (
-    "id" SERIAL NOT NULL,
+    "id" VARCHAR(10) NOT NULL,
     "user_id" UUID NOT NULL DEFAULT auth.uid(),
-    "image_url" VARCHAR NOT NULL,
-    "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "caption" TEXT NOT NULL DEFAULT '',
+    "image_url" VARCHAR(192) NOT NULL,
+    "camera" VARCHAR(192),
+    "lens" VARCHAR(192),
+    "focalLength" VARCHAR(192),
+    "fnumber" VARCHAR(192),
+    "shutter" VARCHAR(192),
+    "iso" VARCHAR(192),
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deleted_at" TIMESTAMP(3),
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")

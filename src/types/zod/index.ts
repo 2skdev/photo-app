@@ -14,7 +14,7 @@ export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCo
 
 export const UserScalarFieldEnumSchema = z.enum(['id','account_name','display_name','biography','external_url','icon_url','created_at','updated_at','deleted_at']);
 
-export const PostScalarFieldEnumSchema = z.enum(['id','user_id','image_url','created_at','updated_at','deleted_at']);
+export const PostScalarFieldEnumSchema = z.enum(['id','user_id','caption','image_url','camera','lens','focalLength','fnumber','shutter','iso','created_at','updated_at','deleted_at']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -59,9 +59,16 @@ export type UserOptionalDefaults = z.infer<typeof UserOptionalDefaultsSchema>
 /////////////////////////////////////////
 
 export const PostSchema = z.object({
-  id: z.number().int(),
+  id: z.string().max(10),
   user_id: z.string(),
+  caption: z.string(),
   image_url: z.string().url(),
+  camera: z.string().nullish(),
+  lens: z.string().nullish(),
+  focalLength: z.string().nullish(),
+  fnumber: z.string().nullish(),
+  shutter: z.string().nullish(),
+  iso: z.string().nullish(),
   created_at: z.coerce.date(),
   updated_at: z.coerce.date(),
   deleted_at: z.coerce.date().nullish(),
@@ -73,8 +80,8 @@ export type Post = z.infer<typeof PostSchema>
 //------------------------------------------------------
 
 export const PostOptionalDefaultsSchema = PostSchema.merge(z.object({
-  id: z.number().int().optional(),
   user_id: z.string().optional(),
+  caption: z.string().optional(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional(),
 }))
