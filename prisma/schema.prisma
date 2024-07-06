@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("SUPABASE_DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(dbgenerated("auth.uid()")) @db.Uuid
+  account_name String    @db.VarChar(32)
+  display_name String    @db.VarChar(32)
+  biography    String?
+  external_url String?
+  icon_url     String?   @db.VarChar
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @default(now()) @updatedAt
+  deleted_at   DateTime?
+
+  posts Post[]
+}
+
+model Post {
+  id         Int       @id @default(autoincrement())
+  user_id    String    @default(dbgenerated("auth.uid()")) @db.Uuid
+  image_url  String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  User User @relation(fields: [user_id], references: [id])
+}
