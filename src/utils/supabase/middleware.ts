@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -47,10 +48,30 @@ export async function updateSession(request: NextRequest) {
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
-  if (user && request.nextUrl.pathname.startsWith("/login")) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+
+  if (user) {
+    const { count } = await supabase
+      .from(Prisma.ModelName.User)
+      .select("*", { count: "exact", head: true })
+      .eq(Prisma.UserScalarFieldEnum.id, user.id);
+
+    const registerd = (count ?? 0) !== 0;
+
+    if (!registerd && !request.nextUrl.pathname.startsWith("/register")) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/register";
+      return NextResponse.redirect(url);
+    }
+
+    if (
+      registerd &&
+      (request.nextUrl.pathname.startsWith("/login") ||
+        request.nextUrl.pathname.startsWith("/register"))
+    ) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    }
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're

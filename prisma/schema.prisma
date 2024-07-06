@@ -8,9 +8,10 @@ datasource db {
 }
 
 generator zod {
-  provider         = "zod-prisma-types"
-  output           = "../src/types/zod"
-  createInputTypes = false
+  provider                 = "zod-prisma-types"
+  output                   = "../src/types/zod"
+  createInputTypes         = false
+  writeNullishInModelTypes = true
 }
 
 model User {
@@ -24,8 +25,8 @@ model User {
   external_url String?   @db.VarChar
   /// @zod.string.url()
   icon_url     String?   @db.VarChar
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @default(now()) @updatedAt
+  created_at   DateTime? @default(now())
+  updated_at   DateTime? @default(now()) @updatedAt
   deleted_at   DateTime?
 
   posts Post[]
@@ -36,8 +37,8 @@ model Post {
   user_id    String    @default(dbgenerated("auth.uid()")) @db.Uuid
   /// @zod.string.url()
   image_url  String    @db.VarChar
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now()) @updatedAt
   deleted_at DateTime?
 
   User User @relation(fields: [user_id], references: [id])

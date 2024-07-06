@@ -33,12 +33,12 @@ export const UserSchema = z.object({
   id: z.string(),
   account_name: z.string().min(6).max(32),
   display_name: z.string().min(1).max(32),
-  biography: z.string().nullable(),
-  external_url: z.string().url().nullable(),
-  icon_url: z.string().url().nullable(),
-  created_at: z.coerce.date(),
-  updated_at: z.coerce.date(),
-  deleted_at: z.coerce.date().nullable(),
+  biography: z.string().nullish(),
+  external_url: z.string().url().nullish(),
+  icon_url: z.string().url().nullish(),
+  created_at: z.coerce.date().nullish(),
+  updated_at: z.coerce.date().nullish(),
+  deleted_at: z.coerce.date().nullish(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -51,9 +51,9 @@ export const PostSchema = z.object({
   id: z.number().int(),
   user_id: z.string(),
   image_url: z.string().url(),
-  created_at: z.coerce.date(),
-  updated_at: z.coerce.date(),
-  deleted_at: z.coerce.date().nullable(),
+  created_at: z.coerce.date().nullish(),
+  updated_at: z.coerce.date().nullish(),
+  deleted_at: z.coerce.date().nullish(),
 })
 
 export type Post = z.infer<typeof PostSchema>
