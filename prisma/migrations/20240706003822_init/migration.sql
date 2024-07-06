@@ -4,7 +4,7 @@ CREATE TABLE "User" (
     "account_name" VARCHAR(32) NOT NULL,
     "display_name" VARCHAR(32) NOT NULL,
     "biography" TEXT,
-    "external_url" TEXT,
+    "external_url" VARCHAR,
     "icon_url" VARCHAR,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -17,7 +17,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Post" (
     "id" SERIAL NOT NULL,
     "user_id" UUID NOT NULL DEFAULT auth.uid(),
-    "image_url" TEXT NOT NULL,
+    "image_url" VARCHAR NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deleted_at" TIMESTAMP(3),

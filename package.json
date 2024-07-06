@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "dotenv -e .env.local -- npx prisma migrate"
+    "migrate": "dotenv -e .env.local -- npx prisma migrate",
+    "gen": "dotenv -e .env.local -- npx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.16.1",
@@ -15,7 +16,9 @@
     "@supabase/supabase-js": "^2.44.2",
     "next": "14.2.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zod": "^3.23.8",
+    "zod-prisma-types": "^3.1.8"
   },
   "devDependencies": {
     "@types/node": "^20",
