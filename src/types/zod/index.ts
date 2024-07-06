@@ -36,12 +36,23 @@ export const UserSchema = z.object({
   biography: z.string().nullish(),
   external_url: z.string().url().nullish(),
   icon_url: z.string().url().nullish(),
-  created_at: z.coerce.date().nullish(),
-  updated_at: z.coerce.date().nullish(),
+  created_at: z.coerce.date(),
+  updated_at: z.coerce.date(),
   deleted_at: z.coerce.date().nullish(),
 })
 
 export type User = z.infer<typeof UserSchema>
+
+// USER OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const UserOptionalDefaultsSchema = UserSchema.merge(z.object({
+  id: z.string().optional(),
+  created_at: z.coerce.date().optional(),
+  updated_at: z.coerce.date().optional(),
+}))
+
+export type UserOptionalDefaults = z.infer<typeof UserOptionalDefaultsSchema>
 
 /////////////////////////////////////////
 // POST SCHEMA
@@ -51,9 +62,21 @@ export const PostSchema = z.object({
   id: z.number().int(),
   user_id: z.string(),
   image_url: z.string().url(),
-  created_at: z.coerce.date().nullish(),
-  updated_at: z.coerce.date().nullish(),
+  created_at: z.coerce.date(),
+  updated_at: z.coerce.date(),
   deleted_at: z.coerce.date().nullish(),
 })
 
 export type Post = z.infer<typeof PostSchema>
+
+// POST OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const PostOptionalDefaultsSchema = PostSchema.merge(z.object({
+  id: z.number().int().optional(),
+  user_id: z.string().optional(),
+  created_at: z.coerce.date().optional(),
+  updated_at: z.coerce.date().optional(),
+}))
+
+export type PostOptionalDefaults = z.infer<typeof PostOptionalDefaultsSchema>

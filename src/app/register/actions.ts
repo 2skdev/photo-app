@@ -1,6 +1,6 @@
 "use server";
 
-import { UserSchema } from "@/types/zod";
+import { UserOptionalDefaultsSchema } from "@/types/zod";
 import prisma from "@/utils/prisma/client";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -19,14 +19,15 @@ export async function register(form: FormData) {
   let redirectTo = undefined;
 
   try {
-    const data = UserSchema.parse({
+    const data = UserOptionalDefaultsSchema.parse({
+      // TODO: id to optional(use auth.uid())
       id: user.id,
       account_name: form.get("account_name") as string,
       display_name: form.get("display_name") as string,
     });
 
     const { account_name } = await prisma.user.create({
-      data,
+      data: { ...data },
     });
 
     redirectTo = `/${account_name}`;

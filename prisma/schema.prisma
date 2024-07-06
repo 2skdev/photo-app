@@ -8,10 +8,11 @@ datasource db {
 }
 
 generator zod {
-  provider                 = "zod-prisma-types"
-  output                   = "../src/types/zod"
-  createInputTypes         = false
-  writeNullishInModelTypes = true
+  provider                         = "zod-prisma-types"
+  output                           = "../src/types/zod"
+  createInputTypes                 = false
+  writeNullishInModelTypes         = true
+  createOptionalDefaultValuesTypes = true
 }
 
 model User {
