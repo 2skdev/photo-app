@@ -16,6 +16,12 @@ export const UserScalarFieldEnumSchema = z.enum(['id','account_name','display_na
 
 export const PostScalarFieldEnumSchema = z.enum(['id','user_id','caption','image_url','camera','lens','focalLength','fnumber','shutter','iso','created_at','updated_at','deleted_at']);
 
+export const CommentScalarFieldEnumSchema = z.enum(['id','user_id','post_id','text','created_at','updated_at','deleted_at']);
+
+export const LikeScalarFieldEnumSchema = z.enum(['id','user_id','post_id','created_at','updated_at','deleted_at']);
+
+export const FollowScalarFieldEnumSchema = z.enum(['user_id','follow_user_id','created_at','updated_at','deleted_at']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -87,3 +93,83 @@ export const PostOptionalDefaultsSchema = PostSchema.merge(z.object({
 }))
 
 export type PostOptionalDefaults = z.infer<typeof PostOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// COMMENT SCHEMA
+/////////////////////////////////////////
+
+export const CommentSchema = z.object({
+  id: z.number().int(),
+  user_id: z.string(),
+  post_id: z.string(),
+  text: z.string(),
+  created_at: z.coerce.date(),
+  updated_at: z.coerce.date(),
+  deleted_at: z.coerce.date().nullish(),
+})
+
+export type Comment = z.infer<typeof CommentSchema>
+
+// COMMENT OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const CommentOptionalDefaultsSchema = CommentSchema.merge(z.object({
+  id: z.number().int().optional(),
+  user_id: z.string().optional(),
+  created_at: z.coerce.date().optional(),
+  updated_at: z.coerce.date().optional(),
+}))
+
+export type CommentOptionalDefaults = z.infer<typeof CommentOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// LIKE SCHEMA
+/////////////////////////////////////////
+
+export const LikeSchema = z.object({
+  id: z.number().int(),
+  user_id: z.string(),
+  post_id: z.string(),
+  created_at: z.coerce.date(),
+  updated_at: z.coerce.date(),
+  deleted_at: z.coerce.date().nullish(),
+})
+
+export type Like = z.infer<typeof LikeSchema>
+
+// LIKE OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const LikeOptionalDefaultsSchema = LikeSchema.merge(z.object({
+  id: z.number().int().optional(),
+  user_id: z.string().optional(),
+  created_at: z.coerce.date().optional(),
+  updated_at: z.coerce.date().optional(),
+}))
+
+export type LikeOptionalDefaults = z.infer<typeof LikeOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// FOLLOW SCHEMA
+/////////////////////////////////////////
+
+export const FollowSchema = z.object({
+  user_id: z.string(),
+  follow_user_id: z.string(),
+  created_at: z.coerce.date(),
+  updated_at: z.coerce.date(),
+  deleted_at: z.coerce.date().nullish(),
+})
+
+export type Follow = z.infer<typeof FollowSchema>
+
+// FOLLOW OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const FollowOptionalDefaultsSchema = FollowSchema.merge(z.object({
+  user_id: z.string().optional(),
+  created_at: z.coerce.date().optional(),
+  updated_at: z.coerce.date().optional(),
+}))
+
+export type FollowOptionalDefaults = z.infer<typeof FollowOptionalDefaultsSchema>

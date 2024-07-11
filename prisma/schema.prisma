@@ -30,7 +30,11 @@ model User {
   updated_at   DateTime  @default(now()) @updatedAt
   deleted_at   DateTime?
 
-  posts Post[]
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
+  follows   Follow[]  @relation("follower")
+  followers Follow[]  @relation("followee")
 }
 
 model Post {
@@ -50,5 +54,45 @@ model Post {
   updated_at  DateTime  @default(now()) @updatedAt
   deleted_at  DateTime?
 
-  User User @relation(fields: [user_id], references: [id])
+  user     User      @relation(fields: [user_id], references: [id])
+  comments Comment[]
+  likes    Like[]
+}
+
+model Comment {
+  id         Int       @id @default(autoincrement())
+  user_id    String    @default(dbgenerated("auth.uid()")) @db.Uuid
+  post_id    String
+  text       String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  user User @relation(fields: [user_id], references: [id])
+  post Post @relation(fields: [post_id], references: [id])
+}
+
+model Like {
+  id         Int       @id @default(autoincrement())
+  user_id    String    @default(dbgenerated("auth.uid()")) @db.Uuid
+  post_id    String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  user User @relation(fields: [user_id], references: [id])
+  post Post @relation(fields: [post_id], references: [id])
+}
+
+model Follow {
+  user_id        String    @default(dbgenerated("auth.uid()")) @db.Uuid
+  follow_user_id String    @db.Uuid
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @default(now()) @updatedAt
+  deleted_at     DateTime?
+
+  user       User @relation("followee", fields: [user_id], references: [id])
+  followUser User @relation("follower", fields: [follow_user_id], references: [id])
+
+  @@id([user_id, follow_user_id])
 }
