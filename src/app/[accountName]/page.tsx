@@ -1,11 +1,11 @@
 import { getLoginUser, getUser } from "@/actions/user";
 
 type Props = {
-  params: { account_name: string };
+  params: { accountName: string };
 };
 
 export default async function Page({ params }: Props) {
-  const user = await getUser(params.account_name);
+  const user = await getUser(params.accountName);
   const me = await getLoginUser();
 
   return (

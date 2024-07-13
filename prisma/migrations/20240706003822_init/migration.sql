@@ -68,6 +68,9 @@ CREATE TABLE "Follow" (
     CONSTRAINT "Follow_pkey" PRIMARY KEY ("user_id","follow_user_id")
 );
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Like_user_id_post_id_key" ON "Like"("user_id", "post_id");
+
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
