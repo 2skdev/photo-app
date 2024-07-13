@@ -7,7 +7,7 @@ import random from "@/utils/random";
 import { redirect } from "next/navigation";
 
 export async function upload(form: FormData) {
-  const user = await getLoginUser();
+  const me = await getLoginUser();
 
   let redirectTo = undefined;
 
@@ -15,7 +15,7 @@ export async function upload(form: FormData) {
     const data = PostOptionalDefaultsSchema.parse({
       id: random(10),
       // TODO: id to optional(use auth.uid())
-      user_id: user.id,
+      user_id: me.id,
       caption: form.get("caption"),
       image_url: "http://test.com",
     });
@@ -24,7 +24,7 @@ export async function upload(form: FormData) {
       data: { ...data },
     });
 
-    redirectTo = `/${user.account_name}/${id}`;
+    redirectTo = `/${me.account_name}/${id}`;
   } catch (e) {
     // TODO: need error handling
     console.log(e);
