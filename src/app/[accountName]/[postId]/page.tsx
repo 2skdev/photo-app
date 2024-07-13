@@ -1,6 +1,5 @@
-import { getLike } from "@/actions/like";
 import { getLoginUser } from "@/actions/user";
-import { LikeButton } from "@/components/LikeButton";
+import LikeButton from "@/components/LikeButton";
 import prisma from "@/utils/prisma/client";
 import { notFound } from "next/navigation";
 
@@ -20,15 +19,21 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
+  const like = await prisma.like.findUnique({
+    where: {
+      user_id_post_id: {
+        user_id: me.id,
+        post_id: post.id,
+      },
+    },
+  });
+
   return (
     <main>
       <div>{params.accountName}</div>
       <div>{params.postId}</div>
 
-      <LikeButton
-        postId={post.id}
-        default={await getLike(params.postId)}
-      ></LikeButton>
+      <LikeButton post={post} default={like}></LikeButton>
     </main>
   );
 }

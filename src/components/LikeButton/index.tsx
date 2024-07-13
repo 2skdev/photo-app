@@ -1,11 +1,11 @@
 "use client";
 
-import { addLike, deleteLike } from "@/actions/like";
-import { Like } from "@prisma/client";
+import { Like, Post } from "@prisma/client";
 import { SVGProps, useState } from "react";
+import { updateLike } from "./actions";
 
 type Props = {
-  postId: string;
+  post: Post;
   default: Like | null;
 };
 
@@ -44,17 +44,13 @@ function MdiCardsHeartOutline(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function LikeButton(props: Props) {
+export default function LikeButton(props: Props) {
   const [like, setLike] = useState<Like | null>(props.default);
 
   const isLike = () => (like ? like.deleted_at === null : false);
 
   const onClick = async () => {
-    if (isLike()) {
-      setLike(await deleteLike(props.postId));
-    } else {
-      setLike(await addLike(props.postId));
-    }
+    setLike(await updateLike(props.post.id, !isLike()));
   };
 
   return (
