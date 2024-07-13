@@ -1,4 +1,5 @@
 import { getLoginUser } from "@/actions/user";
+import CommentForm from "@/components/CommentForm";
 import LikeButton from "@/components/LikeButton";
 import prisma from "@/utils/prisma/client";
 import { notFound } from "next/navigation";
@@ -34,6 +35,8 @@ export default async function Page({ params }: Props) {
       <div>{params.postId}</div>
 
       <LikeButton post={post} default={like}></LikeButton>
+
+      <CommentForm post={post} />
     </main>
   );
 }

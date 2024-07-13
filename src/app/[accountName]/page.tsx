@@ -11,7 +11,7 @@ export default async function Page({ params }: Props) {
   const user = await getUser(params.accountName);
   const me = await getLoginUser();
 
-  const isMypage = user.id !== me.id;
+  const isMypage = user.id === me.id;
 
   const follow = isMypage
     ? null
