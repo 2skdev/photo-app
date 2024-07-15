@@ -1,26 +1,12 @@
 "use client";
 
+import { file2base64 } from "@/utils/image";
 import { ChangeEvent, ReactNode, useState } from "react";
 
 type Props = {
   picker?: ReactNode;
   onChange?: (base64?: string) => void;
 };
-
-function url2base64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      if (reader.result) {
-        resolve(reader.result as string);
-      } else {
-        reject();
-      }
-    };
-    reader.readAsDataURL(file);
-  });
-}
 
 export default function ImagePicker(props: Props) {
   const [base64, setBase64] = useState<string>();
@@ -34,7 +20,7 @@ export default function ImagePicker(props: Props) {
   const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const base64 = await url2base64(file);
+      const base64 = await file2base64(file);
       setBase64(base64);
 
       props.onChange?.(base64);

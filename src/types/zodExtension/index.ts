@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PostOptionalDefaultsSchema } from "../zod";
+import { PostOptionalDefaultsSchema, UserOptionalDefaultsSchema } from "../zod";
 
 export const PostOptionalInputSchema = PostOptionalDefaultsSchema.merge(
   z.object({
@@ -8,5 +8,12 @@ export const PostOptionalInputSchema = PostOptionalDefaultsSchema.merge(
     image_base64: z.string(),
   })
 );
-
 export type PostOptionalInput = z.infer<typeof PostOptionalInputSchema>;
+
+export const UserOptionalInputSchema = UserOptionalDefaultsSchema.merge(
+  z.object({
+    icon_path: z.string().optional(),
+    icon_base64: z.string().optional(),
+  })
+);
+export type UserOptionalInput = z.infer<typeof UserOptionalInputSchema>;

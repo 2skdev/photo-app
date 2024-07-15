@@ -14,13 +14,13 @@ export async function addPost(input: PostOptionalInput) {
   let redirectTo = undefined;
 
   try {
-    const url = await uploadImage(input.image_base64, "Post");
+    const path = await uploadImage(input.image_base64, "Post");
 
     const data = PostOptionalDefaultsSchema.parse({
       ...input,
       id: random(10),
       user_id: me.id,
-      image_path: url,
+      image_path: path,
     });
 
     const { id } = await prisma.post.create({

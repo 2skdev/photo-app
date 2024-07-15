@@ -1,29 +1,26 @@
 "use server";
 
 import { decode } from "base64-arraybuffer";
+import { getFileType } from "../image";
 import random from "../random";
 import { createClient } from "./server";
 
 export async function uploadImage(
   base64: string,
   bucket: string,
-  path?: string,
-  upsert: boolean = false
+  { path, upsert }: { path?: string; upsert?: boolean } = {}
 ): Promise<string | null> {
   const supabase = createClient();
 
-  const match = base64.match(/^data:(\w+\/(\w+))/);
+  const { contentType, ext } = getFileType(base64);
 
-  if (match) {
-    const contentType = match[1];
-    const ext = match[2];
-
+  if (contentType && ext) {
     if (!path) {
       const {
         data: { user: auth },
       } = await supabase.auth.getUser();
 
-      const filename = `${random(32)}.${ext}`;
+      const filename = `${random(32)}${ext}`;
 
       if (auth) {
         path = `${auth.id}/${filename}`;
@@ -34,9 +31,13 @@ export async function uploadImage(
 
     const bytes = decode(base64.split("base64,")[1]);
 
-    const { data } = await supabase.storage
+    const { data, error } = await supabase.storage
       .from(bucket)
       .upload(path, bytes, { contentType, upsert });
+
+    if (error) {
+      throw error;
+    }
 
     return data?.path ?? null;
   }

@@ -1,11 +1,14 @@
 "use server";
 
 import { UserOptionalDefaultsSchema } from "@/types/zod";
+import { UserOptionalInput } from "@/types/zodExtension";
+import { getFileType } from "@/utils/image";
 import prisma from "@/utils/prisma/client";
 import { createClient } from "@/utils/supabase/server";
+import { uploadImage } from "@/utils/supabase/storage";
 import { redirect } from "next/navigation";
 
-export async function register(form: FormData) {
+export async function addUser(input: UserOptionalInput) {
   const supabase = createClient();
 
   const {
@@ -19,11 +22,21 @@ export async function register(form: FormData) {
   let redirectTo = undefined;
 
   try {
+    let path = undefined;
+
+    if (input.icon_base64) {
+      const { ext = "" } = getFileType(input.icon_base64);
+      path = await uploadImage(input.icon_base64, "User", {
+        path: `${auth.id}${ext}`,
+        upsert: true,
+      });
+    }
+
     const data = UserOptionalDefaultsSchema.parse({
+      ...input,
       // TODO: id to optional(use auth.uid())
       id: auth.id,
-      account_name: form.get("account_name") as string,
-      display_name: form.get("display_name") as string,
+      icon_path: path,
     });
 
     const { account_name } = await prisma.user.create({
