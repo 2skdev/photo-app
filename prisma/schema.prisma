@@ -24,8 +24,7 @@ model User {
   biography    String?
   /// @zod.string.url()
   external_url String?   @db.VarChar(192)
-  /// @zod.string.url()
-  icon_url     String?   @db.VarChar(192)
+  icon_path    String?   @db.VarChar(192)
   created_at   DateTime  @default(now())
   updated_at   DateTime  @default(now()) @updatedAt
   deleted_at   DateTime?
@@ -42,8 +41,7 @@ model Post {
   id          String    @id @db.VarChar(10)
   user_id     String    @default(dbgenerated("auth.uid()")) @db.Uuid
   caption     String    @default("")
-  /// @zod.string.url()
-  image_url   String    @db.VarChar(192)
+  image_path  String    @db.VarChar(192)
   camera      String?   @db.VarChar(192)
   lens        String?   @db.VarChar(192)
   focalLength String?   @db.VarChar(192)
