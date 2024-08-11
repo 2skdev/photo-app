@@ -6,13 +6,16 @@ import {
   UserOptionalInputSchema,
 } from "@/types/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { addUser } from "./actions";
 
 export function RegisterForm() {
-  const { register, handleSubmit, setValue } = useForm<UserOptionalInput>({
-    resolver: zodResolver(UserOptionalInputSchema),
-  });
+  const { register, control, handleSubmit, setValue } =
+    useForm<UserOptionalInput>({
+      resolver: zodResolver(UserOptionalInputSchema),
+    });
+
+  const image = useWatch({ name: "icon_base64", control });
 
   const onSubmit = async (data: UserOptionalInput) => {
     await addUser(data);
@@ -48,6 +51,11 @@ export function RegisterForm() {
               setValue("icon_base64", base64);
             }
           }}
+          picker={
+            image ? (
+              <img className="hover:cursor-pointer" src={image}></img>
+            ) : undefined
+          }
         />
       </div>
 

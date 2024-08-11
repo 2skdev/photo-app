@@ -39,11 +39,13 @@ export default async function Page({ params }: Props) {
         },
       });
 
+  // TODO: icon image cached and change not applied
+
   return (
     <main>
       <div>{user.account_name}</div>
       <div>{user.display_name}</div>
-      {iconUrl && <img src={iconUrl} />}
+      {iconUrl && <img className="rounded-full" src={iconUrl} />}
       {isMypage ? (
         <Link className="btn btn-primary" href="/setting/profile">
           プロフィールを編集

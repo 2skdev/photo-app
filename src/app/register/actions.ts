@@ -2,7 +2,6 @@
 
 import { UserOptionalDefaultsSchema } from "@/types/zod";
 import { UserOptionalInput } from "@/types/zodExtension";
-import { getFileType } from "@/utils/image";
 import prisma from "@/utils/prisma/client";
 import { createClient } from "@/utils/supabase/server";
 import { uploadImage } from "@/utils/supabase/storage";
@@ -25,9 +24,8 @@ export async function addUser(input: UserOptionalInput) {
     let path = undefined;
 
     if (input.icon_base64) {
-      const { ext = "" } = getFileType(input.icon_base64);
       path = await uploadImage(input.icon_base64, "User", {
-        path: `${auth.id}${ext}`,
+        path: `${auth.id}`,
         upsert: true,
       });
     }

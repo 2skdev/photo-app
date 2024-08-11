@@ -6,13 +6,16 @@ import {
   PostOptionalInputSchema,
 } from "@/types/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { addPost } from "./actions";
 
 export function NewPostForm() {
-  const { register, handleSubmit, setValue } = useForm<PostOptionalInput>({
-    resolver: zodResolver(PostOptionalInputSchema),
-  });
+  const { register, control, handleSubmit, setValue } =
+    useForm<PostOptionalInput>({
+      resolver: zodResolver(PostOptionalInputSchema),
+    });
+
+  const image = useWatch({ name: "image_base64", control });
 
   const onSubmit = async (data: PostOptionalInput) => {
     await addPost(data);
@@ -36,6 +39,11 @@ export function NewPostForm() {
               setValue("image_base64", base64);
             }
           }}
+          picker={
+            image ? (
+              <img className="hover:cursor-pointer" src={image}></img>
+            ) : undefined
+          }
         />
       </div>
 
