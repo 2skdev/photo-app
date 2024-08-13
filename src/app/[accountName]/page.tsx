@@ -1,5 +1,6 @@
 import { getLoginUser, getUser } from "@/actions/user";
 import FollowButton from "@/components/FollowButton";
+import UserIcon from "@/components/UserIcon";
 import prisma from "@/utils/prisma/client";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
@@ -14,19 +15,6 @@ export default async function Page({ params }: Props) {
   const me = await getLoginUser();
 
   const isMypage = user.id === me.id;
-
-  const iconUrl = await (async () => {
-    console.log(user.icon_path);
-    if (user.icon_path) {
-      const {
-        data: { publicUrl },
-      } = await supabase.storage.from("User").getPublicUrl(user.icon_path);
-
-      return publicUrl;
-    } else {
-      return null;
-    }
-  })();
 
   const follow = isMypage
     ? null
@@ -45,7 +33,7 @@ export default async function Page({ params }: Props) {
     <main>
       <div>{user.account_name}</div>
       <div>{user.display_name}</div>
-      {iconUrl && <img className="rounded-full" src={iconUrl} />}
+      <UserIcon path={user.icon_path} className="w-10 h-10" />
       {isMypage ? (
         <Link className="btn btn-primary" href="/setting/profile">
           プロフィールを編集
