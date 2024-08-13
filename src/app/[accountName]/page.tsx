@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
     <main>
       <div>{user.account_name}</div>
       <div>{user.display_name}</div>
-      <UserIcon path={user.icon_path} className="w-10 h-10" />
+      <UserIcon path={user.icon_path} className="h-10 w-10" />
       {isMypage ? (
         <Link className="btn btn-primary" href="/setting/profile">
           プロフィールを編集

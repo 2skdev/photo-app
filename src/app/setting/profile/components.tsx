@@ -58,7 +58,7 @@ export function ProfileForm({ me }: { me: User }) {
           picker={
             image ? (
               <img
-                className="hover:cursor-pointer rounded-full"
+                className="rounded-full hover:cursor-pointer"
                 src={image}
               ></img>
             ) : undefined

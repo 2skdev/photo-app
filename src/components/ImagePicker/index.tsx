@@ -16,7 +16,7 @@ export default function ImagePicker2(props: Props) {
   const [cropImage, setCropImage] = useState<string>();
 
   const picker = props.picker ?? (
-    <div className="btn h-48 flex justify-center items-center space-x-2">
+    <div className="btn flex h-48 items-center justify-center space-x-2">
       <div>写真を選択</div>
     </div>
   );
@@ -40,21 +40,21 @@ export default function ImagePicker2(props: Props) {
     <>
       {tempImage && (
         <Modal show={tempImage !== undefined} className="p-4">
-          <div className="flex justify-between items-center mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <button
-                className="btn btn-sm btn-square btn-ghost"
+                className="btn btn-square btn-ghost btn-sm"
                 onClick={() => setTempImage(undefined)}
               >
                 <MaterialSymbolsCloseRounded />
               </button>
               <div className="font-bold">画像範囲を選択</div>
             </div>
-            <button className="btn btn-sm btn-primary" onClick={onConfirm}>
+            <button className="btn btn-primary btn-sm" onClick={onConfirm}>
               適用
             </button>
           </div>
-          <div className="relative w-96 h-96">
+          <div className="relative h-96 w-96">
             <ImageCrop src={tempImage} onCrop={setCropImage} />
           </div>
         </Modal>

@@ -21,7 +21,7 @@ export function SidebarLink({
     <Link
       className={clsx(
         "btn btn-block flex justify-start",
-        pathname == href ? "btn-neutral" : "btn-ghost"
+        pathname == href ? "btn-neutral" : "btn-ghost",
       )}
       href={href}
     >

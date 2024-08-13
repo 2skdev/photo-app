@@ -29,10 +29,10 @@ export default async function UserIcon(props: Props) {
       <div
         className={clsx(
           props.className,
-          "rounded-full bg-neutral overflow-hidden"
+          "overflow-hidden rounded-full bg-neutral",
         )}
       >
-        <MaterialSymbolsPerson className="relative w-[120%] h-[120%] -left-[10%]" />
+        <MaterialSymbolsPerson className="relative -left-[10%] h-[120%] w-[120%]" />
       </div>
     );
   }

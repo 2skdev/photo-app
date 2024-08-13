@@ -2,7 +2,7 @@ import { NewPostForm } from "./components";
 
 export default function Page() {
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="flex h-screen w-full items-center justify-center">
       <NewPostForm />
     </div>
   );
