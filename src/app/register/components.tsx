@@ -46,6 +46,7 @@ export function RegisterForm() {
 
       <div>
         <ImagePicker
+          crop
           onChange={(base64) => {
             if (base64) {
               setValue("icon_base64", base64);

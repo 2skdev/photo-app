@@ -8,10 +8,11 @@ import Modal from "../Modal";
 
 type Props = {
   picker?: ReactNode;
+  crop?: boolean;
   onChange?: (base64?: string) => void;
 };
 
-export default function ImagePicker2(props: Props) {
+export default function ImagePicker(props: Props) {
   const [tempImage, setTempImage] = useState<string>();
   const [cropImage, setCropImage] = useState<string>();
 
@@ -24,7 +25,14 @@ export default function ImagePicker2(props: Props) {
   const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setTempImage(await file2base64(file));
+      const img = await file2base64(file);
+      if (props.crop) {
+        if (file) {
+          setTempImage(img);
+        }
+      } else {
+        props.onChange?.(img);
+      }
     }
     e.target.value = "";
   };

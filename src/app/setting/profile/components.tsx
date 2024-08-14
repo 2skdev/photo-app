@@ -50,6 +50,7 @@ export function ProfileForm({ me }: { me: User }) {
         />
 
         <ImagePicker
+          crop
           onChange={(base64) => {
             if (base64) {
               setValue("icon_base64", base64);
