@@ -2,7 +2,10 @@
 
 import { file2base64 } from "@/utils/image";
 import { ChangeEvent, ReactNode, useState } from "react";
-import { MaterialSymbolsCloseRounded } from "../icons";
+import {
+  MaterialSymbolsCloseRounded,
+  MaterialSymbolsImagesmodeOutline,
+} from "../icons";
 import ImageCrop from "../ImageCrop";
 import Modal from "../Modal";
 
@@ -17,7 +20,8 @@ export default function ImagePicker(props: Props) {
   const [cropImage, setCropImage] = useState<string>();
 
   const picker = props.picker ?? (
-    <div className="btn flex h-48 items-center justify-center space-x-2">
+    <div className="btn flex h-48 items-center justify-center">
+      <MaterialSymbolsImagesmodeOutline className="h-6 w-6" />
       <div>写真を選択</div>
     </div>
   );
@@ -49,16 +53,19 @@ export default function ImagePicker(props: Props) {
       {tempImage && (
         <Modal show={tempImage !== undefined} className="p-4">
           <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <button
-                className="btn btn-square btn-ghost btn-sm"
-                onClick={() => setTempImage(undefined)}
-              >
-                <MaterialSymbolsCloseRounded />
-              </button>
-              <div className="font-bold">画像範囲を選択</div>
-            </div>
-            <button className="btn btn-primary btn-sm" onClick={onConfirm}>
+            <button
+              className="btn btn-square btn-ghost btn-sm"
+              onClick={() => setTempImage(undefined)}
+            >
+              <MaterialSymbolsCloseRounded />
+            </button>
+
+            <div className="ml-2 font-bold">画像範囲を選択</div>
+
+            <button
+              className="btn btn-primary btn-sm ml-auto"
+              onClick={onConfirm}
+            >
               適用
             </button>
           </div>

@@ -7,8 +7,7 @@ import {
 } from "@/components/icons";
 import UserIcon from "@/components/UserIcon";
 import Image from "next/image";
-import Link from "next/link";
-import { SidebarLink } from "./components";
+import { PostModalButton, SidebarLink } from "./components";
 
 export default async function Page() {
   const me = await getLoginUser();
@@ -37,12 +36,7 @@ export default async function Page() {
           icon={<MaterialSymbolsPerson className="h-6 w-6" />}
         />
 
-        <Link
-          className="btn btn-primary btn-block mt-4 rounded-full"
-          href="/new"
-        >
-          投稿
-        </Link>
+        <PostModalButton />
 
         <div className="mt-auto">
           <div className="btn btn-ghost btn-block flex justify-start">
