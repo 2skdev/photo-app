@@ -7,7 +7,7 @@ type Props = {
   className?: string;
 };
 
-export default async function UserIcon(props: Props) {
+export default async function UserAvatar(props: Props) {
   const supabase = createClient();
 
   const url = await (async () => {

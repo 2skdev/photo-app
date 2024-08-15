@@ -5,7 +5,7 @@ import {
   MaterialSymbolsPerson,
   MaterialSymbolsSearchRounded,
 } from "@/components/icons";
-import UserIcon from "@/components/UserIcon";
+import UserAvatar from "@/components/UserAvatar";
 import Image from "next/image";
 import { ReactNode } from "react";
 import { PostModalButton, SidebarLink } from "./components";
@@ -46,7 +46,7 @@ export default async function Layout({
 
           <div className="mt-auto">
             <div className="btn btn-ghost btn-block flex justify-start">
-              <UserIcon path={me.icon_path} className="h-10 w-10" />
+              <UserAvatar path={me.icon_path} className="h-10 w-10" />
               <div className="flex flex-col items-start">
                 <div>{me.display_name}</div>
                 <div className="text-sm font-light">@{me.account_name}</div>
