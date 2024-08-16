@@ -17,7 +17,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { addPost } from "./actions";
+import { addPost, signOut } from "./actions";
 
 export function SidebarLink({
   href,
@@ -45,6 +45,10 @@ export function SidebarLink({
       </div>
     </Link>
   );
+}
+
+export function LogoutButton() {
+  return <button onClick={async () => await signOut()}>ログアウト</button>;
 }
 
 export function PostModalButton() {

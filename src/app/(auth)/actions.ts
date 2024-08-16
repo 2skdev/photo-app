@@ -5,8 +5,17 @@ import { PostOptionalDefaultsSchema } from "@/types/zod";
 import { PostOptionalInput } from "@/types/zodExtension";
 import prisma from "@/utils/prisma/client";
 import random from "@/utils/random";
+import { createClient } from "@/utils/supabase/server";
 import { uploadImage } from "@/utils/supabase/storage";
 import { redirect } from "next/navigation";
+
+export async function signOut() {
+  const supabase = createClient();
+
+  await supabase.auth.signOut();
+
+  redirect("/login");
+}
 
 export async function addPost(input: PostOptionalInput) {
   const me = await getLoginUser();

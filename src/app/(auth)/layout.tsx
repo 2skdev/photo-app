@@ -7,8 +7,9 @@ import {
 } from "@/components/icons";
 import UserAvatar from "@/components/UserAvatar";
 import Image from "next/image";
+import Link from "next/link";
 import { ReactNode } from "react";
-import { PostModalButton, SidebarLink } from "./components";
+import { LogoutButton, PostModalButton, SidebarLink } from "./components";
 
 export default async function Layout({
   children,
@@ -45,15 +46,33 @@ export default async function Layout({
           <PostModalButton />
 
           <div className="mt-auto">
-            <div className="btn btn-ghost btn-block flex justify-start">
-              <UserAvatar path={me.icon_path} className="h-10 w-10" />
-              <div className="flex flex-col items-start">
-                <div>{me.display_name}</div>
-                <div className="text-sm font-light">@{me.account_name}</div>
+            <div className="dropdown dropdown-top w-full">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-block flex justify-start"
+              >
+                <UserAvatar path={me.icon_path} className="h-10 w-10" />
+                <div className="flex flex-col items-start">
+                  <div>{me.display_name}</div>
+                  <div className="text-sm font-light">@{me.account_name}</div>
+                </div>
+                <div className="ml-auto">
+                  <MaterialSymbolsMoreHoriz className="h-6 w-6" />
+                </div>
               </div>
-              <div className="ml-auto">
-                <MaterialSymbolsMoreHoriz className="h-6 w-6" />
-              </div>
+
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content z-[1] mb-2 w-52 rounded-box bg-neutral p-2"
+              >
+                <li>
+                  <Link href="/setting">設定</Link>
+                </li>
+                <li>
+                  <LogoutButton />
+                </li>
+              </ul>
             </div>
           </div>
         </div>
