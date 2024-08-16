@@ -5,5 +5,9 @@ export default function Layout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  return <>{children}</>;
+  return (
+    <main className="flex h-screen items-center justify-center">
+      {children}
+    </main>
+  );
 }

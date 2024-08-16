@@ -20,7 +20,7 @@ export default async function Layout({
 
   return (
     <>
-      <main className="flex">
+      <main>
         <div className="flex h-screen w-80 flex-col border-r border-neutral p-4">
           <div className="mx-4 mb-6 mt-2 flex items-center justify-start">
             <Image src="/icon.svg" alt="Icon" width={24} height={24} />

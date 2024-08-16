@@ -22,29 +22,34 @@ export function RegisterForm() {
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-      <label className="input input-bordered flex items-center gap-2">
-        @
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mt-4">
+        <div className="mb-2 text-sm">アカウント名</div>
+        <label className="input input-bordered flex items-center gap-2">
+          @
+          <input
+            {...register("account_name", {
+              required: true,
+            })}
+            className="w-full"
+            type="text"
+          />
+        </label>
+      </div>
+
+      <div className="mt-4">
+        <div className="mb-2 text-sm">表示名</div>
         <input
-          {...register("account_name", {
+          {...register("display_name", {
             required: true,
           })}
-          className="w-full"
+          className="input input-bordered w-full"
           type="text"
-          placeholder="アカウント名"
         />
-      </label>
+      </div>
 
-      <input
-        {...register("display_name", {
-          required: true,
-        })}
-        className="input input-bordered w-full"
-        type="text"
-        placeholder="名前"
-      />
-
-      <div>
+      <div className="mt-4">
+        <div className="mb-2 text-sm">アイコン</div>
         <ImagePicker
           crop
           onChange={(base64) => {
@@ -54,11 +59,16 @@ export function RegisterForm() {
           }}
           picker={
             image ? (
-              <img className="hover:cursor-pointer" src={image}></img>
+              <img
+                className="h-32 w-32 rounded-full hover:cursor-pointer"
+                src={image}
+              ></img>
             ) : undefined
           }
         />
       </div>
+
+      <div className="my-8 w-full border-t border-base-100"></div>
 
       <button className="btn btn-primary btn-block" type="submit">
         登録
