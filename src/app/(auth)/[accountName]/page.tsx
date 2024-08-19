@@ -1,8 +1,8 @@
 import { getLoginUser, getUser } from "@/actions/user";
 import FollowButton from "@/components/FollowButton";
+import { IcSharpLink } from "@/components/icons";
 import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/utils/prisma/client";
-import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
 type Props = {
@@ -10,7 +10,6 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const supabase = createClient();
   const user = await getUser(params.accountName);
   const me = await getLoginUser();
 
@@ -30,17 +29,39 @@ export default async function Page({ params }: Props) {
   // TODO: icon image cached and change not applied
 
   return (
-    <main>
-      <div>{user.account_name}</div>
-      <div>{user.display_name}</div>
-      <UserAvatar path={user.icon_path} className="h-10 w-10" />
-      {isMypage ? (
-        <Link className="btn btn-primary" href="/setting/profile">
-          プロフィールを編集
+    <div>
+      <div className="flex flex-row items-center">
+        <UserAvatar path={user.icon_path} className="h-24 w-24" />
+
+        <div className="ml-4">
+          <div className="text-2xl">{user.display_name}</div>
+          <div className="font-light">@{user.account_name}</div>
+        </div>
+
+        <div className="ml-auto">
+          {isMypage ? (
+            <Link className="btn btn-primary" href="/setting/profile">
+              プロフィールを編集
+            </Link>
+          ) : (
+            <FollowButton user={user} default={follow}></FollowButton>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-4">{user.biography}</div>
+
+      {user.external_url && (
+        <Link
+          className="link-primary mt-2 flex items-center space-x-1 font-light"
+          href={user.external_url}
+        >
+          <IcSharpLink />
+          <div>{user.external_url}</div>
         </Link>
-      ) : (
-        <FollowButton user={user} default={follow}></FollowButton>
       )}
-    </main>
+
+      <div className="mt-4 w-full border-t border-neutral"></div>
+    </div>
   );
 }
