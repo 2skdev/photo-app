@@ -133,8 +133,8 @@ export function PostModalButton() {
     {
       title: "キャプションを入力",
       node: (
-        <div className="flex flex-row">
-          <img src={image}></img>
+        <div className="grid max-w-screen-md grid-cols-3">
+          <img src={image} className="col-span-2 w-full"></img>
           <div className="ml-4 border-l border-neutral pl-4">
             <input
               {...register("caption", {
