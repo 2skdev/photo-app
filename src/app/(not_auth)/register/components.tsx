@@ -15,7 +15,7 @@ export function RegisterForm() {
       resolver: zodResolver(UserOptionalInputSchema),
     });
 
-  const image = useWatch({ name: "icon_base64", control });
+  const image = useWatch({ name: "icon_src", control });
 
   const onSubmit = async (data: UserOptionalInput) => {
     await addUser(data);
@@ -54,7 +54,7 @@ export function RegisterForm() {
           crop
           onChange={(base64) => {
             if (base64) {
-              setValue("icon_base64", base64);
+              setValue("icon_src", base64);
             }
           }}
           picker={

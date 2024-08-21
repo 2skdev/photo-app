@@ -67,7 +67,7 @@ export function PostModalButton() {
     resolver: zodResolver(PostOptionalInputSchema),
   });
 
-  const image = useWatch({ name: "image_base64", control });
+  const image = useWatch({ name: "image_src", control });
 
   const onRequestClose = () => {
     if (isDirty) {
@@ -120,7 +120,7 @@ export function PostModalButton() {
         <ImagePicker
           onChange={(base64) => {
             if (base64) {
-              setValue("image_base64", base64);
+              setValue("image_src", base64);
               onNext();
             }
           }}

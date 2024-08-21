@@ -23,7 +23,7 @@ export async function addPost(input: PostOptionalInput) {
   let redirectTo = undefined;
 
   try {
-    const path = await uploadImage(input.image_base64, "Post");
+    const path = await uploadImage(input.image_src, "Post");
 
     const data = PostOptionalDefaultsSchema.parse({
       ...input,

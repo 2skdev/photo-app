@@ -15,8 +15,8 @@ export async function updateProfile(input: UserOptionalInput) {
   try {
     let path = undefined;
 
-    if (input.icon_base64) {
-      path = await uploadImage(input.icon_base64, "User", {
+    if (input.icon_src) {
+      path = await uploadImage(input.icon_src, "User", {
         path: `${me.id}`,
         upsert: true,
       });
