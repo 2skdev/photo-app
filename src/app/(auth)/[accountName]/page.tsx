@@ -29,7 +29,7 @@ export default async function Page({ params }: Props) {
   // TODO: icon image cached and change not applied
 
   return (
-    <div>
+    <>
       <div className="flex flex-row items-center">
         <UserAvatar src={await getIconURL(user)} className="h-24 w-24" />
 
@@ -62,6 +62,6 @@ export default async function Page({ params }: Props) {
       )}
 
       <div className="mt-4 w-full border-t border-neutral"></div>
-    </div>
+    </>
   );
 }

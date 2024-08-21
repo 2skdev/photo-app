@@ -8,7 +8,7 @@ import { createClient } from "./server";
 export async function uploadImage(
   base64: string,
   bucket: string,
-  { path, upsert }: { path?: string; upsert?: boolean } = {}
+  { path, upsert }: { path?: string; upsert?: boolean } = {},
 ): Promise<string | null> {
   const supabase = createClient();
 
@@ -43,4 +43,21 @@ export async function uploadImage(
   }
 
   return null;
+}
+
+export async function getPublicUrl(
+  bucket: string,
+  path: string,
+): Promise<string | null> {
+  const supabase = createClient();
+
+  if (path) {
+    const {
+      data: { publicUrl },
+    } = await supabase.storage.from(bucket).getPublicUrl(path);
+
+    return publicUrl;
+  } else {
+    return null;
+  }
 }
