@@ -7,7 +7,7 @@ import { createClient } from "./server";
 
 export async function uploadImage(
   base64: string,
-  bucket: string,
+  bucket: Bucket,
   { path, upsert }: { path?: string; upsert?: boolean } = {},
 ): Promise<string | null> {
   const supabase = createClient();
@@ -46,8 +46,8 @@ export async function uploadImage(
 }
 
 export async function getPublicUrl(
-  bucket: string,
-  path: string,
+  bucket: Bucket,
+  path?: string | null,
 ): Promise<string | null> {
   const supabase = createClient();
 

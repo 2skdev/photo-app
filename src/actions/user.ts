@@ -43,17 +43,3 @@ export async function getLoginUser(): Promise<User> {
 
   return user;
 }
-
-export async function getIconURL(user: User): Promise<string | null> {
-  const supabase = createClient();
-
-  if (user.icon_path) {
-    const {
-      data: { publicUrl },
-    } = await supabase.storage.from("User").getPublicUrl(user.icon_path);
-
-    return publicUrl;
-  } else {
-    return null;
-  }
-}

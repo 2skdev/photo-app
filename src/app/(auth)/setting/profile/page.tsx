@@ -1,4 +1,5 @@
-import { getIconURL, getLoginUser } from "@/actions/user";
+import { getLoginUser } from "@/actions/user";
+import { getPublicUrl } from "@/utils/supabase/storage";
 import { ProfileForm } from "./components";
 
 export default async function Page() {
@@ -7,7 +8,10 @@ export default async function Page() {
   return (
     <>
       <div className="mb-8 text-2xl font-bold">プロフィールを編集</div>
-      <ProfileForm me={me} icon_url={await getIconURL(me)} />
+      <ProfileForm
+        me={me}
+        icon_url={await getPublicUrl("User", me.icon_path)}
+      />
     </>
   );
 }

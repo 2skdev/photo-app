@@ -1,4 +1,4 @@
-import { getIconURL, getLoginUser } from "@/actions/user";
+import { getLoginUser } from "@/actions/user";
 import {
   MaterialSymbolsMoreHoriz,
   MaterialSymbolsOtherHouses,
@@ -6,6 +6,7 @@ import {
   MaterialSymbolsSearchRounded,
 } from "@/components/icons";
 import UserAvatar from "@/components/UserAvatar";
+import { getPublicUrl } from "@/utils/supabase/storage";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -46,7 +47,10 @@ export async function Sidebar() {
             role="button"
             className="btn btn-ghost btn-block flex justify-start"
           >
-            <UserAvatar src={await getIconURL(me)} className="h-10 w-10" />
+            <UserAvatar
+              src={await getPublicUrl("User", me.icon_path)}
+              className="h-10 w-10"
+            />
             <div className="flex flex-col items-start">
               <div>{me.display_name}</div>
               <div className="text-sm font-light">@{me.account_name}</div>

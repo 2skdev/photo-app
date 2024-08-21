@@ -22,11 +22,7 @@ export default async function Page() {
             post={post}
             postImageSrc={await getPublicUrl("Post", post.image_path)}
             user={post.user}
-            userIconSrc={
-              post.user.icon_path
-                ? await getPublicUrl("User", post.user.icon_path)
-                : null
-            }
+            userIconSrc={await getPublicUrl("User", post.user.icon_path)}
           />
           <div className="my-4 w-full border border-neutral" />
         </div>

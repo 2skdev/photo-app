@@ -1,0 +1,1 @@
+type Bucket = "User" | "Post";

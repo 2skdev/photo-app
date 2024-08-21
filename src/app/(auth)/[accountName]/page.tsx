@@ -1,8 +1,9 @@
-import { getIconURL, getLoginUser, getUser } from "@/actions/user";
+import { getLoginUser, getUser } from "@/actions/user";
 import FollowButton from "@/components/FollowButton";
 import { MaterialSymbolsAttachFile } from "@/components/icons";
 import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/utils/prisma/client";
+import { getPublicUrl } from "@/utils/supabase/storage";
 import Link from "next/link";
 
 type Props = {
@@ -31,7 +32,10 @@ export default async function Page({ params }: Props) {
   return (
     <>
       <div className="flex flex-row items-center">
-        <UserAvatar src={await getIconURL(user)} className="h-24 w-24" />
+        <UserAvatar
+          src={await getPublicUrl("User", user.icon_path)}
+          className="h-24 w-24"
+        />
 
         <div className="ml-4">
           <div className="text-2xl">{user.display_name}</div>
