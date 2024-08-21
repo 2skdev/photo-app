@@ -1,6 +1,8 @@
 "use client";
 
+import { MaterialSymbolsEdit } from "@/components/icons";
 import ImagePicker from "@/components/ImagePicker";
+import UserAvatar from "@/components/UserAvatar";
 import {
   UserOptionalInput,
   UserOptionalInputSchema,
@@ -10,7 +12,13 @@ import { User } from "@prisma/client";
 import { useForm, useWatch } from "react-hook-form";
 import { updateProfile } from "./actions";
 
-export function ProfileForm({ me }: { me: User }) {
+export function ProfileForm({
+  me,
+  icon_url,
+}: {
+  me?: User;
+  icon_url?: string | null;
+}) {
   const { register, control, handleSubmit, setValue } =
     useForm<UserOptionalInput>({
       defaultValues: { ...me },
@@ -25,46 +33,80 @@ export function ProfileForm({ me }: { me: User }) {
 
   return (
     <>
-      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-        <input
-          {...register("display_name", {
-            required: true,
-          })}
-          className="input input-bordered w-full"
-          type="text"
-          placeholder="名前"
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="grid grid-cols-3">
+          <div className="col-span-2 space-y-4">
+            <div>
+              <div className="mb-2 text-sm">アカウント名</div>
+              <label className="input input-bordered flex items-center">
+                @
+                <input
+                  {...register("account_name", {
+                    required: true,
+                  })}
+                  className="ml-2 w-full"
+                  type="text"
+                />
+              </label>
+            </div>
 
-        <input
-          {...register("biography")}
-          className="input input-bordered w-full"
-          type="text"
-          placeholder="自己紹介"
-        />
+            <div>
+              <div className="mb-2 text-sm">表示名</div>
+              <input
+                {...register("display_name", {
+                  required: true,
+                })}
+                className="input input-bordered w-full"
+                type="text"
+              />
+            </div>
+          </div>
 
-        <input
-          {...register("biography")}
-          className="input input-bordered w-full"
-          type="url"
-          placeholder="ウェブサイト"
-        />
+          <div className="flex items-center justify-center">
+            <ImagePicker
+              crop
+              onChange={(base64) => {
+                if (base64) {
+                  setValue("icon_base64", base64);
+                }
+              }}
+              picker={
+                <div className="relative flex flex-col">
+                  <UserAvatar
+                    src={image ?? icon_url}
+                    className="h-36 w-36 hover:cursor-pointer"
+                  />
+                  <div className="btn btn-sm absolute -left-4 bottom-2 bg-opacity-90">
+                    <MaterialSymbolsEdit />
+                    変更
+                  </div>
+                </div>
+              }
+            />
+          </div>
+        </div>
 
-        <ImagePicker
-          crop
-          onChange={(base64) => {
-            if (base64) {
-              setValue("icon_base64", base64);
-            }
-          }}
-          picker={
-            image ? (
-              <img
-                className="rounded-full hover:cursor-pointer"
-                src={image}
-              ></img>
-            ) : undefined
-          }
-        />
+        <div>
+          <div className="mb-2 text-sm">ウェブサイト</div>
+          <input
+            {...register("external_url", {
+              required: true,
+            })}
+            className="input input-bordered w-full"
+            type="url"
+          />
+        </div>
+
+        <div>
+          <div className="mb-2 text-sm">自己紹介</div>
+          <textarea
+            {...register("biography", {
+              required: true,
+            })}
+            rows={4}
+            className="textarea textarea-bordered block w-full resize-none text-[1rem]"
+          ></textarea>
+        </div>
 
         <button className="btn btn-primary btn-block" type="submit">
           保存

@@ -22,22 +22,22 @@ export function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mt-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
         <div className="mb-2 text-sm">アカウント名</div>
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center">
           @
           <input
             {...register("account_name", {
               required: true,
             })}
-            className="w-full"
+            className="ml-2 w-full"
             type="text"
           />
         </label>
       </div>
 
-      <div className="mt-4">
+      <div>
         <div className="mb-2 text-sm">表示名</div>
         <input
           {...register("display_name", {
@@ -48,7 +48,7 @@ export function RegisterForm() {
         />
       </div>
 
-      <div className="mt-4">
+      <div>
         <div className="mb-2 text-sm">アイコン</div>
         <ImagePicker
           crop
@@ -68,7 +68,7 @@ export function RegisterForm() {
         />
       </div>
 
-      <div className="my-8 w-full border-t border-base-100"></div>
+      <div className="w-full border-t border-base-100"></div>
 
       <button className="btn btn-primary btn-block" type="submit">
         登録

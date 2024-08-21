@@ -9,7 +9,7 @@ export default function Page() {
         <div className="ml-2">Photo App</div>
       </div>
 
-      <div className="my-8 text-lg font-bold">アカウントを登録</div>
+      <div className="my-8 text-2xl font-bold">アカウントを登録</div>
 
       <RegisterForm />
     </div>

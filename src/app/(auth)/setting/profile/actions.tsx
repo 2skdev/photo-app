@@ -29,14 +29,14 @@ export async function updateProfile(input: UserOptionalInput) {
       icon_path: path,
     });
 
-    await prisma.user.update({
+    const { account_name } = await prisma.user.update({
       where: {
         id: me.id,
       },
       data: { ...data },
     });
 
-    redirectTo = `/${me.account_name}`;
+    redirectTo = `/${account_name}`;
   } catch (e) {
     // TODO: need error handling
     console.log(e);
