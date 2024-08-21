@@ -40,6 +40,17 @@ export default async function Page({ params }: Props) {
     },
   });
 
+  const followCount = await prisma.follow.count({
+    where: {
+      user: user,
+    },
+  });
+  const followerCount = await prisma.follow.count({
+    where: {
+      followUser: user,
+    },
+  });
+
   // TODO: icon image cached and change not applied
 
   return (
@@ -66,6 +77,23 @@ export default async function Page({ params }: Props) {
             <FollowButton user={user} default={follow}></FollowButton>
           )}
         </div>
+      </div>
+
+      <div className="mt-4 flex space-x-4">
+        <Link
+          className="rounded-full text-xs font-light hover:underline"
+          href={`/${user.account_name}/follows`}
+        >
+          <span className="font-bold">{followCount}</span>
+          &nbsp;フォロー
+        </Link>
+        <Link
+          className="rounded-full text-xs font-light hover:underline"
+          href={`/${user.account_name}/followers`}
+        >
+          <span className="font-bold">{followerCount}</span>
+          &nbsp;フォロワー
+        </Link>
       </div>
 
       <div className="mt-4">{user.biography}</div>
