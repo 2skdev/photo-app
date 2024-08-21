@@ -85,6 +85,7 @@ export default async function Page({ params }: Props) {
       <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
         {posts.map(async (post) => (
           <PostGridItem
+            key={post.id}
             post={post}
             postImageSrc={await getPublicUrl("Post", post.image_path)}
             user={me}
