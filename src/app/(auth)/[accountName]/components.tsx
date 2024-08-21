@@ -1,4 +1,5 @@
 "use client";
+
 import { Follow, User } from "@prisma/client";
 import clsx from "clsx";
 import { useState } from "react";
@@ -9,7 +10,7 @@ type Props = {
   default: Follow | null;
 };
 
-export default function FollowButton(props: Props) {
+export function FollowButton(props: Props) {
   const [follow, setFollow] = useState<Follow | null>(props.default);
 
   const isFollow = () => (follow ? follow.deleted_at === null : false);
@@ -20,7 +21,10 @@ export default function FollowButton(props: Props) {
 
   return (
     <button
-      className={clsx("btn", isFollow() ? "btn-primary" : "btn-neutral")}
+      className={clsx(
+        "btn btn-sm md:btn-md",
+        isFollow() ? "btn-primary" : "btn-neutral",
+      )}
       onClick={onClick}
     >
       {isFollow() ? "フォロー中" : "フォロー"}

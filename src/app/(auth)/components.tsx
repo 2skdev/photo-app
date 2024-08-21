@@ -2,16 +2,24 @@
 
 import { AlertDialog } from "@/components/AlertDialog";
 import {
+  MaterialSymbolsAdd,
   MaterialSymbolsArrowBackRounded,
   MaterialSymbolsCloseRounded,
+  MaterialSymbolsMoreHoriz,
+  MaterialSymbolsOtherHouses,
+  MaterialSymbolsPerson,
+  MaterialSymbolsSearchRounded,
 } from "@/components/icons";
 import ImagePicker from "@/components/ImagePicker";
 import Modal from "@/components/Modal";
+import Switcher from "@/components/Switcher";
+import UserAvatar from "@/components/UserAvatar";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,
 } from "@/types/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,36 +27,119 @@ import { ReactNode, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { addPost, signOut } from "./actions";
 
-export function SidebarLink({
-  href,
-  label,
-  icon,
+export function Navigation({
+  me,
+  iconSrc,
 }: {
-  href: string;
-  label: string;
-  icon: ReactNode;
+  me: User;
+  iconSrc: string | null;
 }) {
-  "use client";
   const pathname = usePathname();
 
-  return (
-    <Link
-      className={clsx(
-        "btn btn-block flex justify-start",
-        pathname == href ? "btn-neutral" : "btn-ghost",
-      )}
-      href={href}
-    >
-      <div className="flex items-center space-x-3">
-        {icon}
-        <div>{label}</div>
-      </div>
-    </Link>
-  );
-}
+  const items = [
+    {
+      href: "/",
+      label: "ホーム",
+      icon: <MaterialSymbolsOtherHouses className="h-6 w-6" />,
+    },
+    {
+      href: "/search",
+      label: "検索",
+      icon: <MaterialSymbolsSearchRounded className="h-6 w-6" />,
+    },
+    {
+      href: `/${me.account_name}`,
+      label: "プロフィール",
+      icon: <MaterialSymbolsPerson className="h-6 w-6" />,
+    },
+  ];
 
-export function LogoutButton() {
-  return <button onClick={async () => await signOut()}>ログアウト</button>;
+  const side = (
+    <div className="sticky top-0 flex h-screen w-80 flex-col border-r border-neutral p-4">
+      <div className="mx-4 mb-6 mt-2 flex items-center justify-start">
+        <img src="/icon.svg" alt="Icon" width={24} height={24} />
+        <div className="ml-2">Photo App</div>
+      </div>
+
+      {items.map((item, index) => (
+        <Link
+          key={index}
+          className={clsx(
+            "btn btn-block flex justify-start",
+            pathname === item.href ? "btn-neutral" : "btn-ghost",
+          )}
+          href={item.href}
+        >
+          <div className="flex items-center space-x-3">
+            {item.icon}
+            <div>{item.label}</div>
+          </div>
+        </Link>
+      ))}
+
+      <PostModalButton />
+
+      <div className="mt-auto">
+        <div className="dropdown dropdown-top w-full">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-block flex justify-start"
+          >
+            <UserAvatar src={iconSrc} className="h-10 w-10" />
+            <div className="flex flex-col items-start">
+              <div>{me.display_name}</div>
+              <div className="text-sm font-light">@{me.account_name}</div>
+            </div>
+            <div className="ml-auto">
+              <MaterialSymbolsMoreHoriz className="h-6 w-6" />
+            </div>
+          </div>
+
+          <ul
+            tabIndex={0}
+            className="menu dropdown-content z-[1] mb-2 w-52 rounded-box bg-neutral p-2"
+          >
+            <li>
+              <Link href="/setting">設定</Link>
+            </li>
+            <li>
+              <button onClick={async () => await signOut()}>ログアウト</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+
+  const bottom = (
+    <>
+      <div className="fixed bottom-0 flex h-14 w-screen items-center justify-around border-t border-neutral bg-base-100">
+        {items.map((item, index) => (
+          <Link
+            key={index}
+            className={clsx(
+              "btn",
+              pathname === item.href ? "btn-neutral" : "btn-ghost",
+            )}
+            href={item.href}
+          >
+            {item.icon}
+          </Link>
+        ))}
+      </div>
+
+      {pathname === "/" && (
+        <div className="fixed bottom-20 right-6">
+          <button className="btn btn-circle btn-primary shadow">
+            <MaterialSymbolsAdd className="h-6 w-6" />
+          </button>
+        </div>
+      )}
+    </>
+  );
+
+  return <Switcher pc={side} sp={bottom} />;
 }
 
 export function PostModalButton() {

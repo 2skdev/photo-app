@@ -1,10 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 
 type Props = {
-  children?: React.ReactNode;
+  children?: ReactNode;
   show?: boolean;
   className?: string;
   onRequestClose?: () => void;
@@ -23,11 +23,16 @@ export default function Modal(props: Props) {
     return (
       <div
         tabIndex={-1}
-        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50"
         onClick={onClick}
         ref={ref}
       >
-        <div className={clsx("rounded bg-base-100", props.className)}>
+        <div
+          className={clsx(
+            "h-screen w-screen bg-base-100 md:h-auto md:w-auto",
+            props.className,
+          )}
+        >
           {props.children}
         </div>
       </div>

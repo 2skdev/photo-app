@@ -69,7 +69,7 @@ export default function ImagePicker(props: Props) {
               適用
             </button>
           </div>
-          <div className="relative h-96 w-96">
+          <div className="relative h-full w-full md:h-96 md:w-96">
             <ImageCrop src={tempImage} onCrop={setCropImage} />
           </div>
         </Modal>

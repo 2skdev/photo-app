@@ -2,6 +2,7 @@
 
 import { MaterialSymbolsEdit } from "@/components/icons";
 import ImagePicker from "@/components/ImagePicker";
+import Switcher from "@/components/Switcher";
 import UserAvatar from "@/components/UserAvatar";
 import {
   UserOptionalInput,
@@ -31,10 +32,39 @@ export function ProfileForm({
     await updateProfile(data);
   };
 
+  function IconPicker() {
+    return (
+      <div className="flex items-center justify-center">
+        <ImagePicker
+          crop
+          onChange={(base64) => {
+            if (base64) {
+              setValue("icon_src", base64);
+            }
+          }}
+          picker={
+            <div className="relative flex flex-col">
+              <UserAvatar
+                src={image ?? icon_url}
+                className="h-36 w-36 hover:cursor-pointer"
+              />
+              <div className="btn btn-sm absolute -left-4 bottom-2 bg-opacity-90">
+                <MaterialSymbolsEdit />
+                変更
+              </div>
+            </div>
+          }
+        />
+      </div>
+    );
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-3">
+        <Switcher sp={<IconPicker />} />
+
+        <div className="grid md:grid-cols-3">
           <div className="col-span-2 space-y-4">
             <div>
               <div className="mb-2 text-sm">アカウント名</div>
@@ -62,28 +92,7 @@ export function ProfileForm({
             </div>
           </div>
 
-          <div className="flex items-center justify-center">
-            <ImagePicker
-              crop
-              onChange={(base64) => {
-                if (base64) {
-                  setValue("icon_src", base64);
-                }
-              }}
-              picker={
-                <div className="relative flex flex-col">
-                  <UserAvatar
-                    src={image ?? icon_url}
-                    className="h-36 w-36 hover:cursor-pointer"
-                  />
-                  <div className="btn btn-sm absolute -left-4 bottom-2 bg-opacity-90">
-                    <MaterialSymbolsEdit />
-                    変更
-                  </div>
-                </div>
-              }
-            />
-          </div>
+          <Switcher pc={<IconPicker />} />
         </div>
 
         <div>
@@ -104,7 +113,7 @@ export function ProfileForm({
               required: true,
             })}
             rows={4}
-            className="textarea textarea-bordered block w-full resize-none text-[1rem]"
+            className="textarea textarea-bordered w-full resize-none text-[1rem]"
           ></textarea>
         </div>
 
