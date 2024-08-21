@@ -73,8 +73,10 @@ export function PostItem(props: Props) {
           }}
         >
           <UserAvatar src={props.userIconSrc} className="h-10 w-10" />
-          <div className="ml-4">{props.user.display_name}</div>
-          <div className="ml-2 font-light">@{props.user.account_name}</div>
+          <div className="ml-2">{props.user.display_name}</div>
+          <div className="ml-1 text-sm font-light">
+            @{props.user.account_name}
+          </div>
         </div>
         <div className="ml-2 pt-1 text-sm font-light">
           • {getDateString(props.post.created_at)}
