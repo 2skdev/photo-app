@@ -1,8 +1,9 @@
-import PostItem from "@/components/PostItem";
+import { PostItem } from "@/components/PostItem";
 import prisma from "@/utils/prisma/client";
 import { getPublicUrl } from "@/utils/supabase/storage";
 
 export default async function Page() {
+  // todo: load next
   const posts = await prisma.post.findMany({
     take: 10,
     skip: 0,

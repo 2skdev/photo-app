@@ -1,5 +1,6 @@
 import { getLoginUser, getUser } from "@/actions/user";
 import { MaterialSymbolsAttachFile } from "@/components/icons";
+import { PostGridItem } from "@/components/PostItem";
 import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/utils/prisma/client";
 import { getPublicUrl } from "@/utils/supabase/storage";
@@ -26,6 +27,18 @@ export default async function Page({ params }: Props) {
           },
         },
       });
+
+  // todo: load next
+  const posts = await prisma.post.findMany({
+    where: {
+      user,
+    },
+    take: 10,
+    skip: 0,
+    orderBy: {
+      created_at: "desc",
+    },
+  });
 
   // TODO: icon image cached and change not applied
 
@@ -67,7 +80,18 @@ export default async function Page({ params }: Props) {
         </Link>
       )}
 
-      <div className="mt-4 w-full border-t border-neutral"></div>
+      <div className="my-4 w-full border-t border-neutral" />
+
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+        {posts.map(async (post) => (
+          <PostGridItem
+            post={post}
+            postImageSrc={await getPublicUrl("Post", post.image_path)}
+            user={me}
+            userIconSrc={await getPublicUrl("User", user.icon_path)}
+          />
+        ))}
+      </div>
     </>
   );
 }

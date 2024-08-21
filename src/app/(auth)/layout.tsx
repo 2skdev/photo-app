@@ -16,7 +16,9 @@ export default async function Layout({
           me={me}
           iconSrc={await getPublicUrl("User", me.icon_path)}
         />
-        <div className="container mx-auto max-w-3xl p-4 md:p-10">
+
+        {/* margin for bottom nav height */}
+        <div className="container mx-auto mb-14 max-w-3xl p-4 md:mb-0 md:p-10">
           {children}
         </div>
       </main>

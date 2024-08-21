@@ -34,7 +34,29 @@ function getDateString(date: Date): string {
   }
 }
 
-export default function PostItem(props: Props) {
+export function PostGridItem(props: Props) {
+  const router = useRouter();
+
+  if (!props.postImageSrc) {
+    notFound();
+  }
+
+  return (
+    <button
+      className="btn aspect-square h-full w-full p-0"
+      onClick={() =>
+        router.push(`/${props.user.account_name}/${props.post.id}`)
+      }
+    >
+      <img
+        className="h-full w-full rounded-lg object-cover hover:object-scale-down"
+        src={props.postImageSrc}
+      ></img>
+    </button>
+  );
+}
+
+export function PostItem(props: Props) {
   const router = useRouter();
 
   if (!props.postImageSrc) {
