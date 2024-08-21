@@ -1,29 +1,18 @@
-import { createClient } from "@/utils/supabase/server";
+"use client";
+
 import clsx from "clsx";
 import { MaterialSymbolsPerson } from "../icons";
 
 type Props = {
-  path: string | null;
+  src?: string | null;
   className?: string;
 };
 
-export default async function UserAvatar(props: Props) {
-  const supabase = createClient();
-
-  const url = await (async () => {
-    if (props.path) {
-      const {
-        data: { publicUrl },
-      } = await supabase.storage.from("User").getPublicUrl(props.path);
-
-      return publicUrl;
-    } else {
-      return null;
-    }
-  })();
-
-  if (url) {
-    return <img className={clsx(props.className, "rounded-full")} src={url} />;
+export default function UserAvatar(props: Props) {
+  if (props.src) {
+    return (
+      <img className={clsx(props.className, "rounded-full")} src={props.src} />
+    );
   } else {
     return (
       <div

@@ -1,4 +1,4 @@
-import { getLoginUser } from "@/actions/user";
+import { getIconURL, getLoginUser } from "@/actions/user";
 import {
   MaterialSymbolsMoreHoriz,
   MaterialSymbolsOtherHouses,
@@ -52,7 +52,7 @@ export default async function Layout({
                 role="button"
                 className="btn btn-ghost btn-block flex justify-start"
               >
-                <UserAvatar path={me.icon_path} className="h-10 w-10" />
+                <UserAvatar src={await getIconURL(me)} className="h-10 w-10" />
                 <div className="flex flex-col items-start">
                   <div>{me.display_name}</div>
                   <div className="text-sm font-light">@{me.account_name}</div>
