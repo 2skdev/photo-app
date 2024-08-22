@@ -1,9 +1,9 @@
 "use client";
 
+import { updateLike } from "@/actions/like";
 import { Like, Post } from "@/models/zod";
 import { useState } from "react";
 import { MdiCardsHeart, MdiCardsHeartOutline } from "../icons";
-import { updateLike } from "./actions";
 
 type Props = {
   post: Post;

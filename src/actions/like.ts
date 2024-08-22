@@ -2,7 +2,7 @@
 
 import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
-import { Like, LikeOptionalDefaultsSchema } from "@/models/zod";
+import { Like, LikeOptionalDefaultsSchema, Post } from "@/models/zod";
 
 export async function updateLike(
   postId: string,
@@ -27,5 +27,13 @@ export async function updateLike(
     },
     create: { ...data },
     update: { deleted_at: data.deleted_at },
+  });
+}
+
+export async function getLikeCount(post: Post): Promise<number> {
+  return await prisma.like.count({
+    where: {
+      post: post,
+    },
   });
 }
