@@ -1,6 +1,5 @@
 "use client";
 
-import { file2base64 } from "@/utils/image";
 import { ChangeEvent, ReactNode, useState } from "react";
 import {
   MaterialSymbolsCloseRounded,
@@ -14,6 +13,21 @@ type Props = {
   crop?: boolean;
   onChange?: (base64?: string) => void;
 };
+
+async function file2base64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      if (reader.result) {
+        resolve(reader.result as string);
+      } else {
+        reject();
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 export default function ImagePicker(props: Props) {
   const [tempImage, setTempImage] = useState<string>();
