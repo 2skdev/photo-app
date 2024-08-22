@@ -1,8 +1,8 @@
 "use server";
 
-import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
 import { Follow, FollowOptionalDefaultsSchema, User } from "@/models/zod";
+import { getAuthUser } from "./auth";
 
 export async function getFollow(
   user: User,
@@ -22,12 +22,12 @@ export async function updateFollow(
   followUserId: string,
   status: boolean,
 ): Promise<Follow> {
-  const me = await getLoginUser();
+  const auth = await getAuthUser();
 
   const deletedAt = status ? null : new Date();
 
   const data = FollowOptionalDefaultsSchema.parse({
-    user_id: me.id,
+    user_id: auth.id,
     follow_user_id: followUserId,
     deleted_at: deletedAt,
   });
@@ -35,7 +35,7 @@ export async function updateFollow(
   return await prisma.follow.upsert({
     where: {
       user_id_follow_user_id: {
-        user_id: me.id,
+        user_id: auth.id,
         follow_user_id: followUserId,
       },
     },

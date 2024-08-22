@@ -1,8 +1,8 @@
 "use server";
 
-import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
 import { Like, LikeOptionalDefaultsSchema, Post, User } from "@/models/zod";
+import { getAuthUser } from "./auth";
 
 export async function getLike(user: User, post: Post): Promise<Like | null> {
   return await prisma.like.findUnique({
@@ -19,12 +19,12 @@ export async function updateLike(
   postId: string,
   status: boolean,
 ): Promise<Like> {
-  const me = await getLoginUser();
+  const auth = await getAuthUser();
 
   const deletedAt = status ? null : new Date();
 
   const data = LikeOptionalDefaultsSchema.parse({
-    user_id: me.id,
+    user_id: auth.id,
     post_id: postId,
     deleted_at: deletedAt,
   });
@@ -32,7 +32,7 @@ export async function updateLike(
   return await prisma.like.upsert({
     where: {
       user_id_post_id: {
-        user_id: me.id,
+        user_id: auth.id,
         post_id: postId,
       },
     },

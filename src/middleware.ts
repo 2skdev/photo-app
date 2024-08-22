@@ -39,7 +39,13 @@ async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  const auth = await getAuthUser(supabase);
+  const auth = await (async () => {
+    try {
+      return await getAuthUser(supabase);
+    } catch {
+      return null;
+    }
+  })();
 
   if (
     !auth &&

@@ -30,12 +30,17 @@ export async function signOut() {
 
 export async function getAuthUser(
   client?: SupabaseClient, // for middleware
-): Promise<User | null> {
+): Promise<User> {
   const supabase = client ?? createClient();
 
   const {
     data: { user: auth },
+    error,
   } = await supabase.auth.getUser();
+
+  if (!auth) {
+    throw error;
+  }
 
   return auth;
 }
