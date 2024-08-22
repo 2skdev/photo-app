@@ -1,8 +1,8 @@
 "use server";
 
 import { getLoginUser } from "@/actions/user";
-import { CommentOptionalDefaultsSchema } from "@/types/zod";
-import prisma from "@/utils/prisma/client";
+import prisma from "@/libs/prisma/client";
+import { CommentOptionalDefaultsSchema } from "@/models/zod";
 
 export async function addComment(form: FormData) {
   const me = await getLoginUser();

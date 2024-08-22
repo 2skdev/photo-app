@@ -1,13 +1,13 @@
 "use server";
 
 import { getLoginUser } from "@/actions/user";
-import { FollowOptionalDefaultsSchema } from "@/types/zod";
-import prisma from "@/utils/prisma/client";
+import prisma from "@/libs/prisma/client";
+import { FollowOptionalDefaultsSchema } from "@/models/zod";
 import { Follow } from "@prisma/client";
 
 export async function updateFollow(
   followUserId: string,
-  status: boolean
+  status: boolean,
 ): Promise<Follow> {
   const me = await getLoginUser();
 

@@ -1,7 +1,7 @@
 "use server";
 
 import { baseUrl } from "@/constants/url";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/libs/supabase/server";
 import { redirect } from "next/navigation";
 
 export async function signInWithGoogle() {

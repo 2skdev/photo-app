@@ -17,7 +17,7 @@ import UserAvatar from "@/components/UserAvatar";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,
-} from "@/types/zodExtension";
+} from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import clsx from "clsx";

@@ -1,9 +1,9 @@
+import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { MaterialSymbolsAttachFile } from "@/components/icons";
 import { PostGridItem } from "@/components/PostItem";
 import UserAvatar from "@/components/UserAvatar";
-import prisma from "@/utils/prisma/client";
-import { getPublicUrl } from "@/utils/supabase/storage";
+import prisma from "@/libs/prisma/client";
 import Link from "next/link";
 import { FollowButton } from "./components";
 

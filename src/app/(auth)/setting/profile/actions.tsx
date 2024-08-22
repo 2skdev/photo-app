@@ -1,10 +1,10 @@
 "use server";
 
+import { uploadImage } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
-import { UserOptionalDefaultsSchema } from "@/types/zod";
-import { UserOptionalInput } from "@/types/zodExtension";
-import prisma from "@/utils/prisma/client";
-import { uploadImage } from "@/utils/supabase/storage";
+import prisma from "@/libs/prisma/client";
+import { UserOptionalDefaultsSchema } from "@/models/zod";
+import { UserOptionalInput } from "@/models/zodExtension";
 import { redirect } from "next/navigation";
 
 export async function updateProfile(input: UserOptionalInput) {

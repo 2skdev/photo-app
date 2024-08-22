@@ -1,6 +1,6 @@
+import { getPublicUrl } from "@/actions/storage";
 import { PostItem } from "@/components/PostItem";
-import prisma from "@/utils/prisma/client";
-import { getPublicUrl } from "@/utils/supabase/storage";
+import prisma from "@/libs/prisma/client";
 
 export default async function Page() {
   // todo: load next

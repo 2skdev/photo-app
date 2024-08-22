@@ -1,10 +1,10 @@
 "use server";
 
-import { UserOptionalDefaultsSchema } from "@/types/zod";
-import { UserOptionalInput } from "@/types/zodExtension";
-import prisma from "@/utils/prisma/client";
-import { createClient } from "@/utils/supabase/server";
-import { uploadImage } from "@/utils/supabase/storage";
+import { uploadImage } from "@/actions/storage";
+import prisma from "@/libs/prisma/client";
+import { createClient } from "@/libs/supabase/server";
+import { UserOptionalDefaultsSchema } from "@/models/zod";
+import { UserOptionalInput } from "@/models/zodExtension";
 import { redirect } from "next/navigation";
 
 export async function addUser(input: UserOptionalInput) {

@@ -1,13 +1,13 @@
 "use server";
 
 import { getLoginUser } from "@/actions/user";
-import { LikeOptionalDefaultsSchema } from "@/types/zod";
-import prisma from "@/utils/prisma/client";
+import prisma from "@/libs/prisma/client";
+import { LikeOptionalDefaultsSchema } from "@/models/zod";
 import { Like } from "@prisma/client";
 
 export async function updateLike(
   postId: string,
-  status: boolean
+  status: boolean,
 ): Promise<Like> {
   const me = await getLoginUser();
 

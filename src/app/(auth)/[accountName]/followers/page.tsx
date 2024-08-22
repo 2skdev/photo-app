@@ -1,7 +1,7 @@
+import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import UserAvatar from "@/components/UserAvatar";
-import prisma from "@/utils/prisma/client";
-import { getPublicUrl } from "@/utils/supabase/storage";
+import prisma from "@/libs/prisma/client";
 import Link from "next/link";
 
 type Props = {

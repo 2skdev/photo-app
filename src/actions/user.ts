@@ -1,9 +1,9 @@
 "use server";
 
-// import { User } from "@/types/zod";
-import prisma from "@/utils/prisma/client";
-import { createClient } from "@/utils/supabase/server";
-import { User } from "@prisma/client";
+// import { User } from "@/models/zod";
+import prisma from "@/libs/prisma/client";
+import { createClient } from "@/libs/supabase/server";
+import { User } from "@/models/zod";
 import { notFound, redirect } from "next/navigation";
 
 export async function getUser(account_name: string): Promise<User> {

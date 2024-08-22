@@ -7,7 +7,7 @@ import UserAvatar from "@/components/UserAvatar";
 import {
   UserOptionalInput,
   UserOptionalInputSchema,
-} from "@/types/zodExtension";
+} from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import { useForm, useWatch } from "react-hook-form";

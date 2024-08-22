@@ -1,12 +1,12 @@
 "use server";
 
+import { uploadImage } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
-import { PostOptionalDefaultsSchema } from "@/types/zod";
-import { PostOptionalInput } from "@/types/zodExtension";
-import prisma from "@/utils/prisma/client";
+import prisma from "@/libs/prisma/client";
+import { createClient } from "@/libs/supabase/server";
+import { PostOptionalDefaultsSchema } from "@/models/zod";
+import { PostOptionalInput } from "@/models/zodExtension";
 import random from "@/utils/random";
-import { createClient } from "@/utils/supabase/server";
-import { uploadImage } from "@/utils/supabase/storage";
 import { redirect } from "next/navigation";
 
 export async function signOut() {

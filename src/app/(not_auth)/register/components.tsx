@@ -4,7 +4,7 @@ import ImagePicker from "@/components/ImagePicker";
 import {
   UserOptionalInput,
   UserOptionalInputSchema,
-} from "@/types/zodExtension";
+} from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { addUser } from "./actions";

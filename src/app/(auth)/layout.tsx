@@ -1,5 +1,5 @@
+import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
-import { getPublicUrl } from "@/utils/supabase/storage";
 import { ReactNode } from "react";
 import { Navigation } from "./components";
 

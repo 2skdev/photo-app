@@ -1,8 +1,8 @@
 import { getLoginUser } from "@/actions/user";
 import CommentForm from "@/components/CommentForm";
 import LikeButton from "@/components/LikeButton";
-import prisma from "@/utils/prisma/client";
-import { createClient } from "@/utils/supabase/server";
+import prisma from "@/libs/prisma/client";
+import { createClient } from "@/libs/supabase/server";
 import { notFound } from "next/navigation";
 
 type Props = {

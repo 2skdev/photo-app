@@ -1,9 +1,11 @@
 "use server";
 
+import { createClient } from "@/libs/supabase/server";
+import { getFileType } from "@/utils/image";
+import random from "@/utils/random";
 import { decode } from "base64-arraybuffer";
-import { getFileType } from "../image";
-import random from "../random";
-import { createClient } from "./server";
+
+type Bucket = "User" | "Post";
 
 export async function uploadImage(
   base64: string,
