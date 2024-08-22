@@ -3,19 +3,10 @@
 import { uploadImage } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
-import { createClient } from "@/libs/supabase/server";
 import { PostOptionalDefaultsSchema } from "@/models/zod";
 import { PostOptionalInput } from "@/models/zodExtension";
 import random from "@/utils/random";
 import { redirect } from "next/navigation";
-
-export async function signOut() {
-  const supabase = createClient();
-
-  await supabase.auth.signOut();
-
-  redirect("/login");
-}
 
 export async function addPost(input: PostOptionalInput) {
   const me = await getLoginUser();

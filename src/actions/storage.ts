@@ -4,6 +4,7 @@ import { createClient } from "@/libs/supabase/server";
 import { getFileType } from "@/utils/image";
 import random from "@/utils/random";
 import { decode } from "base64-arraybuffer";
+import { getAuthUser } from "./auth";
 
 type Bucket = "User" | "Post";
 
@@ -18,9 +19,7 @@ export async function uploadImage(
 
   if (contentType && ext) {
     if (!path) {
-      const {
-        data: { user: auth },
-      } = await supabase.auth.getUser();
+      const auth = await getAuthUser();
 
       const filename = `${random(32)}${ext}`;
 

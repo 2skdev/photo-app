@@ -4,12 +4,12 @@ import { MaterialSymbolsEdit } from "@/components/icons";
 import ImagePicker from "@/components/ImagePicker";
 import Switcher from "@/components/Switcher";
 import UserAvatar from "@/components/UserAvatar";
+import { User } from "@/models/zod";
 import {
   UserOptionalInput,
   UserOptionalInputSchema,
 } from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 import { useForm, useWatch } from "react-hook-form";
 import { updateProfile } from "./actions";
 

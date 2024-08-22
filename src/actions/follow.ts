@@ -2,8 +2,7 @@
 
 import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
-import { FollowOptionalDefaultsSchema } from "@/models/zod";
-import { Follow } from "@prisma/client";
+import { Follow, FollowOptionalDefaultsSchema, User } from "@/models/zod";
 
 export async function updateFollow(
   followUserId: string,
@@ -28,5 +27,21 @@ export async function updateFollow(
     },
     create: { ...data },
     update: { deleted_at: data.deleted_at },
+  });
+}
+
+export async function getFollowCount(user: User): Promise<number> {
+  return await prisma.follow.count({
+    where: {
+      user: user,
+    },
+  });
+}
+
+export async function getFollowerCount(user: User): Promise<number> {
+  return await prisma.follow.count({
+    where: {
+      followUser: user,
+    },
   });
 }

@@ -1,7 +1,7 @@
 "use client";
 
+import { signInWithGoogle } from "@/actions/auth";
 import Image from "next/image";
-import { signInWithGoogle } from "./actions";
 
 export function SignInWithGoogleButton() {
   return (

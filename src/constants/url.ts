@@ -1,4 +1,4 @@
-export const baseUrl = (() => {
+export const BASE_URL = (() => {
   switch (process.env.NEXT_PUBLIC_VERCEL_ENV) {
     case "production":
       return `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;

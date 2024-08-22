@@ -1,8 +1,8 @@
+import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
 import CommentForm from "@/components/CommentForm";
 import LikeButton from "@/components/LikeButton";
 import prisma from "@/libs/prisma/client";
-import { createClient } from "@/libs/supabase/server";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -10,7 +10,6 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const supabase = createClient();
   const me = await getLoginUser();
 
   const post = await prisma.post.findUnique({
@@ -21,9 +20,8 @@ export default async function Page({ params }: Props) {
   if (!post) {
     notFound();
   }
-  const {
-    data: { publicUrl: imageUrl },
-  } = await supabase.storage.from("Post").getPublicUrl(post.image_path);
+
+  const imageUrl = await getPublicUrl("Post", post.image_path);
 
   const like = await prisma.like.findUnique({
     where: {
@@ -38,7 +36,7 @@ export default async function Page({ params }: Props) {
     <main>
       <div>{params.accountName}</div>
       <div>{params.postId}</div>
-      <img src={imageUrl} />
+      <img src={imageUrl!} />
 
       <LikeButton post={post} default={like}></LikeButton>
       <CommentForm post={post} />

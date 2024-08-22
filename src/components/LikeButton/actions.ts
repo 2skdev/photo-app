@@ -2,8 +2,7 @@
 
 import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
-import { LikeOptionalDefaultsSchema } from "@/models/zod";
-import { Like } from "@prisma/client";
+import { Like, LikeOptionalDefaultsSchema } from "@/models/zod";
 
 export async function updateLike(
   postId: string,

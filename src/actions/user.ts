@@ -2,9 +2,9 @@
 
 // import { User } from "@/models/zod";
 import prisma from "@/libs/prisma/client";
-import { createClient } from "@/libs/supabase/server";
 import { User } from "@/models/zod";
 import { notFound, redirect } from "next/navigation";
+import { getAuthUser } from "./auth";
 
 export async function getUser(account_name: string): Promise<User> {
   const user = await prisma.user.findFirst({
@@ -21,11 +21,7 @@ export async function getUser(account_name: string): Promise<User> {
 }
 
 export async function getLoginUser(): Promise<User> {
-  const supabase = createClient();
-
-  const {
-    data: { user: auth },
-  } = await supabase.auth.getUser();
+  const auth = await getAuthUser();
 
   if (!auth) {
     redirect("/login");

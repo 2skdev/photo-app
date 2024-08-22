@@ -1,18 +1,14 @@
 "use server";
 
+import { getAuthUser } from "@/actions/auth";
 import { uploadImage } from "@/actions/storage";
 import prisma from "@/libs/prisma/client";
-import { createClient } from "@/libs/supabase/server";
 import { UserOptionalDefaultsSchema } from "@/models/zod";
 import { UserOptionalInput } from "@/models/zodExtension";
 import { redirect } from "next/navigation";
 
 export async function addUser(input: UserOptionalInput) {
-  const supabase = createClient();
-
-  const {
-    data: { user: auth },
-  } = await supabase.auth.getUser();
+  const auth = await getAuthUser();
 
   if (!auth) {
     redirect("/login");

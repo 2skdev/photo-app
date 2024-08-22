@@ -1,5 +1,6 @@
 "use client";
 
+import { signOut } from "@/actions/auth";
 import { AlertDialog } from "@/components/AlertDialog";
 import {
   MaterialSymbolsAdd,
@@ -14,18 +15,18 @@ import ImagePicker from "@/components/ImagePicker";
 import Modal from "@/components/Modal";
 import Switcher from "@/components/Switcher";
 import UserAvatar from "@/components/UserAvatar";
+import { User } from "@/models/zod";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,
 } from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { addPost, signOut } from "./actions";
+import { addPost } from "./actions";
 
 export function Navigation({
   me,

@@ -1,9 +1,9 @@
 "use client";
 
-import { Follow, User } from "@prisma/client";
+import { updateFollow } from "@/actions/follow";
+import { Follow, User } from "@/models/zod";
 import clsx from "clsx";
 import { useState } from "react";
-import { updateFollow } from "./actions";
 
 type Props = {
   user: User;

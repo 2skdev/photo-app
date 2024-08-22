@@ -1,3 +1,4 @@
+import { getFollowCount, getFollowerCount } from "@/actions/follow";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { MaterialSymbolsAttachFile } from "@/components/icons";
@@ -40,17 +41,6 @@ export default async function Page({ params }: Props) {
     },
   });
 
-  const followCount = await prisma.follow.count({
-    where: {
-      user: user,
-    },
-  });
-  const followerCount = await prisma.follow.count({
-    where: {
-      followUser: user,
-    },
-  });
-
   // TODO: icon image cached and change not applied
 
   return (
@@ -84,14 +74,14 @@ export default async function Page({ params }: Props) {
           className="rounded-full text-xs font-light hover:underline"
           href={`/${user.account_name}/follows`}
         >
-          <span className="font-bold">{followCount}</span>
+          <span className="font-bold">{await getFollowCount(user)}</span>
           &nbsp;フォロー
         </Link>
         <Link
           className="rounded-full text-xs font-light hover:underline"
           href={`/${user.account_name}/followers`}
         >
-          <span className="font-bold">{followerCount}</span>
+          <span className="font-bold">{await getFollowerCount(user)}</span>
           &nbsp;フォロワー
         </Link>
       </div>

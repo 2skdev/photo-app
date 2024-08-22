@@ -1,6 +1,6 @@
 "use client";
 
-import { Post, User } from "@prisma/client";
+import { Post, User } from "@/models/zod";
 import { notFound, useRouter } from "next/navigation";
 import UserAvatar from "../UserAvatar";
 import {

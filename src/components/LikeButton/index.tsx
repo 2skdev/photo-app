@@ -1,6 +1,6 @@
 "use client";
 
-import { Like, Post } from "@prisma/client";
+import { Like, Post } from "@/models/zod";
 import { useState } from "react";
 import { MdiCardsHeart, MdiCardsHeartOutline } from "../icons";
 import { updateLike } from "./actions";

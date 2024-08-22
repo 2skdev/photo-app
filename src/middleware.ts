@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { getAuthUser } from "./actions/auth";
 
 async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -38,9 +39,7 @@ async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  const {
-    data: { user: auth },
-  } = await supabase.auth.getUser();
+  const auth = await getAuthUser(supabase);
 
   if (
     !auth &&

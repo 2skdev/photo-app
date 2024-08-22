@@ -1,6 +1,6 @@
 "use client";
 
-import { Post } from "@prisma/client";
+import { Post } from "@/models/zod";
 import { useRef } from "react";
 import { MdiSend } from "../icons";
 import { addComment } from "./actions";
