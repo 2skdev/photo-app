@@ -1,9 +1,9 @@
+import { getPost } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
 import CommentForm from "@/components/CommentForm";
 import LikeButton from "@/components/LikeButton";
 import prisma from "@/libs/prisma/client";
-import { notFound } from "next/navigation";
 
 type Props = {
   params: { accountName: string; postId: string };
@@ -12,14 +12,7 @@ type Props = {
 export default async function Page({ params }: Props) {
   const me = await getLoginUser();
 
-  const post = await prisma.post.findUnique({
-    where: {
-      id: params.postId,
-    },
-  });
-  if (!post) {
-    notFound();
-  }
+  const post = await getPost(params.postId);
 
   const imageUrl = await getPublicUrl("Post", post.image_path);
 

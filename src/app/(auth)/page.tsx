@@ -1,19 +1,10 @@
+import { getPosts } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { PostItem } from "@/components/PostItem";
-import prisma from "@/libs/prisma/client";
 
 export default async function Page() {
   // todo: load next
-  const posts = await prisma.post.findMany({
-    take: 10,
-    skip: 0,
-    orderBy: {
-      created_at: "desc",
-    },
-    include: {
-      user: true,
-    },
-  });
+  const posts = await getPosts();
 
   return (
     <>

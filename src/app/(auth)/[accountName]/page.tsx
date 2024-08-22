@@ -1,4 +1,5 @@
 import { getFollowCount, getFollowerCount } from "@/actions/follow";
+import { getPosts } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { MaterialSymbolsAttachFile } from "@/components/icons";
@@ -30,16 +31,7 @@ export default async function Page({ params }: Props) {
       });
 
   // todo: load next
-  const posts = await prisma.post.findMany({
-    where: {
-      user,
-    },
-    take: 10,
-    skip: 0,
-    orderBy: {
-      created_at: "desc",
-    },
-  });
+  const posts = await getPosts(user);
 
   // TODO: icon image cached and change not applied
 

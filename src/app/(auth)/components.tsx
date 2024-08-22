@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut } from "@/actions/auth";
+import { addPost } from "@/actions/post";
 import { AlertDialog } from "@/components/AlertDialog";
 import {
   MaterialSymbolsAdd,
@@ -26,7 +27,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { addPost } from "./actions";
 
 export function Navigation({
   me,
