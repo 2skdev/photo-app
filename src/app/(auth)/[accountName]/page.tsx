@@ -18,7 +18,7 @@ export default async function Page({ params }: Props) {
 
   const isMypage = user.id === me.id;
 
-  const follow = isMypage ? null : await getFollow(me, user);
+  const follow = isMypage ? false : await getFollow(me, user);
 
   // todo: load next
   const posts = await getPosts(user);

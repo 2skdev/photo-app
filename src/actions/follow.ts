@@ -7,8 +7,8 @@ import { getAuthUser } from "./auth";
 export async function getFollow(
   user: User,
   followUser: User,
-): Promise<Follow | null> {
-  return await prisma.follow.findUnique({
+): Promise<boolean> {
+  const follow = await prisma.follow.findUnique({
     where: {
       user_id_follow_user_id: {
         user_id: user.id,
@@ -16,10 +16,16 @@ export async function getFollow(
       },
     },
   });
+
+  if (!follow || follow.deleted_at) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 export async function updateFollow(
-  followUserId: string,
+  user: User,
   status: boolean,
 ): Promise<Follow> {
   const auth = await getAuthUser();
@@ -28,7 +34,7 @@ export async function updateFollow(
 
   const data = FollowOptionalDefaultsSchema.parse({
     user_id: auth.id,
-    follow_user_id: followUserId,
+    follow_user_id: user.id,
     deleted_at: deletedAt,
   });
 
@@ -36,7 +42,7 @@ export async function updateFollow(
     where: {
       user_id_follow_user_id: {
         user_id: auth.id,
-        follow_user_id: followUserId,
+        follow_user_id: user.id,
       },
     },
     create: { ...data },
@@ -44,36 +50,39 @@ export async function updateFollow(
   });
 }
 
-export async function getFollowUsers(
-  user: User,
-): Promise<Array<Follow & { followUser: User }>> {
-  return await prisma.follow.findMany({
+export async function getFollowUsers(user: User): Promise<Array<User>> {
+  const follows = await prisma.follow.findMany({
     where: {
       user: user,
+      deleted_at: null,
     },
     include: {
       followUser: true,
     },
   });
+
+  return follows.map((follow) => follow.followUser);
 }
 
-export async function getFollowerUsers(
-  user: User,
-): Promise<Array<Follow & { user: User }>> {
-  return await prisma.follow.findMany({
+export async function getFollowerUsers(user: User): Promise<Array<User>> {
+  const followers = await prisma.follow.findMany({
     where: {
       followUser: user,
+      deleted_at: null,
     },
     include: {
       user: true,
     },
   });
+
+  return followers.map((follower) => follower.user);
 }
 
 export async function getFollowCount(user: User): Promise<number> {
   return await prisma.follow.count({
     where: {
       user: user,
+      deleted_at: null,
     },
   });
 }
@@ -82,6 +91,7 @@ export async function getFollowerCount(user: User): Promise<number> {
   return await prisma.follow.count({
     where: {
       followUser: user,
+      deleted_at: null,
     },
   });
 }

@@ -25,24 +25,24 @@ export default async function Page({ params }: Props) {
           <div className="flex flex-row items-center">
             <Link
               className="flex flex-row items-center hover:cursor-pointer"
-              href={`/${follow.followUser.account_name}`}
+              href={`/${follow.account_name}`}
             >
               <UserAvatar
-                src={await getPublicUrl("User", follow.followUser.icon_path)}
+                src={await getPublicUrl("User", follow.icon_path)}
                 className="h-10 w-10"
               />
 
-              <div className="ml-2">{follow.followUser.display_name}</div>
+              <div className="ml-2">{follow.display_name}</div>
 
               <div className="ml-1 text-sm font-light">
-                @{follow.followUser.account_name}
+                @{follow.account_name}
               </div>
             </Link>
 
             <button className="btn btn-neutral btn-sm ml-auto">フォロー</button>
           </div>
 
-          <div className="mt-1">{follow.followUser.biography}</div>
+          <div className="mt-1">{follow.biography}</div>
         </div>
       ))}
     </>

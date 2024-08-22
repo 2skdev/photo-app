@@ -1,27 +1,26 @@
 "use client";
 
 import { updateLike } from "@/actions/like";
-import { Like, Post } from "@/models/zod";
+import { Post } from "@/models/zod";
 import { useState } from "react";
 import { MdiCardsHeart, MdiCardsHeartOutline } from "../icons";
 
 type Props = {
   post: Post;
-  default: Like | null;
+  default: boolean;
 };
 
 export default function LikeButton(props: Props) {
-  const [like, setLike] = useState<Like | null>(props.default);
-
-  const isLike = () => (like ? like.deleted_at === null : false);
+  const [like, setLike] = useState<boolean>(props.default);
 
   const onClick = async () => {
-    setLike(await updateLike(props.post.id, !isLike()));
+    await updateLike(props.post, !like);
+    setLike(!like);
   };
 
   return (
     <button onClick={onClick}>
-      {isLike() ? <MdiCardsHeart /> : <MdiCardsHeartOutline />}
+      {like ? <MdiCardsHeart /> : <MdiCardsHeartOutline />}
     </button>
   );
 }
