@@ -2,7 +2,18 @@
 
 import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
-import { Like, LikeOptionalDefaultsSchema, Post } from "@/models/zod";
+import { Like, LikeOptionalDefaultsSchema, Post, User } from "@/models/zod";
+
+export async function getLike(user: User, post: Post): Promise<Like | null> {
+  return await prisma.like.findUnique({
+    where: {
+      user_id_post_id: {
+        user_id: user.id,
+        post_id: post.id,
+      },
+    },
+  });
+}
 
 export async function updateLike(
   postId: string,

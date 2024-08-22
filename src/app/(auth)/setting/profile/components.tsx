@@ -1,5 +1,6 @@
 "use client";
 
+import { updateUser } from "@/actions/user";
 import { MaterialSymbolsEdit } from "@/components/icons";
 import ImagePicker from "@/components/ImagePicker";
 import Switcher from "@/components/Switcher";
@@ -11,7 +12,6 @@ import {
 } from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
-import { updateProfile } from "./actions";
 
 export function ProfileForm({
   me,
@@ -29,7 +29,7 @@ export function ProfileForm({
   const image = useWatch({ name: "icon_src", control });
 
   const onSubmit = async (data: UserOptionalInput) => {
-    await updateProfile(data);
+    await updateUser(data);
   };
 
   function IconPicker() {

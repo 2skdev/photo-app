@@ -4,6 +4,20 @@ import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
 import { Follow, FollowOptionalDefaultsSchema, User } from "@/models/zod";
 
+export async function getFollow(
+  user: User,
+  followUser: User,
+): Promise<Follow | null> {
+  return await prisma.follow.findUnique({
+    where: {
+      user_id_follow_user_id: {
+        user_id: user.id,
+        follow_user_id: followUser.id,
+      },
+    },
+  });
+}
+
 export async function updateFollow(
   followUserId: string,
   status: boolean,
@@ -27,6 +41,32 @@ export async function updateFollow(
     },
     create: { ...data },
     update: { deleted_at: data.deleted_at },
+  });
+}
+
+export async function getFollowUsers(
+  user: User,
+): Promise<Array<Follow & { followUser: User }>> {
+  return await prisma.follow.findMany({
+    where: {
+      user: user,
+    },
+    include: {
+      followUser: true,
+    },
+  });
+}
+
+export async function getFollowerUsers(
+  user: User,
+): Promise<Array<Follow & { user: User }>> {
+  return await prisma.follow.findMany({
+    where: {
+      followUser: user,
+    },
+    include: {
+      user: true,
+    },
   });
 }
 

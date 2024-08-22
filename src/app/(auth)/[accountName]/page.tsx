@@ -1,11 +1,10 @@
-import { getFollowCount, getFollowerCount } from "@/actions/follow";
+import { getFollow, getFollowCount, getFollowerCount } from "@/actions/follow";
 import { getPosts } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { MaterialSymbolsAttachFile } from "@/components/icons";
 import { PostGridItem } from "@/components/PostItem";
 import UserAvatar from "@/components/UserAvatar";
-import prisma from "@/libs/prisma/client";
 import Link from "next/link";
 import { FollowButton } from "./components";
 
@@ -19,16 +18,7 @@ export default async function Page({ params }: Props) {
 
   const isMypage = user.id === me.id;
 
-  const follow = isMypage
-    ? null
-    : await prisma.follow.findUnique({
-        where: {
-          user_id_follow_user_id: {
-            user_id: me.id,
-            follow_user_id: user.id,
-          },
-        },
-      });
+  const follow = isMypage ? null : await getFollow(me, user);
 
   // todo: load next
   const posts = await getPosts(user);

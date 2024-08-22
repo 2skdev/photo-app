@@ -1,7 +1,7 @@
+import { getFollowUsers } from "@/actions/follow";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import UserAvatar from "@/components/UserAvatar";
-import prisma from "@/libs/prisma/client";
 import Link from "next/link";
 
 type Props = {
@@ -12,14 +12,7 @@ export default async function Page({ params }: Props) {
   const user = await getUser(params.accountName);
   const me = await getLoginUser();
 
-  const follows = await prisma.follow.findMany({
-    where: {
-      user: user,
-    },
-    include: {
-      followUser: true,
-    },
-  });
+  const follows = await getFollowUsers(user);
 
   // TODO: follow button
 
