@@ -12,6 +12,7 @@ export type PostOptionalInput = z.infer<typeof PostOptionalInputSchema>;
 
 export const UserOptionalInputSchema = UserOptionalDefaultsSchema.merge(
   z.object({
+    id: z.string().optional(),
     iconPath: z.string().nullish().optional(),
     iconSrc: z.string().optional(),
   }),
