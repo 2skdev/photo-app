@@ -13,11 +13,7 @@ type Props = {
 
 export function AlertDialog(props: Props) {
   return (
-    <Modal
-      show={props.show}
-      onRequestClose={props.onCancel}
-      className="px-8 py-4"
-    >
+    <Modal show={props.show} onRequestClose={props.onCancel}>
       <div className="my-2 text-lg">{props.title}</div>
       {props.subtitle && <div className="text-sm">{props.subtitle}</div>}
       <div className="mt-4 border-t border-neutral pt-2">

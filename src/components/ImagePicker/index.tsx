@@ -65,7 +65,7 @@ export default function ImagePicker(props: Props) {
   return (
     <>
       {tempImage && (
-        <Modal show={tempImage !== undefined} className="p-4">
+        <Modal show={tempImage !== undefined}>
           <div className="mb-4 flex items-center justify-between">
             <button
               className="btn btn-square btn-ghost btn-sm"

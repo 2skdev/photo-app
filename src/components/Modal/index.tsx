@@ -1,20 +1,34 @@
 "use client";
 
-import clsx from "clsx";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 type Props = {
   children?: ReactNode;
   show?: boolean;
-  className?: string;
   onRequestClose?: () => void;
 };
 
 export default function Modal(props: Props) {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
 
-  const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === ref.current) {
+  useEffect(() => {
+    if (props.show) {
+      // add scrollbar width padding
+      document.body.style.paddingRight = `${window.innerWidth - document.body.clientWidth}px`;
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.paddingRight = "0px";
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.paddingRight = "0px";
+      document.body.style.overflow = "auto";
+    };
+  }, [props.show]);
+
+  const onBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === backdropRef.current) {
       props.onRequestClose?.();
     }
   };
@@ -22,17 +36,11 @@ export default function Modal(props: Props) {
   if (props.show) {
     return (
       <div
-        tabIndex={-1}
-        className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50"
-        onClick={onClick}
-        ref={ref}
+        ref={backdropRef}
+        className="fixed inset-0 z-10 flex h-screen items-center justify-center bg-black bg-opacity-50"
+        onClick={onBackdropClick}
       >
-        <div
-          className={clsx(
-            "h-screen w-screen bg-base-100 md:h-auto md:w-auto",
-            props.className,
-          )}
-        >
+        <div className="h-screen w-screen rounded bg-base-100 p-4 md:h-auto md:w-auto">
           {props.children}
         </div>
       </div>

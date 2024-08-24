@@ -16,8 +16,10 @@ export default function Layout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ja">
+      <body className={inter.className}>
+        <main>{children}</main>
+      </body>
     </html>
   );
 }

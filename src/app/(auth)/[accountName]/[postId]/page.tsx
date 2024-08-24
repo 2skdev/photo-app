@@ -19,13 +19,13 @@ export default async function Page({ params }: Props) {
   const like = await getLike(me, post);
 
   return (
-    <main>
+    <div>
       <div>{params.accountName}</div>
       <div>{params.postId}</div>
       <img src={imageUrl!} />
 
       <LikeButton post={post} default={like}></LikeButton>
       <CommentForm post={post} />
-    </main>
+    </div>
   );
 }

@@ -252,7 +252,7 @@ export function PostModalButton() {
 
   return (
     <>
-      <Modal show={modal} onRequestClose={onRequestClose} className="p-4">
+      <Modal show={modal} onRequestClose={onRequestClose}>
         <div className="mb-4 flex items-center justify-between">
           <button className="btn btn-square btn-ghost btn-sm" onClick={onPrev}>
             {step === 0 ? (

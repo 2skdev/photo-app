@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode, useLayoutEffect, useState } from "react";
+import { useMediaType } from "@/hooks/mediaType";
+import { ReactNode } from "react";
 
 type Props = {
   sp?: ReactNode;
@@ -8,18 +9,9 @@ type Props = {
 };
 
 export default function Switcher(props: Props) {
-  const [layout, setLayout] = useState<"sp" | "pc">("pc");
+  const mediaType = useMediaType();
 
-  useLayoutEffect(() => {
-    const onResize = () => setLayout(window.innerWidth <= 768 ? "sp" : "pc");
-
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  // tailwind breakpoint md
-  if (layout === "sp") {
+  if (mediaType === "sp") {
     return <>{props.sp && props.sp}</>;
   } else {
     return <>{props.pc && props.pc}</>;
