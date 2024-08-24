@@ -2,7 +2,6 @@ import { getLike } from "@/actions/like";
 import { getPost } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
-import CommentForm from "@/components/CommentForm";
 import LikeButton from "@/components/LikeButton";
 
 type Props = {
@@ -25,7 +24,6 @@ export default async function Page({ params }: Props) {
       <img src={imageUrl!} />
 
       <LikeButton post={post} default={like}></LikeButton>
-      <CommentForm post={post} />
     </div>
   );
 }
