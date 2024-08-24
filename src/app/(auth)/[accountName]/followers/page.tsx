@@ -1,7 +1,7 @@
 import { getFollowerUsers } from "@/actions/follow";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
-import UserAvatar from "@/components/UserAvatar";
+import { UserAvatar } from "@/components/UserAvatar";
 import Link from "next/link";
 
 type Props = {

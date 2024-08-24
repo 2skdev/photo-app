@@ -3,14 +3,14 @@
 import { updateLike } from "@/actions/like";
 import { Post } from "@/models/zod";
 import { useState } from "react";
-import { MdiCardsHeart, MdiCardsHeartOutline } from "../icons";
+import { MdiCardsHeart, MdiCardsHeartOutline } from "./Icons";
 
 type Props = {
   post: Post;
   default: boolean;
 };
 
-export default function LikeButton(props: Props) {
+export function LikeButton(props: Props) {
   const [like, setLike] = useState<boolean>(props.default);
 
   const onClick = async () => {

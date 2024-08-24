@@ -4,9 +4,9 @@ import { ChangeEvent, ReactNode, useState } from "react";
 import {
   MaterialSymbolsCloseRounded,
   MaterialSymbolsImagesmodeOutline,
-} from "../icons";
-import ImageCrop from "../ImageCrop";
-import Modal from "../Modal";
+} from "./Icons";
+import { ImageCrop } from "./ImageCrop";
+import { Modal } from "./Modal";
 
 type Props = {
   picker?: ReactNode;
@@ -29,7 +29,7 @@ async function file2base64(file: File): Promise<string> {
   });
 }
 
-export default function ImagePicker(props: Props) {
+export function ImagePicker(props: Props) {
   const [tempImage, setTempImage] = useState<string>();
   const [cropImage, setCropImage] = useState<string>();
 

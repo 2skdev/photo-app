@@ -1,10 +1,10 @@
 "use client";
 
 import { updateUser } from "@/actions/user";
-import { MaterialSymbolsEdit } from "@/components/icons";
-import ImagePicker from "@/components/ImagePicker";
-import Switcher from "@/components/Switcher";
-import UserAvatar from "@/components/UserAvatar";
+import { MaterialSymbolsEdit } from "@/components/Icons";
+import { ImagePicker } from "@/components/ImagePicker";
+import { MediaSwitcher } from "@/components/MediaSwitcher";
+import { UserAvatar } from "@/components/UserAvatar";
 import { User } from "@/models/zod";
 import {
   UserOptionalInput,
@@ -62,7 +62,7 @@ export function ProfileForm({
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <Switcher sp={<IconPicker />} />
+        <MediaSwitcher sp={<IconPicker />} />
 
         <div className="grid md:grid-cols-3">
           <div className="col-span-2 space-y-4">
@@ -92,7 +92,7 @@ export function ProfileForm({
             </div>
           </div>
 
-          <Switcher pc={<IconPicker />} />
+          <MediaSwitcher pc={<IconPicker />} />
         </div>
 
         <div>

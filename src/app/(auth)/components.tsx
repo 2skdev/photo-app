@@ -11,11 +11,11 @@ import {
   MaterialSymbolsOtherHouses,
   MaterialSymbolsPerson,
   MaterialSymbolsSearchRounded,
-} from "@/components/icons";
-import ImagePicker from "@/components/ImagePicker";
-import Modal from "@/components/Modal";
-import Switcher from "@/components/Switcher";
-import UserAvatar from "@/components/UserAvatar";
+} from "@/components/Icons";
+import { ImagePicker } from "@/components/ImagePicker";
+import { MediaSwitcher } from "@/components/MediaSwitcher";
+import { Modal } from "@/components/Modal";
+import { UserAvatar } from "@/components/UserAvatar";
 import { User } from "@/models/zod";
 import {
   PostOptionalInput,
@@ -140,7 +140,7 @@ export function Navigation({
     </>
   );
 
-  return <Switcher pc={side} sp={bottom} />;
+  return <MediaSwitcher pc={side} sp={bottom} />;
 }
 
 export function PostModalButton() {

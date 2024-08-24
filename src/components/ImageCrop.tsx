@@ -38,7 +38,7 @@ async function cropImage(base64: string, crop: Area): Promise<string | null> {
   return canvas.toDataURL("image/jpeg");
 }
 
-export default function ImageCrop(props: Props) {
+export function ImageCrop(props: Props) {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState<number>(1);
 

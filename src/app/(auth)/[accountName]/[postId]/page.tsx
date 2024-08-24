@@ -2,7 +2,7 @@ import { getLike } from "@/actions/like";
 import { getPost } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
-import LikeButton from "@/components/LikeButton";
+import { LikeButton } from "@/components/LikeButton";
 
 type Props = {
   params: { accountName: string; postId: string };

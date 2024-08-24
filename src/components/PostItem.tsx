@@ -2,12 +2,12 @@
 
 import { Post, User } from "@/models/zod";
 import { notFound, useRouter } from "next/navigation";
-import UserAvatar from "../UserAvatar";
 import {
   MaterialSymbolsModeCommentOutline,
   MaterialSymbolsShare,
   MdiCardsHeartOutline,
-} from "../icons";
+} from "./Icons";
+import { UserAvatar } from "./UserAvatar";
 
 type Props = {
   post: Post;

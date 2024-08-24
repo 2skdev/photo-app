@@ -1,14 +1,14 @@
 "use client";
 
 import clsx from "clsx";
-import { MaterialSymbolsPerson } from "../icons";
+import { MaterialSymbolsPerson } from "./Icons";
 
 type Props = {
   src?: string | null;
   className?: string;
 };
 
-export default function UserAvatar(props: Props) {
+export function UserAvatar(props: Props) {
   if (props.src) {
     return (
       <img className={clsx(props.className, "rounded-full")} src={props.src} />

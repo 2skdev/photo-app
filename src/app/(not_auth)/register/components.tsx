@@ -1,7 +1,7 @@
 "use client";
 
 import { addUser } from "@/actions/user";
-import ImagePicker from "@/components/ImagePicker";
+import { ImagePicker } from "@/components/ImagePicker";
 import {
   UserOptionalInput,
   UserOptionalInputSchema,

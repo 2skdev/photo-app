@@ -8,7 +8,7 @@ type Props = {
   onRequestClose?: () => void;
 };
 
-export default function Modal(props: Props) {
+export function Modal(props: Props) {
   const backdropRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

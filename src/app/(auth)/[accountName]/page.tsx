@@ -2,9 +2,9 @@ import { getFollow, getFollowCount, getFollowerCount } from "@/actions/follow";
 import { getPosts } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
-import { MaterialSymbolsAttachFile } from "@/components/icons";
+import { MaterialSymbolsAttachFile } from "@/components/Icons";
 import { PostGridItem } from "@/components/PostItem";
-import UserAvatar from "@/components/UserAvatar";
+import { UserAvatar } from "@/components/UserAvatar";
 import Link from "next/link";
 import { FollowButton } from "./components";
 

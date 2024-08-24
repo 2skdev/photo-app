@@ -8,7 +8,7 @@ type Props = {
   pc?: ReactNode;
 };
 
-export default function Switcher(props: Props) {
+export function MediaSwitcher(props: Props) {
   const mediaType = useMediaType();
 
   if (mediaType === "sp") {
