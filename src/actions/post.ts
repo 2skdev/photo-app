@@ -12,7 +12,7 @@ export async function getPost(id: string): Promise<Post> {
   const post = await prisma.post.findUnique({
     where: {
       id: id,
-      deleted_at: null,
+      deletedAt: null,
     },
   });
 
@@ -29,12 +29,12 @@ export async function getPosts(
   const posts = await prisma.post.findMany({
     where: {
       user: user,
-      deleted_at: null,
+      deletedAt: null,
     },
     take: 10,
     skip: 0,
     orderBy: {
-      created_at: "desc",
+      createdAt: "desc",
     },
     include: {
       user: true,
@@ -50,20 +50,20 @@ export async function addPost(input: PostOptionalInput) {
   let redirectTo = undefined;
 
   try {
-    const path = await uploadImage(input.image_src, "Post");
+    const path = await uploadImage(input.imageSrc, "Post");
 
     const data = PostOptionalDefaultsSchema.parse({
       ...input,
       id: random(10),
-      user_id: me.id,
-      image_path: path,
+      userId: me.id,
+      imagePath: path,
     });
 
     const { id } = await prisma.post.create({
       data: { ...data },
     });
 
-    redirectTo = `/${me.account_name}/${id}`;
+    redirectTo = `/${me.accountName}/${id}`;
   } catch (e) {
     // TODO: need error handling
     console.log(e);
@@ -95,7 +95,7 @@ export async function deletePost(post: Post) {
       id: post.id,
     },
     data: {
-      deleted_at: new Date(),
+      deletedAt: new Date(),
     },
   });
 }

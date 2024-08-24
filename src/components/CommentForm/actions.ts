@@ -9,8 +9,8 @@ export async function addComment(form: FormData) {
 
   try {
     const data = CommentOptionalDefaultsSchema.parse({
-      user_id: me.id,
-      post_id: form.get("postId"),
+      userId: me.id,
+      postId: form.get("postId"),
       text: form.get("comment"),
     });
 

@@ -44,9 +44,7 @@ export function PostGridItem(props: Props) {
   return (
     <button
       className="btn aspect-square h-full w-full p-0"
-      onClick={() =>
-        router.push(`/${props.user.account_name}/${props.post.id}`)
-      }
+      onClick={() => router.push(`/${props.user.accountName}/${props.post.id}`)}
     >
       <img
         className="h-full w-full rounded-lg object-cover hover:object-scale-down"
@@ -69,17 +67,17 @@ export function PostItem(props: Props) {
         <div
           className="flex items-center hover:cursor-pointer"
           onClick={() => {
-            router.push(`/${props.user.account_name}`);
+            router.push(`/${props.user.accountName}`);
           }}
         >
           <UserAvatar src={props.userIconSrc} className="h-10 w-10" />
-          <div className="ml-2">{props.user.display_name}</div>
+          <div className="ml-2">{props.user.displayName}</div>
           <div className="ml-1 text-sm font-light">
-            @{props.user.account_name}
+            @{props.user.accountName}
           </div>
         </div>
         <div className="ml-2 pt-1 text-sm font-light">
-          • {getDateString(props.post.created_at)}
+          • {getDateString(props.post.createdAt)}
         </div>
       </div>
 
@@ -88,7 +86,7 @@ export function PostItem(props: Props) {
           src={props.postImageSrc}
           className="rounded-sm"
           onClick={() =>
-            router.push(`/${props.user.account_name}/${props.post.id}`)
+            router.push(`/${props.user.accountName}/${props.post.id}`)
           }
         />
       </div>

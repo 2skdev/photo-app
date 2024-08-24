@@ -14,7 +14,7 @@ export default async function Page({ params }: Props) {
 
   const post = await getPost(params.postId);
 
-  const imageUrl = await getPublicUrl("Post", post.image_path);
+  const imageUrl = await getPublicUrl("Post", post.imagePath);
 
   const like = await getLike(me, post);
 

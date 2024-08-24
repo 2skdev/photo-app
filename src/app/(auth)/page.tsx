@@ -12,9 +12,9 @@ export default async function Page() {
         <div key={post.id} className="w-full">
           <PostItem
             post={post}
-            postImageSrc={await getPublicUrl("Post", post.image_path)}
+            postImageSrc={await getPublicUrl("Post", post.imagePath)}
             user={post.user}
-            userIconSrc={await getPublicUrl("User", post.user.icon_path)}
+            userIconSrc={await getPublicUrl("User", post.user.iconPath)}
           />
           <div className="my-4 w-full border-b border-neutral" />
         </div>

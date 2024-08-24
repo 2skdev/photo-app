@@ -16,83 +16,117 @@ generator zod {
 }
 
 model User {
-  id           String    @id @default(dbgenerated("auth.uid()")) @db.Uuid
+  id          String    @id @db.Uuid
   /// @zod.string.min(6).max(32)
-  account_name String    @db.VarChar(32)
+  accountName String    @db.VarChar(32)
   /// @zod.string.min(1).max(32)
-  display_name String    @db.VarChar(32)
-  biography    String?
+  displayName String    @db.VarChar(32)
+  biography   String?
   /// @zod.string.url()
-  external_url String?   @db.VarChar(192)
-  icon_path    String?   @db.VarChar(192)
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @default(now()) @updatedAt
-  deleted_at   DateTime?
+  externalUrl String?   @db.VarChar(192)
+  iconPath    String?   @db.VarChar(192)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  deletedAt   DateTime?
 
-  posts     Post[]
-  comments  Comment[]
-  likes     Like[]
-  follows   Follow[]  @relation("follower")
-  followers Follow[]  @relation("followee")
+  posts    Post[]
+  spots    Spot[]
+  comments Comment[]
+  likes    Like[]
+
+  follows   Follow[] @relation("follower")
+  followers Follow[] @relation("followee")
 }
 
 model Post {
   /// @zod.string.max(10)
   id          String    @id @db.VarChar(10)
-  user_id     String    @default(dbgenerated("auth.uid()")) @db.Uuid
+  userId      String    @db.Uuid
+  spotId      Int?
+  title       String    @default("")
   caption     String    @default("")
-  image_path  String    @db.VarChar(192)
+  imagePath   String    @db.VarChar(192)
   camera      String?   @db.VarChar(192)
   lens        String?   @db.VarChar(192)
   focalLength String?   @db.VarChar(192)
   fnumber     String?   @db.VarChar(192)
   shutter     String?   @db.VarChar(192)
   iso         String?   @db.VarChar(192)
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @default(now()) @updatedAt
-  deleted_at  DateTime?
+  wb          String?   @db.VarChar(192)
+  shotAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  deletedAt   DateTime?
 
-  user     User      @relation(fields: [user_id], references: [id])
+  user User  @relation(fields: [userId], references: [id])
+  spot Spot? @relation(fields: [spotId], references: [id])
+
   comments Comment[]
   likes    Like[]
+  hashTags HashTag[]
+}
+
+model HashTag {
+  id     Int    @id @default(autoincrement())
+  postId String
+  text   String @db.VarChar(192)
+
+  post Post @relation(fields: [postId], references: [id])
+}
+
+model Spot {
+  id        Int       @id @default(autoincrement())
+  userId    String    @db.Uuid
+  name      String?
+  title     String
+  latitude  Float
+  longitude Float
+  private   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+
+  posts Post[]
 }
 
 model Comment {
-  id         Int       @id @default(autoincrement())
-  user_id    String    @default(dbgenerated("auth.uid()")) @db.Uuid
-  post_id    String
-  text       String
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
+  id        Int       @id @default(autoincrement())
+  userId    String    @db.Uuid
+  postId    String
+  text      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
 
-  user User @relation(fields: [user_id], references: [id])
-  post Post @relation(fields: [post_id], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
 }
 
 model Like {
-  id         Int       @id @default(autoincrement())
-  user_id    String    @default(dbgenerated("auth.uid()")) @db.Uuid
-  post_id    String
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
+  id        Int       @id @default(autoincrement())
+  userId    String    @db.Uuid
+  postId    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
 
-  user User @relation(fields: [user_id], references: [id])
-  post Post @relation(fields: [post_id], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
 
-  @@unique([user_id, post_id])
+  @@unique([userId, postId])
 }
 
 model Follow {
-  user_id        String    @default(dbgenerated("auth.uid()")) @db.Uuid
-  follow_user_id String    @db.Uuid
-  created_at     DateTime  @default(now())
-  updated_at     DateTime  @default(now()) @updatedAt
-  deleted_at     DateTime?
+  userId       String    @db.Uuid
+  followUserId String    @db.Uuid
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+  deletedAt    DateTime?
 
-  user       User @relation("followee", fields: [user_id], references: [id])
-  followUser User @relation("follower", fields: [follow_user_id], references: [id])
+  user       User @relation("followee", fields: [userId], references: [id])
+  followUser User @relation("follower", fields: [followUserId], references: [id])
 
-  @@id([user_id, follow_user_id])
+  @@id([userId, followUserId])
 }

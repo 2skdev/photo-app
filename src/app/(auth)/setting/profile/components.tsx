@@ -15,10 +15,10 @@ import { useForm, useWatch } from "react-hook-form";
 
 export function ProfileForm({
   me,
-  icon_url,
+  iconUrl,
 }: {
   me?: User;
-  icon_url?: string | null;
+  iconUrl?: string | null;
 }) {
   const { register, control, handleSubmit, setValue } =
     useForm<UserOptionalInput>({
@@ -26,7 +26,7 @@ export function ProfileForm({
       resolver: zodResolver(UserOptionalInputSchema),
     });
 
-  const image = useWatch({ name: "icon_src", control });
+  const image = useWatch({ name: "iconSrc", control });
 
   const onSubmit = async (data: UserOptionalInput) => {
     await updateUser(data);
@@ -39,13 +39,13 @@ export function ProfileForm({
           crop
           onChange={(base64) => {
             if (base64) {
-              setValue("icon_src", base64);
+              setValue("iconSrc", base64);
             }
           }}
           picker={
             <div className="relative flex flex-col">
               <UserAvatar
-                src={image ?? icon_url}
+                src={image ?? iconUrl}
                 className="h-36 w-36 hover:cursor-pointer"
               />
               <div className="btn btn-sm absolute -left-4 bottom-2 bg-opacity-90">
@@ -71,7 +71,7 @@ export function ProfileForm({
               <label className="input input-bordered flex items-center">
                 @
                 <input
-                  {...register("account_name", {
+                  {...register("accountName", {
                     required: true,
                   })}
                   className="ml-2 w-full"
@@ -83,7 +83,7 @@ export function ProfileForm({
             <div>
               <div className="mb-2 text-sm">表示名</div>
               <input
-                {...register("display_name", {
+                {...register("displayName", {
                   required: true,
                 })}
                 className="input input-bordered w-full"
@@ -98,7 +98,7 @@ export function ProfileForm({
         <div>
           <div className="mb-2 text-sm">ウェブサイト</div>
           <input
-            {...register("external_url", {
+            {...register("externalUrl", {
               required: true,
             })}
             className="input input-bordered w-full"

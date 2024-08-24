@@ -28,13 +28,13 @@ export default async function Page({ params }: Props) {
   return (
     <>
       <UserAvatar
-        src={await getPublicUrl("User", user.icon_path)}
+        src={await getPublicUrl("User", user.iconPath)}
         className="h-24 w-24"
       />
       <div className="mt-4 flex w-full items-center">
         <div>
-          <div className="text-lg md:text-2xl">{user.display_name}</div>
-          <div className="font-light">@{user.account_name}</div>
+          <div className="text-lg md:text-2xl">{user.displayName}</div>
+          <div className="font-light">@{user.accountName}</div>
         </div>
 
         <div className="ml-auto">
@@ -54,14 +54,14 @@ export default async function Page({ params }: Props) {
       <div className="mt-4 flex space-x-4">
         <Link
           className="rounded-full text-xs font-light hover:underline"
-          href={`/${user.account_name}/follows`}
+          href={`/${user.accountName}/follows`}
         >
           <span className="font-bold">{await getFollowCount(user)}</span>
           &nbsp;フォロー
         </Link>
         <Link
           className="rounded-full text-xs font-light hover:underline"
-          href={`/${user.account_name}/followers`}
+          href={`/${user.accountName}/followers`}
         >
           <span className="font-bold">{await getFollowerCount(user)}</span>
           &nbsp;フォロワー
@@ -70,13 +70,13 @@ export default async function Page({ params }: Props) {
 
       <div className="mt-4">{user.biography}</div>
 
-      {user.external_url && (
+      {user.externalUrl && (
         <Link
           className="link-primary mt-2 flex items-center space-x-1 font-light"
-          href={user.external_url}
+          href={user.externalUrl}
         >
           <MaterialSymbolsAttachFile />
-          <div>{user.external_url}</div>
+          <div>{user.externalUrl}</div>
         </Link>
       )}
 
@@ -87,9 +87,9 @@ export default async function Page({ params }: Props) {
           <PostGridItem
             key={post.id}
             post={post}
-            postImageSrc={await getPublicUrl("Post", post.image_path)}
+            postImageSrc={await getPublicUrl("Post", post.imagePath)}
             user={me}
-            userIconSrc={await getPublicUrl("User", user.icon_path)}
+            userIconSrc={await getPublicUrl("User", user.iconPath)}
           />
         ))}
       </div>

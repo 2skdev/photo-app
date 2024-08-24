@@ -8,10 +8,10 @@ import { notFound, redirect } from "next/navigation";
 import { getAuthUser } from "./auth";
 import { uploadImage } from "./storage";
 
-export async function getUser(account_name: string): Promise<User> {
+export async function getUser(accountName: string): Promise<User> {
   const user = await prisma.user.findFirst({
     where: {
-      account_name,
+      accountName,
     },
   });
 
@@ -54,8 +54,8 @@ export async function addUser(input: UserOptionalInput) {
   try {
     let path = undefined;
 
-    if (input.icon_src) {
-      path = await uploadImage(input.icon_src, "User", {
+    if (input.iconSrc) {
+      path = await uploadImage(input.iconSrc, "User", {
         path: `${auth.id}`,
         upsert: true,
       });
@@ -65,14 +65,14 @@ export async function addUser(input: UserOptionalInput) {
       ...input,
       // TODO: id to optional(use auth.uid())
       id: auth.id,
-      icon_path: path,
+      iconPath: path,
     });
 
-    const { account_name } = await prisma.user.create({
+    const { accountName } = await prisma.user.create({
       data: { ...data },
     });
 
-    redirectTo = `/${account_name}`;
+    redirectTo = `/${accountName}`;
   } catch (e) {
     // TODO: need error handling
     console.log(e);
@@ -95,8 +95,8 @@ export async function updateUser(input: UserOptionalInput) {
   try {
     let path = undefined;
 
-    if (input.icon_src) {
-      path = await uploadImage(input.icon_src, "User", {
+    if (input.iconSrc) {
+      path = await uploadImage(input.iconSrc, "User", {
         path: `${auth.id}`,
         upsert: true,
       });
@@ -106,17 +106,17 @@ export async function updateUser(input: UserOptionalInput) {
       ...input,
       // TODO: id to optional(use auth.uid())
       id: auth.id,
-      icon_path: path,
+      iconPath: path,
     });
 
-    const { account_name } = await prisma.user.update({
+    const { accountName } = await prisma.user.update({
       where: {
         id: auth.id,
       },
       data: { ...data },
     });
 
-    redirectTo = `/${account_name}`;
+    redirectTo = `/${accountName}`;
   } catch (e) {
     // TODO: need error handling
     console.log(e);

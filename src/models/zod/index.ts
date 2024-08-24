@@ -12,15 +12,19 @@ import type { Prisma } from '@prisma/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','account_name','display_name','biography','external_url','icon_path','created_at','updated_at','deleted_at']);
+export const UserScalarFieldEnumSchema = z.enum(['id','accountName','displayName','biography','externalUrl','iconPath','createdAt','updatedAt','deletedAt']);
 
-export const PostScalarFieldEnumSchema = z.enum(['id','user_id','caption','image_path','camera','lens','focalLength','fnumber','shutter','iso','created_at','updated_at','deleted_at']);
+export const PostScalarFieldEnumSchema = z.enum(['id','userId','spotId','title','caption','imagePath','camera','lens','focalLength','fnumber','shutter','iso','wb','shotAt','createdAt','updatedAt','deletedAt']);
 
-export const CommentScalarFieldEnumSchema = z.enum(['id','user_id','post_id','text','created_at','updated_at','deleted_at']);
+export const HashTagScalarFieldEnumSchema = z.enum(['id','postId','text']);
 
-export const LikeScalarFieldEnumSchema = z.enum(['id','user_id','post_id','created_at','updated_at','deleted_at']);
+export const SpotScalarFieldEnumSchema = z.enum(['id','userId','name','title','latitude','longitude','private','createdAt','updatedAt','deletedAt']);
 
-export const FollowScalarFieldEnumSchema = z.enum(['user_id','follow_user_id','created_at','updated_at','deleted_at']);
+export const CommentScalarFieldEnumSchema = z.enum(['id','userId','postId','text','createdAt','updatedAt','deletedAt']);
+
+export const LikeScalarFieldEnumSchema = z.enum(['id','userId','postId','createdAt','updatedAt','deletedAt']);
+
+export const FollowScalarFieldEnumSchema = z.enum(['userId','followUserId','createdAt','updatedAt','deletedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -37,14 +41,14 @@ export const NullsOrderSchema = z.enum(['first','last']);
 
 export const UserSchema = z.object({
   id: z.string(),
-  account_name: z.string().min(6).max(32),
-  display_name: z.string().min(1).max(32),
+  accountName: z.string().min(6).max(32),
+  displayName: z.string().min(1).max(32),
   biography: z.string().nullish(),
-  external_url: z.string().url().nullish(),
-  icon_path: z.string().nullish(),
-  created_at: z.coerce.date(),
-  updated_at: z.coerce.date(),
-  deleted_at: z.coerce.date().nullish(),
+  externalUrl: z.string().url().nullish(),
+  iconPath: z.string().nullish(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullish(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -53,9 +57,8 @@ export type User = z.infer<typeof UserSchema>
 //------------------------------------------------------
 
 export const UserOptionalDefaultsSchema = UserSchema.merge(z.object({
-  id: z.string().optional(),
-  created_at: z.coerce.date().optional(),
-  updated_at: z.coerce.date().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 }))
 
 export type UserOptionalDefaults = z.infer<typeof UserOptionalDefaultsSchema>
@@ -66,18 +69,22 @@ export type UserOptionalDefaults = z.infer<typeof UserOptionalDefaultsSchema>
 
 export const PostSchema = z.object({
   id: z.string().max(10),
-  user_id: z.string(),
+  userId: z.string(),
+  spotId: z.number().int().nullish(),
+  title: z.string(),
   caption: z.string(),
-  image_path: z.string(),
+  imagePath: z.string(),
   camera: z.string().nullish(),
   lens: z.string().nullish(),
   focalLength: z.string().nullish(),
   fnumber: z.string().nullish(),
   shutter: z.string().nullish(),
   iso: z.string().nullish(),
-  created_at: z.coerce.date(),
-  updated_at: z.coerce.date(),
-  deleted_at: z.coerce.date().nullish(),
+  wb: z.string().nullish(),
+  shotAt: z.coerce.date().nullish(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullish(),
 })
 
 export type Post = z.infer<typeof PostSchema>
@@ -86,13 +93,65 @@ export type Post = z.infer<typeof PostSchema>
 //------------------------------------------------------
 
 export const PostOptionalDefaultsSchema = PostSchema.merge(z.object({
-  user_id: z.string().optional(),
+  title: z.string().optional(),
   caption: z.string().optional(),
-  created_at: z.coerce.date().optional(),
-  updated_at: z.coerce.date().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 }))
 
 export type PostOptionalDefaults = z.infer<typeof PostOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// HASH TAG SCHEMA
+/////////////////////////////////////////
+
+export const HashTagSchema = z.object({
+  id: z.number().int(),
+  postId: z.string(),
+  text: z.string(),
+})
+
+export type HashTag = z.infer<typeof HashTagSchema>
+
+// HASH TAG OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const HashTagOptionalDefaultsSchema = HashTagSchema.merge(z.object({
+  id: z.number().int().optional(),
+}))
+
+export type HashTagOptionalDefaults = z.infer<typeof HashTagOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// SPOT SCHEMA
+/////////////////////////////////////////
+
+export const SpotSchema = z.object({
+  id: z.number().int(),
+  userId: z.string(),
+  name: z.string().nullish(),
+  title: z.string(),
+  latitude: z.number(),
+  longitude: z.number(),
+  private: z.boolean(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullish(),
+})
+
+export type Spot = z.infer<typeof SpotSchema>
+
+// SPOT OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const SpotOptionalDefaultsSchema = SpotSchema.merge(z.object({
+  id: z.number().int().optional(),
+  private: z.boolean().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
+}))
+
+export type SpotOptionalDefaults = z.infer<typeof SpotOptionalDefaultsSchema>
 
 /////////////////////////////////////////
 // COMMENT SCHEMA
@@ -100,12 +159,12 @@ export type PostOptionalDefaults = z.infer<typeof PostOptionalDefaultsSchema>
 
 export const CommentSchema = z.object({
   id: z.number().int(),
-  user_id: z.string(),
-  post_id: z.string(),
+  userId: z.string(),
+  postId: z.string(),
   text: z.string(),
-  created_at: z.coerce.date(),
-  updated_at: z.coerce.date(),
-  deleted_at: z.coerce.date().nullish(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullish(),
 })
 
 export type Comment = z.infer<typeof CommentSchema>
@@ -115,9 +174,8 @@ export type Comment = z.infer<typeof CommentSchema>
 
 export const CommentOptionalDefaultsSchema = CommentSchema.merge(z.object({
   id: z.number().int().optional(),
-  user_id: z.string().optional(),
-  created_at: z.coerce.date().optional(),
-  updated_at: z.coerce.date().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 }))
 
 export type CommentOptionalDefaults = z.infer<typeof CommentOptionalDefaultsSchema>
@@ -128,11 +186,11 @@ export type CommentOptionalDefaults = z.infer<typeof CommentOptionalDefaultsSche
 
 export const LikeSchema = z.object({
   id: z.number().int(),
-  user_id: z.string(),
-  post_id: z.string(),
-  created_at: z.coerce.date(),
-  updated_at: z.coerce.date(),
-  deleted_at: z.coerce.date().nullish(),
+  userId: z.string(),
+  postId: z.string(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullish(),
 })
 
 export type Like = z.infer<typeof LikeSchema>
@@ -142,9 +200,8 @@ export type Like = z.infer<typeof LikeSchema>
 
 export const LikeOptionalDefaultsSchema = LikeSchema.merge(z.object({
   id: z.number().int().optional(),
-  user_id: z.string().optional(),
-  created_at: z.coerce.date().optional(),
-  updated_at: z.coerce.date().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 }))
 
 export type LikeOptionalDefaults = z.infer<typeof LikeOptionalDefaultsSchema>
@@ -154,11 +211,11 @@ export type LikeOptionalDefaults = z.infer<typeof LikeOptionalDefaultsSchema>
 /////////////////////////////////////////
 
 export const FollowSchema = z.object({
-  user_id: z.string(),
-  follow_user_id: z.string(),
-  created_at: z.coerce.date(),
-  updated_at: z.coerce.date(),
-  deleted_at: z.coerce.date().nullish(),
+  userId: z.string(),
+  followUserId: z.string(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullish(),
 })
 
 export type Follow = z.infer<typeof FollowSchema>
@@ -167,9 +224,8 @@ export type Follow = z.infer<typeof FollowSchema>
 //------------------------------------------------------
 
 export const FollowOptionalDefaultsSchema = FollowSchema.merge(z.object({
-  user_id: z.string().optional(),
-  created_at: z.coerce.date().optional(),
-  updated_at: z.coerce.date().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 }))
 
 export type FollowOptionalDefaults = z.infer<typeof FollowOptionalDefaultsSchema>

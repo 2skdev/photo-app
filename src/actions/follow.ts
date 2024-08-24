@@ -10,14 +10,14 @@ export async function getFollow(
 ): Promise<boolean> {
   const follow = await prisma.follow.findUnique({
     where: {
-      user_id_follow_user_id: {
-        user_id: user.id,
-        follow_user_id: followUser.id,
+      userId_followUserId: {
+        userId: user.id,
+        followUserId: followUser.id,
       },
     },
   });
 
-  if (!follow || follow.deleted_at) {
+  if (!follow || follow.deletedAt) {
     return false;
   } else {
     return true;
@@ -33,20 +33,20 @@ export async function updateFollow(
   const deletedAt = status ? null : new Date();
 
   const data = FollowOptionalDefaultsSchema.parse({
-    user_id: auth.id,
-    follow_user_id: user.id,
-    deleted_at: deletedAt,
+    userId: auth.id,
+    followUserId: user.id,
+    deletedAt: deletedAt,
   });
 
   return await prisma.follow.upsert({
     where: {
-      user_id_follow_user_id: {
-        user_id: auth.id,
-        follow_user_id: user.id,
+      userId_followUserId: {
+        userId: auth.id,
+        followUserId: user.id,
       },
     },
     create: { ...data },
-    update: { deleted_at: data.deleted_at },
+    update: { deletedAt: data.deletedAt },
   });
 }
 
@@ -54,7 +54,7 @@ export async function getFollowUsers(user: User): Promise<Array<User>> {
   const follows = await prisma.follow.findMany({
     where: {
       user: user,
-      deleted_at: null,
+      deletedAt: null,
     },
     include: {
       followUser: true,
@@ -68,7 +68,7 @@ export async function getFollowerUsers(user: User): Promise<Array<User>> {
   const followers = await prisma.follow.findMany({
     where: {
       followUser: user,
-      deleted_at: null,
+      deletedAt: null,
     },
     include: {
       user: true,
@@ -82,7 +82,7 @@ export async function getFollowCount(user: User): Promise<number> {
   return await prisma.follow.count({
     where: {
       user: user,
-      deleted_at: null,
+      deletedAt: null,
     },
   });
 }
@@ -91,7 +91,7 @@ export async function getFollowerCount(user: User): Promise<number> {
   return await prisma.follow.count({
     where: {
       followUser: user,
-      deleted_at: null,
+      deletedAt: null,
     },
   });
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { addUser } from "@/actions/user";
 import ImagePicker from "@/components/ImagePicker";
 import {
   UserOptionalInput,
@@ -7,7 +8,6 @@ import {
 } from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
-import { addUser } from "./actions";
 
 export function RegisterForm() {
   const { register, control, handleSubmit, setValue } =
@@ -15,7 +15,7 @@ export function RegisterForm() {
       resolver: zodResolver(UserOptionalInputSchema),
     });
 
-  const image = useWatch({ name: "icon_src", control });
+  const image = useWatch({ name: "iconSrc", control });
 
   const onSubmit = async (data: UserOptionalInput) => {
     await addUser(data);
@@ -28,7 +28,7 @@ export function RegisterForm() {
         <label className="input input-bordered flex items-center">
           @
           <input
-            {...register("account_name", {
+            {...register("accountName", {
               required: true,
             })}
             className="ml-2 w-full"
@@ -40,7 +40,7 @@ export function RegisterForm() {
       <div>
         <div className="mb-2 text-sm">表示名</div>
         <input
-          {...register("display_name", {
+          {...register("displayName", {
             required: true,
           })}
           className="input input-bordered w-full"
@@ -54,7 +54,7 @@ export function RegisterForm() {
           crop
           onChange={(base64) => {
             if (base64) {
-              setValue("icon_src", base64);
+              setValue("iconSrc", base64);
             }
           }}
           picker={

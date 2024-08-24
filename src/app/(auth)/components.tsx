@@ -49,7 +49,7 @@ export function Navigation({
       icon: <MaterialSymbolsSearchRounded className="h-6 w-6" />,
     },
     {
-      href: `/${me.account_name}`,
+      href: `/${me.accountName}`,
       label: "プロフィール",
       icon: <MaterialSymbolsPerson className="h-6 w-6" />,
     },
@@ -89,8 +89,8 @@ export function Navigation({
           >
             <UserAvatar src={iconSrc} className="h-10 w-10" />
             <div className="flex flex-col items-start">
-              <div>{me.display_name}</div>
-              <div className="text-sm font-light">@{me.account_name}</div>
+              <div>{me.accountName}</div>
+              <div className="text-sm font-light">@{me.accountName}</div>
             </div>
             <div className="ml-auto">
               <MaterialSymbolsMoreHoriz className="h-6 w-6" />
@@ -159,7 +159,7 @@ export function PostModalButton() {
     resolver: zodResolver(PostOptionalInputSchema),
   });
 
-  const image = useWatch({ name: "image_src", control });
+  const image = useWatch({ name: "imageSrc", control });
 
   const onRequestClose = () => {
     if (isDirty) {
@@ -212,7 +212,7 @@ export function PostModalButton() {
         <ImagePicker
           onChange={(base64) => {
             if (base64) {
-              setValue("image_src", base64);
+              setValue("imageSrc", base64);
               onNext();
             }
           }}
