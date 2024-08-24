@@ -18,6 +18,7 @@ export default function Layout({
   return (
     <html lang="ja">
       <body className={inter.className}>
+        <div id="header" />
         <main>{children}</main>
       </body>
     </html>

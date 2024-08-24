@@ -1,5 +1,6 @@
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
+import { Header } from "@/components/Header";
 import { ProfileForm } from "./components";
 
 export default async function Page() {
@@ -7,7 +8,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className="mb-8 text-2xl font-bold">プロフィールを編集</div>
+      <Header>プロフィールを編集</Header>
       <ProfileForm me={me} iconUrl={await getPublicUrl("User", me.iconPath)} />
     </>
   );
