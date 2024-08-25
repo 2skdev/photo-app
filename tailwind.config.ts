@@ -38,6 +38,9 @@ const config: Config = {
           ...require("daisyui/src/theming/themes")["dark"],
           primary: "#3b82f6",
           "primary-content": "#ffffff",
+          "base-100": "#111827",
+          "base-200": "#1f2937",
+          "base-300": "#374151",
         },
       },
       {
