@@ -61,7 +61,7 @@ export function Sidebar(props: { me: UserImage }) {
           key={index}
           className={clsx(
             "btn btn-block flex justify-start",
-            pathname === item.href ? "btn-neutral" : "btn-ghost",
+            pathname === item.href ? "" : "btn-ghost",
           )}
           href={item.href}
         >
@@ -140,10 +140,7 @@ export function Bottombar(props: { me: UserImage }) {
         {items.map((item, index) => (
           <Link
             key={index}
-            className={clsx(
-              "btn",
-              pathname === item.href ? "btn-neutral" : "btn-ghost",
-            )}
+            className={clsx("btn", pathname === item.href ? "" : "btn-ghost")}
             href={item.href}
           >
             {item.icon}

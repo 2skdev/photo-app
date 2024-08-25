@@ -1,4 +1,5 @@
 import { SnackbarProvider } from "@/providers/SnackbarProvider";
+import { HtmlThemeProvider } from "@/providers/ThemeProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
@@ -17,13 +18,13 @@ export default function Layout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <HtmlThemeProvider lang="ja">
       <body className={inter.className}>
         <SnackbarProvider>
           <div id="header" />
           <main>{children}</main>
         </SnackbarProvider>
       </body>
-    </html>
+    </HtmlThemeProvider>
   );
 }

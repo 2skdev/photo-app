@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 type SnackbarType = "alert" | "info" | "success" | "warning" | "error";
 
@@ -113,23 +113,21 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <React.Fragment>
-      <SnackbarContext.Provider value={{ showSnackbar: showSnackbar }}>
-        {children}
-        {}
-        {show && (
-          <div className={clsx("fixed bottom-0 z-50 w-full p-4", animate)}>
-            <div
-              role="alert"
-              className={clsx("alert", type === "alert" ? "" : `alert-${type}`)}
-              onClick={onClick}
-            >
-              {symbol}
-              <span>{message}</span>
-            </div>
+    <SnackbarContext.Provider value={{ showSnackbar: showSnackbar }}>
+      {children}
+      {}
+      {show && (
+        <div className={clsx("fixed bottom-0 z-50 w-full p-4", animate)}>
+          <div
+            role="alert"
+            className={clsx("alert", type === "alert" ? "" : `alert-${type}`)}
+            onClick={onClick}
+          >
+            {symbol}
+            <span>{message}</span>
           </div>
-        )}
-      </SnackbarContext.Provider>
-    </React.Fragment>
+        </div>
+      )}
+    </SnackbarContext.Provider>
   );
 }

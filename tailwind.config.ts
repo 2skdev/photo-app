@@ -31,5 +31,20 @@ const config: Config = {
     },
   },
   plugins: [daisyui],
+  daisyui: {
+    themes: [
+      {
+        dark: {
+          ...require("daisyui/src/theming/themes")["dark"],
+        },
+      },
+      {
+        light: {
+          ...require("daisyui/src/theming/themes")["light"],
+          neutral: "#f2f2f2",
+        },
+      },
+    ],
+  },
 };
 export default config;
