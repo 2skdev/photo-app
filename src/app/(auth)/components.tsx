@@ -140,7 +140,10 @@ export function Bottombar(props: { me: UserImage }) {
         {items.map((item, index) => (
           <Link
             key={index}
-            className={clsx("btn", pathname === item.href ? "" : "btn-ghost")}
+            className={clsx(
+              "btn btn-ghost",
+              pathname === item.href ? "text-primary" : "",
+            )}
             href={item.href}
           >
             {item.icon}
