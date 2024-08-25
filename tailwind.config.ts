@@ -36,12 +36,16 @@ const config: Config = {
       {
         dark: {
           ...require("daisyui/src/theming/themes")["dark"],
+          primary: "#3b82f6",
+          "primary-content": "#ffffff",
         },
       },
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
+          primary: "#3b82f6",
           neutral: "#f2f2f2",
+          "primary-content": "#ffffff",
         },
       },
     ],
