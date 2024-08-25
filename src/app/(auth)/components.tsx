@@ -13,13 +13,12 @@ import {
   MaterialSymbolsSearchRounded,
 } from "@/components/Icons";
 import { ImagePicker } from "@/components/ImagePicker";
-import { MediaSwitcher } from "@/components/MediaSwitcher";
 import { Modal } from "@/components/Modal";
 import { UserAvatar } from "@/components/UserAvatar";
-import { User } from "@/models/zod";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,
+  UserOptionalImageSource,
 } from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
@@ -28,14 +27,9 @@ import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
-export function Navigation({
-  me,
-  iconSrc,
-}: {
-  me: User;
-  iconSrc: string | null;
-}) {
+export function Sidebar(props: { me: UserOptionalImageSource }) {
   const pathname = usePathname();
+  const [show, setShow] = useState(false);
 
   const items = [
     {
@@ -49,13 +43,13 @@ export function Navigation({
       icon: <MaterialSymbolsSearchRounded className="h-6 w-6" />,
     },
     {
-      href: `/${me.accountName}`,
+      href: `/${props.me.accountName}`,
       label: "プロフィール",
       icon: <MaterialSymbolsPerson className="h-6 w-6" />,
     },
   ];
 
-  const side = (
+  return (
     <div className="sticky top-0 flex h-screen w-80 flex-col border-r border-neutral p-4">
       <div className="mx-4 mb-6 mt-2 flex items-center justify-start">
         <img src="/icon.svg" alt="Icon" width={24} height={24} />
@@ -78,42 +72,69 @@ export function Navigation({
         </Link>
       ))}
 
-      <PostModalButton />
+      <button
+        className="btn btn-primary btn-block mt-4 rounded-full"
+        onClick={() => setShow(true)}
+      >
+        投稿
+      </button>
+      <PostFormModal show={show} onRequestClose={() => setShow(false)} />
 
-      <div className="mt-auto">
-        <div className="dropdown dropdown-top w-full">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-block flex justify-start"
-          >
-            <UserAvatar src={iconSrc} className="h-10 w-10" />
-            <div className="flex flex-col items-start">
-              <div>{me.accountName}</div>
-              <div className="text-sm font-light">@{me.accountName}</div>
-            </div>
-            <div className="ml-auto">
-              <MaterialSymbolsMoreHoriz className="h-6 w-6" />
-            </div>
+      <div className="dropdown dropdown-top mt-auto w-full">
+        <div
+          tabIndex={0}
+          role="button"
+          className="btn btn-ghost btn-block flex justify-start"
+        >
+          <UserAvatar src={props.me.iconSrc} className="h-10 w-10" />
+          <div className="flex flex-col items-start">
+            <div>{props.me.accountName}</div>
+            <div className="text-sm font-light">@{props.me.accountName}</div>
           </div>
-
-          <ul
-            tabIndex={0}
-            className="menu dropdown-content z-[1] mb-2 w-52 rounded-box bg-neutral p-2"
-          >
-            <li>
-              <Link href="/setting">設定</Link>
-            </li>
-            <li>
-              <button onClick={async () => await signOut()}>ログアウト</button>
-            </li>
-          </ul>
+          <div className="ml-auto">
+            <MaterialSymbolsMoreHoriz className="h-6 w-6" />
+          </div>
         </div>
+
+        <ul
+          tabIndex={0}
+          className="menu dropdown-content z-10 mb-2 w-52 rounded-box bg-neutral p-2"
+        >
+          <li>
+            <Link href="/setting">設定</Link>
+          </li>
+          <li>
+            <button onClick={async () => await signOut()}>ログアウト</button>
+          </li>
+        </ul>
       </div>
     </div>
   );
+}
 
-  const bottom = (
+export function Bottombar(props: { me: UserOptionalImageSource }) {
+  const pathname = usePathname();
+  const [show, setShow] = useState(false);
+
+  const items = [
+    {
+      href: "/",
+      label: "ホーム",
+      icon: <MaterialSymbolsOtherHouses className="h-6 w-6" />,
+    },
+    {
+      href: "/search",
+      label: "検索",
+      icon: <MaterialSymbolsSearchRounded className="h-6 w-6" />,
+    },
+    {
+      href: `/${props.me.accountName}`,
+      label: "プロフィール",
+      icon: <MaterialSymbolsPerson className="h-6 w-6" />,
+    },
+  ];
+
+  return (
     <>
       <div className="fixed bottom-0 flex h-14 w-screen items-center justify-around border-t border-neutral bg-base-100">
         {items.map((item, index) => (
@@ -132,19 +153,23 @@ export function Navigation({
 
       {pathname === "/" && (
         <div className="fixed bottom-20 right-6">
-          <button className="btn btn-circle btn-primary shadow">
+          <button
+            className="btn btn-circle btn-primary shadow"
+            onClick={() => setShow(true)}
+          >
             <MaterialSymbolsAdd className="h-6 w-6" />
           </button>
+          <PostFormModal show={show} onRequestClose={() => setShow(false)} />
         </div>
       )}
     </>
   );
-
-  return <MediaSwitcher pc={side} sp={bottom} />;
 }
 
-export function PostModalButton() {
-  const [modal, setModal] = useState(false);
+export function PostFormModal(props: {
+  show: boolean;
+  onRequestClose?: () => void;
+}) {
   const [alert, setAlert] = useState(false);
   const [step, setStep] = useState(0);
 
@@ -177,7 +202,7 @@ export function PostModalButton() {
       }
       setStep(step - 1);
     } else {
-      setModal(false);
+      props.onRequestClose?.();
     }
   };
 
@@ -192,7 +217,7 @@ export function PostModalButton() {
 
   const onDispose = () => {
     setAlert(false);
-    setModal(false);
+    props.onRequestClose?.();
     setStep(0);
     reset();
   };
@@ -252,7 +277,7 @@ export function PostModalButton() {
 
   return (
     <>
-      <Modal show={modal} onRequestClose={onRequestClose}>
+      <Modal show={props.show} onRequestClose={onRequestClose}>
         <div className="mb-4 flex items-center justify-between">
           <button className="btn btn-square btn-ghost btn-sm" onClick={onPrev}>
             {step === 0 ? (
@@ -282,13 +307,6 @@ export function PostModalButton() {
         onConfirm={onDispose}
         onCancel={() => setAlert(false)}
       />
-
-      <button
-        className="btn btn-primary btn-block mt-4 rounded-full"
-        onClick={() => setModal(true)}
-      >
-        投稿
-      </button>
     </>
   );
 }
