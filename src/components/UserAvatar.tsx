@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { MaterialSymbolsPerson } from "./Icons";
+import Image from "next/image";
 
 type Props = {
   src?: string | null;
@@ -21,7 +21,12 @@ export function UserAvatar(props: Props) {
           "overflow-hidden rounded-full bg-neutral",
         )}
       >
-        <MaterialSymbolsPerson className="relative -left-[10%] h-[120%] w-[120%]" />
+        <Image
+          src="/default-user-icon.png"
+          alt="Icon"
+          width={256}
+          height={256}
+        />
       </div>
     );
   }
