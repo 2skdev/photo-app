@@ -33,6 +33,7 @@ export const UserOptionalInputSchema = UserOptionalDefaultsSchema.merge(
   z.object({
     id: z.string().optional(),
     iconPath: z.string().nullish().optional(),
+    iconSrc: z.string().optional(),
   }),
 );
 export type UserOptionalInput = z.infer<typeof UserOptionalInputSchema>;
