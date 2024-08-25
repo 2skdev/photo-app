@@ -3,10 +3,9 @@ import { getPosts } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { MaterialSymbolsAttachFile } from "@/components/Icons";
-import { PostGridItem } from "@/components/PostItem";
 import { UserAvatar } from "@/components/UserAvatar";
 import Link from "next/link";
-import { FollowButton } from "./components";
+import { FollowButton, PostGridItem } from "./components";
 
 type Props = {
   params: { accountName: string };
@@ -86,10 +85,14 @@ export default async function Page({ params }: Props) {
         {posts.map(async (post) => (
           <PostGridItem
             key={post.id}
-            post={post}
-            postImageSrc={await getPublicUrl("Post", post.imagePath)}
-            user={me}
-            userIconSrc={await getPublicUrl("User", user.iconPath)}
+            post={{
+              ...post,
+              imageSrc: (await getPublicUrl("Post", post.imagePath))!,
+            }}
+            user={{
+              ...user,
+              iconSrc: (await getPublicUrl("User", user.iconPath)) ?? undefined,
+            }}
           />
         ))}
       </div>

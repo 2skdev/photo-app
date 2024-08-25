@@ -2,15 +2,12 @@
 
 import { updateFollow } from "@/actions/follow";
 import { User } from "@/models/zod";
+import { PostImage, UserImage } from "@/models/zodExtension";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type Props = {
-  user: User;
-  default: boolean;
-};
-
-export function FollowButton(props: Props) {
+export function FollowButton(props: { user: User; default: boolean }) {
   const [follow, setFollow] = useState<boolean>(props.default);
 
   const onClick = async () => {
@@ -27,6 +24,22 @@ export function FollowButton(props: Props) {
       onClick={onClick}
     >
       {follow ? "フォロー中" : "フォロー"}
+    </button>
+  );
+}
+
+export function PostGridItem(props: { post: PostImage; user: UserImage }) {
+  const router = useRouter();
+
+  return (
+    <button
+      className="btn aspect-square h-full w-full p-0"
+      onClick={() => router.push(`/${props.user.accountName}/${props.post.id}`)}
+    >
+      <img
+        className="h-full w-full rounded-lg object-cover hover:object-scale-down"
+        src={props.post.imageSrc}
+      ></img>
     </button>
   );
 }

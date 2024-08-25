@@ -90,6 +90,7 @@ export async function updatePost(input: PostOptionalInput) {
 }
 
 export async function deletePost(post: Post) {
+  // todo: delete from storage
   return await prisma.post.update({
     where: {
       id: post.id,

@@ -1,3 +1,4 @@
+import { SnackbarProvider } from "@/providers/SnackbarProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
@@ -18,8 +19,10 @@ export default function Layout({
   return (
     <html lang="ja">
       <body className={inter.className}>
-        <div id="header" />
-        <main>{children}</main>
+        <SnackbarProvider>
+          <div id="header" />
+          <main>{children}</main>
+        </SnackbarProvider>
       </body>
     </html>
   );

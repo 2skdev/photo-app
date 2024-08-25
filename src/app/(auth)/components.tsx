@@ -18,7 +18,7 @@ import { UserAvatar } from "@/components/UserAvatar";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,
-  UserOptionalImageSource,
+  UserImage,
 } from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
@@ -27,7 +27,7 @@ import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
-export function Sidebar(props: { me: UserOptionalImageSource }) {
+export function Sidebar(props: { me: UserImage }) {
   const pathname = usePathname();
   const [show, setShow] = useState(false);
 
@@ -112,7 +112,7 @@ export function Sidebar(props: { me: UserOptionalImageSource }) {
   );
 }
 
-export function Bottombar(props: { me: UserOptionalImageSource }) {
+export function Bottombar(props: { me: UserImage }) {
   const pathname = usePathname();
   const [show, setShow] = useState(false);
 

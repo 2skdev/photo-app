@@ -1,7 +1,7 @@
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
-import { UserOptionalImageSource } from "@/models/zodExtension";
+import { UserImage } from "@/models/zodExtension";
 import { ReactNode } from "react";
 import { Bottombar, Sidebar } from "./components";
 
@@ -10,7 +10,7 @@ export default async function Layout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const me: UserOptionalImageSource = await getLoginUser();
+  const me: UserImage = await getLoginUser();
   me.iconSrc = (await getPublicUrl("User", me.iconPath)) ?? undefined;
 
   return (
