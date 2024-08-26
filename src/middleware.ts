@@ -3,10 +3,39 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getAuthUser } from "./actions/auth";
 
-async function updateSession(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });
+
+  if (request.nextUrl.pathname.startsWith("/admin")) {
+    const basic = request.headers.get("authorization");
+
+    if (basic) {
+      const [user, password] = Buffer.from(basic.split(" ")[1], "base64")
+        .toString()
+        .split(":");
+
+      if (
+        user === process.env.BASIC_AUTH_USER &&
+        password === process.env.BASIC_AUTO_PASSWORD
+      ) {
+        if (request.nextUrl.pathname === "/admin") {
+          const url = request.nextUrl.clone();
+          url.pathname = "/admin/env";
+          return NextResponse.redirect(url);
+        } else {
+          return NextResponse.next({
+            request,
+          });
+        }
+      }
+    }
+
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin";
+    return NextResponse.rewrite(url);
+  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -34,10 +63,6 @@ async function updateSession(request: NextRequest) {
   // IMPORTANT: Avoid writing any logic between createServerClient and
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
-
-  if (request.nextUrl.pathname.startsWith("/admin")) {
-    return supabaseResponse;
-  }
 
   const auth = await (async () => {
     try {
@@ -97,10 +122,6 @@ async function updateSession(request: NextRequest) {
   // of sync and terminate the user's session prematurely!
 
   return supabaseResponse;
-}
-
-export async function middleware(request: NextRequest) {
-  return await updateSession(request);
 }
 
 export const config = {
