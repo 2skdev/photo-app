@@ -1,8 +1,9 @@
-import { getFollowUsers } from "@/actions/follow";
+import { getFollow, getFollowUsers } from "@/actions/follow";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { UserAvatar } from "@/components/UserAvatar";
 import Link from "next/link";
+import { FollowButton } from "../components";
 
 type Props = {
   params: { accountName: string };
@@ -39,7 +40,11 @@ export default async function Page({ params }: Props) {
               </div>
             </Link>
 
-            <button className="btn btn-neutral btn-sm ml-auto">フォロー</button>
+            <FollowButton
+              className="btn-sm ml-auto"
+              user={follow}
+              default={await getFollow(me, follow)}
+            />
           </div>
 
           <div className="mt-1">{follow.biography}</div>

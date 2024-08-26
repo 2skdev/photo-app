@@ -45,7 +45,11 @@ export default async function Page({ params }: Props) {
               プロフィールを編集
             </Link>
           ) : (
-            <FollowButton user={user} default={follow}></FollowButton>
+            <FollowButton
+              className="btn-sm md:btn-md"
+              user={user}
+              default={follow}
+            ></FollowButton>
           )}
         </div>
       </div>

@@ -7,7 +7,11 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function FollowButton(props: { user: User; default: boolean }) {
+export function FollowButton(props: {
+  user: User;
+  default: boolean;
+  className?: string;
+}) {
   const [follow, setFollow] = useState<boolean>(props.default);
 
   const onClick = async () => {
@@ -18,8 +22,9 @@ export function FollowButton(props: { user: User; default: boolean }) {
   return (
     <button
       className={clsx(
-        "btn btn-sm md:btn-md",
+        "btn",
         follow ? "btn-primary" : "btn-neutral",
+        props.className,
       )}
       onClick={onClick}
     >
