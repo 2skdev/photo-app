@@ -43,7 +43,7 @@ export function PostItem(props: Props) {
     <>
       <div className="flex items-center">
         <div
-          className="flex items-center hover:cursor-pointer"
+          className="flex cursor-pointer items-center"
           onClick={() => {
             router.push(`/${props.user.accountName}`);
           }}
@@ -114,7 +114,7 @@ export function PostItem(props: Props) {
         />
       </div>
 
-      <div className="mt-2 flex w-full justify-center rounded-sm bg-black hover:cursor-pointer">
+      <div className="mt-2 flex w-full cursor-pointer justify-center rounded-sm bg-black">
         <img
           src={props.post.imageSrc}
           className="rounded-sm"

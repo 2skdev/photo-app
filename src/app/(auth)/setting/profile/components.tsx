@@ -46,7 +46,7 @@ export function ProfileForm({
             <div className="relative flex flex-col">
               <UserAvatar
                 src={image ?? iconUrl}
-                className="h-36 w-36 hover:cursor-pointer"
+                className="h-36 w-36 cursor-pointer"
               />
               <div className="btn btn-sm absolute -left-4 bottom-2 bg-opacity-90">
                 <MaterialSymbolsEdit />

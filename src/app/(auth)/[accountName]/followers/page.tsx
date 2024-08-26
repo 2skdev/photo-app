@@ -25,7 +25,7 @@ export default async function Page({ params }: Props) {
         <div key={index} className="w-full border-b border-neutral pb-1">
           <div className="flex flex-row items-center">
             <Link
-              className="flex flex-row items-center hover:cursor-pointer"
+              className="flex cursor-pointer flex-row items-center"
               href={`/${follower.accountName}`}
             >
               <UserAvatar

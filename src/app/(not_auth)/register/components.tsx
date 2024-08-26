@@ -60,7 +60,7 @@ export function RegisterForm() {
           picker={
             image ? (
               <img
-                className="h-32 w-32 rounded-full hover:cursor-pointer"
+                className="h-32 w-32 cursor-pointer rounded-full"
                 src={image}
               ></img>
             ) : undefined
