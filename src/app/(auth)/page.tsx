@@ -1,4 +1,5 @@
 import { getFollow } from "@/actions/follow";
+import { getLike, getLikeUserCount } from "@/actions/like";
 import { getPosts } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
@@ -26,6 +27,8 @@ export default async function Page() {
             }}
             me={me}
             follow={await getFollow(me, post.user)}
+            like={await getLike(me, post)}
+            likeCount={await getLikeUserCount(post)}
           />
           <div className="my-4 w-full border-b border-neutral" />
         </div>
