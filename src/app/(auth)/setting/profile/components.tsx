@@ -1,7 +1,7 @@
 "use client";
 
 import { updateUser } from "@/actions/user";
-import { MaterialSymbolsEdit } from "@/components/Icons";
+import { MdiPencil } from "@/components/Icons";
 import { ImagePicker } from "@/components/ImagePicker";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
 import { UserAvatar } from "@/components/UserAvatar";
@@ -49,7 +49,7 @@ export function ProfileForm({
                 className="h-36 w-36 cursor-pointer"
               />
               <div className="btn btn-sm absolute -left-4 bottom-2 bg-opacity-90">
-                <MaterialSymbolsEdit />
+                <MdiPencil />
                 変更
               </div>
             </div>

@@ -4,13 +4,14 @@ import { signOut } from "@/actions/auth";
 import { addPost } from "@/actions/post";
 import { AlertDialog } from "@/components/AlertDialog";
 import {
-  MaterialSymbolsAdd,
-  MaterialSymbolsArrowBackRounded,
-  MaterialSymbolsCloseRounded,
-  MaterialSymbolsMoreHoriz,
-  MaterialSymbolsOtherHouses,
-  MaterialSymbolsPerson,
-  MaterialSymbolsSearchRounded,
+  MdiAccount,
+  MdiArrowLeft,
+  MdiBell,
+  MdiClose,
+  MdiDotsHorizontal,
+  MdiHome,
+  MdiMagnify,
+  MdiPlus,
 } from "@/components/Icons";
 import { ImagePicker } from "@/components/ImagePicker";
 import { Modal } from "@/components/Modal";
@@ -35,17 +36,22 @@ export function Sidebar(props: { me: UserImage }) {
     {
       href: "/",
       label: "ホーム",
-      icon: <MaterialSymbolsOtherHouses className="h-6 w-6" />,
+      icon: <MdiHome className="h-6 w-6" />,
     },
     {
       href: "/search",
       label: "検索",
-      icon: <MaterialSymbolsSearchRounded className="h-6 w-6" />,
+      icon: <MdiMagnify className="h-6 w-6" />,
+    },
+    {
+      href: "/notifications",
+      label: "通知",
+      icon: <MdiBell className="h-6 w-6" />,
     },
     {
       href: `/${props.me.accountName}`,
       label: "プロフィール",
-      icon: <MaterialSymbolsPerson className="h-6 w-6" />,
+      icon: <MdiAccount className="h-6 w-6" />,
     },
   ];
 
@@ -92,7 +98,7 @@ export function Sidebar(props: { me: UserImage }) {
             <div className="text-sm font-light">@{props.me.accountName}</div>
           </div>
           <div className="ml-auto">
-            <MaterialSymbolsMoreHoriz className="h-6 w-6" />
+            <MdiDotsHorizontal className="h-6 w-6" />
           </div>
         </div>
 
@@ -120,17 +126,22 @@ export function Bottombar(props: { me: UserImage }) {
     {
       href: "/",
       label: "ホーム",
-      icon: <MaterialSymbolsOtherHouses className="h-6 w-6" />,
+      icon: <MdiHome className="h-6 w-6" />,
     },
     {
       href: "/search",
       label: "検索",
-      icon: <MaterialSymbolsSearchRounded className="h-6 w-6" />,
+      icon: <MdiMagnify className="h-6 w-6" />,
+    },
+    {
+      href: "/notifications",
+      label: "通知",
+      icon: <MdiBell className="h-6 w-6" />,
     },
     {
       href: `/${props.me.accountName}`,
       label: "プロフィール",
-      icon: <MaterialSymbolsPerson className="h-6 w-6" />,
+      icon: <MdiAccount className="h-6 w-6" />,
     },
   ];
 
@@ -157,7 +168,7 @@ export function Bottombar(props: { me: UserImage }) {
             className="btn btn-circle btn-primary shadow"
             onClick={() => setShow(true)}
           >
-            <MaterialSymbolsAdd className="h-6 w-6" />
+            <MdiPlus className="h-6 w-6" />
           </button>
           <PostFormModal show={show} onRequestClose={() => setShow(false)} />
         </div>
@@ -280,11 +291,7 @@ export function PostFormModal(props: {
       <Modal show={props.show} onRequestClose={onRequestClose}>
         <div className="mb-4 flex items-center justify-between">
           <button className="btn btn-square btn-ghost btn-sm" onClick={onPrev}>
-            {step === 0 ? (
-              <MaterialSymbolsCloseRounded />
-            ) : (
-              <MaterialSymbolsArrowBackRounded />
-            )}
+            {step === 0 ? <MdiClose /> : <MdiArrowLeft />}
           </button>
           <div className="ml-2 font-bold">{steps[step].title}</div>
 

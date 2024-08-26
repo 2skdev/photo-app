@@ -11,11 +11,11 @@ import { notFound, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Dropdown } from "./Dropdown";
 import {
-  MaterialSymbolsModeCommentOutline,
-  MaterialSymbolsMoreHoriz,
   MaterialSymbolsShare,
   MdiCardsHeart,
   MdiCardsHeartOutline,
+  MdiCommentOutline,
+  MdiDotsHorizontal,
 } from "./Icons";
 import { UserAvatar } from "./UserAvatar";
 
@@ -70,7 +70,7 @@ export function PostItem(props: Props) {
 
         <Dropdown
           className="dropdown-end ml-auto"
-          button={<MaterialSymbolsMoreHoriz className="h-6 w-6" />}
+          button={<MdiDotsHorizontal className="h-6 w-6" />}
           list={
             <>
               <li>
@@ -149,7 +149,7 @@ export function PostItem(props: Props) {
           </div>
         </div>
         <div className="flex w-10 cursor-pointer items-center hover:opacity-80">
-          <MaterialSymbolsModeCommentOutline className="h-6 w-6" />
+          <MdiCommentOutline className="h-6 w-6" />
           <div className="ml-1 text-sm">0</div>
         </div>
         <div className="flex cursor-pointer items-center hover:opacity-80">

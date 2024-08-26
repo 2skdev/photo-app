@@ -2,7 +2,7 @@ import { getFollow, getFollowCount, getFollowerCount } from "@/actions/follow";
 import { getPosts } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
-import { MaterialSymbolsAttachFile } from "@/components/Icons";
+import { MdiLink } from "@/components/Icons";
 import { UserAvatar } from "@/components/UserAvatar";
 import Link from "next/link";
 import { FollowButton, PostGridItem } from "./components";
@@ -78,7 +78,7 @@ export default async function Page({ params }: Props) {
           className="link-primary mt-2 flex items-center space-x-1 font-light"
           href={user.externalUrl}
         >
-          <MaterialSymbolsAttachFile />
+          <MdiLink />
           <div>{user.externalUrl}</div>
         </Link>
       )}

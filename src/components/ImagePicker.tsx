@@ -1,10 +1,7 @@
 "use client";
 
 import { ChangeEvent, ReactNode, useState } from "react";
-import {
-  MaterialSymbolsCloseRounded,
-  MaterialSymbolsImagesmodeOutline,
-} from "./Icons";
+import { MdiClose, MdiImageOutline } from "./Icons";
 import { ImageCrop } from "./ImageCrop";
 import { Modal } from "./Modal";
 
@@ -35,7 +32,7 @@ export function ImagePicker(props: Props) {
 
   const picker = props.picker ?? (
     <div className="btn flex h-48 items-center justify-center">
-      <MaterialSymbolsImagesmodeOutline className="h-6 w-6" />
+      <MdiImageOutline className="h-6 w-6" />
       <div>写真を選択</div>
     </div>
   );
@@ -71,7 +68,7 @@ export function ImagePicker(props: Props) {
               className="btn btn-square btn-ghost btn-sm"
               onClick={() => setTempImage(undefined)}
             >
-              <MaterialSymbolsCloseRounded />
+              <MdiClose />
             </button>
 
             <div className="ml-2 font-bold">画像範囲を選択</div>
