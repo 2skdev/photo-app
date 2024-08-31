@@ -1,126 +1,80 @@
 "use client";
 
+import {
+  MdiAlertBoxOutline,
+  MdiCheckCircleOutline,
+  MdiCloseOctagonOutline,
+  MdiInformationOutline,
+} from "@/components/Icons";
 import clsx from "clsx";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { useEffect, useState } from "react";
+import { create } from "zustand";
 
-type SnackbarType = "alert" | "info" | "success" | "warning" | "error";
+type SnackbarType = "info" | "success" | "warning" | "error";
 
-interface SnackbarContextType {
-  showSnackbar: (type: SnackbarType, message: string) => void;
-}
+type SnackbarState = {
+  isOpen: boolean;
+  message: string;
+  type?: SnackbarType;
+  open: (message: string, type?: SnackbarType) => void;
+  close: () => void;
+};
 
-const SnackbarContext = createContext<SnackbarContextType>({
-  showSnackbar: (type, message) => {
-    throw new Error("showSnackbar not implemented");
-  },
-});
+export const useSnackbar = create<SnackbarState>()((set) => ({
+  isOpen: false,
+  message: "",
+  open: (message, type) =>
+    set({
+      isOpen: true,
+      message,
+      type,
+    }),
+  close: () =>
+    set((state) => ({
+      isOpen: false,
+    })),
+}));
 
-export function useSnackbarContext() {
-  return useContext(SnackbarContext);
-}
-
-export function SnackbarProvider({ children }: { children: ReactNode }) {
-  const [show, setShow] = useState(false);
+export function SnackbarProvider() {
+  const { isOpen, message, type, close } = useSnackbar();
   const [animate, setAnimate] = useState("animate-fade-in");
-  const [type, setType] = useState<SnackbarType>("alert");
-  const [message, setMessage] = useState("");
 
   const symbol = (() => {
     switch (type) {
       case "success":
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        );
+        return <MdiCheckCircleOutline />;
       case "warning":
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-            />
-          </svg>
-        );
+        return <MdiAlertBoxOutline />;
       case "error":
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        );
+        return <MdiCloseOctagonOutline />;
       default:
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="h-6 w-6 shrink-0 stroke-info"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
-        );
+        return <MdiInformationOutline />;
     }
   })();
 
-  const showSnackbar = (type: SnackbarType, message: string) => {
-    setAnimate("animate-fade-in");
-    setType(type);
-    setMessage(message);
-    setShow(true);
-
-    setTimeout(() => {
-      onClick();
-    }, 3000);
-  };
+  useEffect(() => {
+    if (isOpen) {
+      setAnimate("animate-fade-in");
+      setTimeout(() => {
+        onClick();
+      }, 3000);
+    }
+  }, [isOpen]);
 
   const onClick = () => {
     setAnimate("animate-fade-out");
     setTimeout(() => {
-      setShow(false);
-    }, 400);
+      close();
+    }, 500);
   };
 
   return (
-    <SnackbarContext.Provider value={{ showSnackbar: showSnackbar }}>
-      {children}
-      {}
-      {show && (
+    <>
+      {isOpen && (
         <div className={clsx("fixed bottom-0 z-50 w-full p-4", animate)}>
           <div
             role="alert"
-            className={clsx("alert", type === "alert" ? "" : `alert-${type}`)}
+            className={clsx("alert", type ? `alert-${type}` : "")}
             onClick={onClick}
           >
             {symbol}
@@ -128,6 +82,6 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
           </div>
         </div>
       )}
-    </SnackbarContext.Provider>
+    </>
   );
 }

@@ -1,3 +1,4 @@
+import { ModalProvider } from "@/providers/ModalProvider";
 import { SnackbarProvider } from "@/providers/SnackbarProvider";
 import { HtmlThemeProvider } from "@/providers/ThemeProvider";
 import type { Metadata } from "next";
@@ -20,10 +21,10 @@ export default function Layout({
   return (
     <HtmlThemeProvider lang="ja">
       <body className={inter.className}>
-        <SnackbarProvider>
-          <div id="header" />
-          <main>{children}</main>
-        </SnackbarProvider>
+        <div id="header" />
+        <main>{children}</main>
+        <SnackbarProvider />
+        <ModalProvider />
       </body>
     </HtmlThemeProvider>
   );

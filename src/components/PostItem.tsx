@@ -6,7 +6,7 @@ import { deletePost } from "@/actions/post";
 import { BASE_URL } from "@/constants/url";
 import { User } from "@/models/zod";
 import { PostImage, UserImage } from "@/models/zodExtension";
-import { useSnackbarContext } from "@/providers/SnackbarProvider";
+import { useSnackbar } from "@/providers/SnackbarProvider";
 import { getDateString } from "@/utils/date";
 import { notFound, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -34,7 +34,7 @@ export function PostItem(props: Props) {
   const [follow, _setFollow] = useState(props.follow);
   const [like, _setLike] = useState(props.like);
 
-  const { showSnackbar } = useSnackbarContext();
+  const { open: showSnackbar } = useSnackbar();
 
   if (!props.post.imageSrc) {
     notFound();
@@ -80,7 +80,7 @@ export function PostItem(props: Props) {
                     navigator.clipboard.writeText(
                       `${BASE_URL}/${props.user.accountName}/${props.post.id}`,
                     );
-                    showSnackbar("success", "リンクをコピーしました");
+                    showSnackbar("リンクをコピーしました", "success");
                   }}
                 >
                   リンクをコピー
