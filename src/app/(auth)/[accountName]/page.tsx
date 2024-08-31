@@ -77,6 +77,7 @@ export default async function Page({ params }: Props) {
         <Link
           className="link-primary mt-2 flex items-center space-x-1 font-light"
           href={user.externalUrl}
+          target="_blank"
         >
           <MdiLink />
           <div>{user.externalUrl}</div>
