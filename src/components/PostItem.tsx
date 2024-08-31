@@ -3,6 +3,7 @@
 import { updateFollow } from "@/actions/follow";
 import { updateLike } from "@/actions/like";
 import { deletePost } from "@/actions/post";
+import { BASE_URL } from "@/constants/url";
 import { User } from "@/models/zod";
 import { PostImage, UserImage } from "@/models/zodExtension";
 import { useSnackbarContext } from "@/providers/SnackbarProvider";
@@ -76,6 +77,9 @@ export function PostItem(props: Props) {
               <li>
                 <a
                   onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${BASE_URL}/${props.user.accountName}/${props.post.id}`,
+                    );
                     showSnackbar("success", "リンクをコピーしました");
                   }}
                 >
