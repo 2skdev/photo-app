@@ -1,6 +1,6 @@
 import { ModalProvider } from "@/providers/ModalProvider";
 import { SnackbarProvider } from "@/providers/SnackbarProvider";
-import { HtmlThemeProvider } from "@/providers/ThemeProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
@@ -19,13 +19,15 @@ export default function Layout({
   children: ReactNode;
 }>) {
   return (
-    <HtmlThemeProvider lang="ja">
+    <html lang="ja">
       <body className={inter.className}>
         <div id="header" />
         <main>{children}</main>
+
         <SnackbarProvider />
         <ModalProvider />
+        <ThemeProvider />
       </body>
-    </HtmlThemeProvider>
+    </html>
   );
 }

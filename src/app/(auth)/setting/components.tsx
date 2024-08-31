@@ -1,9 +1,9 @@
 "use client";
 
-import { ThemeType, useThemeContext } from "@/providers/ThemeProvider";
+import { ThemeType, useTheme } from "@/providers/ThemeProvider";
 
 export function ThemePicker() {
-  const { theme, setTheme } = useThemeContext();
+  const { theme, setTheme } = useTheme();
 
   const items: Array<{
     type: ThemeType;

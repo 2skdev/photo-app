@@ -1,35 +1,31 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { create } from "zustand";
 
 export type ThemeType = "dark" | "light" | "auto";
 
-interface ThemeContextType {
-  setTheme: (type: ThemeType) => void;
+type ThemeState = {
   theme: ThemeType;
-}
+  setTheme: (theme: ThemeType) => void;
+};
 
-const ThemeContext = createContext<ThemeContextType>({
-  setTheme: (type) => {
-    throw new Error("setTheme not implemented");
-  },
+export const useTheme = create<ThemeState>()((set) => ({
   theme: "auto",
-});
+  setTheme: (theme) =>
+    set({
+      theme,
+    }),
+}));
 
-export function useThemeContext() {
-  return useContext(ThemeContext);
-}
-
-export function HtmlThemeProvider(
-  props: React.HtmlHTMLAttributes<HTMLHtmlElement>,
-) {
-  const [theme, _setTheme] = useState<ThemeType>("auto");
-  const [devideTheme, setDeviceTheme] = useState<ThemeType>("auto");
+export function ThemeProvider() {
+  const { theme, setTheme } = useTheme();
+  const [deviceTheme, setDeviceTheme] = useState<ThemeType>("light");
 
   useEffect(() => {
-    const localStorageTheme = localStorage.getItem("color-theme");
-    if (localStorageTheme) {
-      _setTheme(localStorageTheme as ThemeType);
+    const item = localStorage.getItem("color-theme");
+    if (item) {
+      setTheme(item as ThemeType);
     }
 
     setDeviceTheme(
@@ -39,14 +35,12 @@ export function HtmlThemeProvider(
     );
   }, []);
 
-  const setTheme = (type: ThemeType) => {
-    _setTheme(type);
-    localStorage.setItem("color-theme", type);
-  };
+  useEffect(() => {
+    const html = document.getElementsByTagName("html")[0];
+    html.setAttribute("data-theme", theme === "auto" ? deviceTheme : theme);
 
-  return (
-    <ThemeContext.Provider value={{ setTheme, theme }}>
-      <html {...props} data-theme={theme === "auto" ? devideTheme : theme} />
-    </ThemeContext.Provider>
-  );
+    localStorage.setItem("color-theme", theme);
+  }, [theme, deviceTheme]);
+
+  return <></>;
 }
