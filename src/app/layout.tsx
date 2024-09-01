@@ -1,5 +1,6 @@
 import { Launch } from "@/components/Launch";
 import { APP_NAME } from "@/constants/string";
+import { MediaProvider } from "@/providers/MediaProvider";
 import { ModalProvider } from "@/providers/ModalProvider";
 import { SnackbarProvider } from "@/providers/SnackbarProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
@@ -28,6 +29,7 @@ export default function Layout({
 
         <Launch />
 
+        <MediaProvider />
         <SnackbarProvider />
         <ModalProvider />
         <ThemeProvider />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMediaType } from "@/hooks/mediaType";
+import { useMedia } from "@/providers/MediaProvider";
 import { ReactNode } from "react";
 
 type Props = {
@@ -9,9 +9,9 @@ type Props = {
 };
 
 export function MediaSwitcher(props: Props) {
-  const mediaType = useMediaType();
+  const { type } = useMedia();
 
-  if (mediaType === "sp") {
+  if (type === "sp") {
     return <>{props.sp && props.sp}</>;
   } else {
     return <>{props.pc && props.pc}</>;
