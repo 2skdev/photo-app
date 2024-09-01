@@ -24,10 +24,16 @@ import {
 import { useModal } from "@/providers/ModalProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import { Ubuntu } from "next/font/google";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+
+const ubuntu = Ubuntu({
+  weight: "700",
+  subsets: ["latin"],
+});
 
 export function Sidebar(props: { me: UserImage }) {
   const pathname = usePathname();
@@ -61,7 +67,7 @@ export function Sidebar(props: { me: UserImage }) {
     <div className="sticky top-0 flex h-screen w-80 flex-col border-r border-neutral p-4">
       <div className="mx-4 mb-6 mt-2 flex items-center justify-start">
         <Logo className="h-8 w-8" />
-        <div className="ml-2">{APP_NAME}</div>
+        <div className={clsx("ml-2", ubuntu.className)}>{APP_NAME}</div>
       </div>
 
       {items.map((item, index) => (
