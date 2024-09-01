@@ -12,10 +12,12 @@ type ThemeState = {
 
 export const useTheme = create<ThemeState>()((set) => ({
   theme: "auto",
-  setTheme: (theme) =>
-    set({
+  setTheme: (theme) => {
+    localStorage.setItem("color-theme", theme);
+    return set({
       theme,
-    }),
+    });
+  },
 }));
 
 export function ThemeProvider() {
@@ -38,8 +40,6 @@ export function ThemeProvider() {
   useEffect(() => {
     const html = document.getElementsByTagName("html")[0];
     html.setAttribute("data-theme", theme === "auto" ? deviceTheme : theme);
-
-    localStorage.setItem("color-theme", theme);
   }, [theme, deviceTheme]);
 
   return <></>;
