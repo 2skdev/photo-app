@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { create } from "zustand";
 
 type ModalState = {
@@ -62,10 +62,10 @@ export function ModalProvider() {
         <div
           key={index}
           ref={index === stack.length - 1 ? backdropRef : null}
-          className="absolute inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50"
+          className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50"
           onClick={onBackdropClick}
         >
-          <div className="relative h-screen w-screen rounded bg-base-100 p-4 md:h-auto md:w-[90%]">
+          <div className="relative h-screen w-screen rounded bg-base-100 p-4 md:h-auto md:w-auto">
             {item.child}
           </div>
         </div>

@@ -2,7 +2,6 @@
 
 import { signOut } from "@/actions/auth";
 import { addPost } from "@/actions/post";
-import { AlertDialog } from "@/components/AlertDialog";
 import {
   MdiAccount,
   MdiArrowLeft,
@@ -14,23 +13,24 @@ import {
   MdiPlus,
 } from "@/components/Icons";
 import { ImagePicker } from "@/components/ImagePicker";
-import { Modal } from "@/components/Modal";
 import { UserAvatar } from "@/components/UserAvatar";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,
   UserImage,
 } from "@/models/zodExtension";
+import { useModal } from "@/providers/ModalProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 export function Sidebar(props: { me: UserImage }) {
   const pathname = usePathname();
-  const [show, setShow] = useState(false);
+  const { open: openPostForm, close: closePostForm } = useModal();
+  const { open: openAlert, close: closeAlert } = useModal();
 
   const items = [
     {
@@ -78,13 +78,9 @@ export function Sidebar(props: { me: UserImage }) {
         </Link>
       ))}
 
-      <button
-        className="btn btn-primary btn-block mt-4 rounded-full"
-        onClick={() => setShow(true)}
-      >
+      <PostFormModalButton className="btn btn-primary btn-block mt-4 rounded-full">
         投稿
-      </button>
-      <PostFormModal show={show} onRequestClose={() => setShow(false)} />
+      </PostFormModalButton>
 
       <div className="dropdown dropdown-top mt-auto w-full">
         <div
@@ -164,24 +160,16 @@ export function Bottombar(props: { me: UserImage }) {
 
       {pathname === "/" && (
         <div className="fixed bottom-20 right-6">
-          <button
-            className="btn btn-circle btn-primary shadow"
-            onClick={() => setShow(true)}
-          >
+          <PostFormModalButton className="btn btn-circle btn-primary shadow">
             <MdiPlus className="h-6 w-6" />
-          </button>
-          <PostFormModal show={show} onRequestClose={() => setShow(false)} />
+          </PostFormModalButton>
         </div>
       )}
     </>
   );
 }
 
-export function PostFormModal(props: {
-  show: boolean;
-  onRequestClose?: () => void;
-}) {
-  const [alert, setAlert] = useState(false);
+function PostFormContent({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(0);
 
   const {
@@ -189,62 +177,27 @@ export function PostFormModal(props: {
     control,
     getValues,
     setValue,
-    formState: { isDirty },
+    formState: { isDirty, dirtyFields },
     reset,
   } = useForm<PostOptionalInput>({
     resolver: zodResolver(PostOptionalInputSchema),
+    defaultValues: {
+      imageSrc: undefined,
+    },
   });
-
   const image = useWatch({ name: "imageSrc", control });
 
-  const onRequestClose = () => {
-    if (isDirty) {
-      // TODO: dirty when step = 0, need default value
-      setAlert(true);
-    } else {
-      onDispose();
-    }
-  };
+  useEffect(() => {
+    if (step === 0) reset();
+  }, [step === 0]);
 
-  const onPrev = () => {
-    if (step > 0) {
-      if (step === 1) {
-        reset();
-      }
-      setStep(step - 1);
-    } else {
-      props.onRequestClose?.();
-    }
-  };
-
-  const onNext = async () => {
-    if (step < steps.length - 1) {
-      setStep(step + 1);
-    } else {
-      await onSubmit(getValues());
-      onDispose();
-    }
-  };
-
-  const onDispose = () => {
-    setAlert(false);
-    props.onRequestClose?.();
-    setStep(0);
-    reset();
-  };
-
-  const onSubmit = async (data: PostOptionalInput) => {
-    await addPost(data);
-  };
-
-  const steps: Array<{
-    title: string;
-    node: ReactNode;
-    nextValidation: () => boolean;
-  }> = [
+  const steps = [
     {
       title: "画像を選択",
-      node: (
+      canNext: () => {
+        return image !== undefined;
+      },
+      child: (
         <ImagePicker
           onChange={(base64) => {
             if (base64) {
@@ -254,13 +207,11 @@ export function PostFormModal(props: {
           }}
         />
       ),
-      nextValidation: () => {
-        return image !== undefined;
-      },
     },
     {
       title: "キャプションを入力",
-      node: (
+      canNext: () => true,
+      child: (
         <div className="grid max-w-screen-md grid-cols-3">
           <img src={image} className="col-span-2 w-full"></img>
           <div className="ml-4 border-l border-neutral pl-4">
@@ -280,40 +231,97 @@ export function PostFormModal(props: {
           </div>
         </div>
       ),
-      nextValidation: () => {
-        return true;
-      },
     },
   ];
 
+  const onNext = async () => {
+    if (step < steps.length - 1) {
+      setStep(step + 1);
+    } else {
+      await addPost(getValues());
+      onClose();
+    }
+  };
+
+  const onPrev = () => {
+    if (step > 0) {
+      setStep(step - 1);
+    } else {
+      onClose();
+    }
+  };
+
   return (
     <>
-      <Modal show={props.show} onRequestClose={onRequestClose}>
-        <div className="mb-4 flex items-center justify-between">
-          <button className="btn btn-square btn-ghost btn-sm" onClick={onPrev}>
-            {step === 0 ? <MdiClose /> : <MdiArrowLeft />}
-          </button>
-          <div className="ml-2 font-bold">{steps[step].title}</div>
+      <div className="mb-4 flex items-center justify-between">
+        <button className="btn btn-square btn-ghost btn-sm" onClick={onPrev}>
+          {step === 0 ? <MdiClose /> : <MdiArrowLeft />}
+        </button>
+        <div className="ml-2 font-bold">{steps[step].title}</div>
 
+        <button
+          className="btn btn-primary btn-sm ml-auto"
+          disabled={!steps[step].canNext()}
+          onClick={onNext}
+        >
+          {step === steps.length - 1 ? "投稿する" : "次へ"}
+        </button>
+      </div>
+      <div>{steps[step].child}</div>
+    </>
+  );
+}
+
+function PostFormModalButton({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const { open: openForm, close: closeForm } = useModal();
+  const { open: openAlert, close: closeAlert } = useModal();
+
+  const onDispose = () => {
+    closeAlert();
+    closeForm();
+  };
+
+  const Alert = () => {
+    return (
+      <>
+        <div className="my-2 text-lg">変更を破棄しますか？</div>
+        <div className="text-sm">
+          このまま移動すると、編集内容は保存されません
+        </div>
+        <div className="mt-4 border-t border-neutral pt-2">
           <button
-            className="btn btn-primary btn-sm ml-auto"
-            disabled={!steps[step].nextValidation()}
-            onClick={onNext}
+            className="btn btn-ghost btn-block text-error"
+            onClick={() => {
+              onDispose();
+            }}
           >
-            {step === steps.length - 1 ? "投稿する" : "次へ"}
+            破棄
+          </button>
+          <button className="btn btn-ghost btn-block" onClick={closeAlert}>
+            キャンセル
           </button>
         </div>
-        <div className="relative min-w-96">{steps[step].node}</div>
-      </Modal>
+      </>
+    );
+  };
 
-      <AlertDialog
-        show={alert}
-        title="変更を破棄しますか？"
-        subtitle="このまま移動すると、編集内容は保存されません"
-        confirmLabel="破棄"
-        onConfirm={onDispose}
-        onCancel={() => setAlert(false)}
-      />
-    </>
+  return (
+    <button
+      className={className}
+      onClick={() => {
+        openForm(<PostFormContent onClose={onDispose} />, () => {
+          openAlert(<Alert />);
+          return false;
+        });
+      }}
+    >
+      {children}
+    </button>
   );
 }

@@ -38,9 +38,7 @@ export function ProfileForm({
         <ImagePicker
           crop
           onChange={(base64) => {
-            if (base64) {
-              setValue("iconSrc", base64);
-            }
+            setValue("iconSrc", base64);
           }}
           picker={
             <div className="relative flex flex-col">
