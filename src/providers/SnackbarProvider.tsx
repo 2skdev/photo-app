@@ -54,7 +54,6 @@ export function SnackbarProvider() {
 
   useEffect(() => {
     if (isOpen) {
-      setAnimate("animate-fade-in");
       setTimeout(() => {
         onClick();
       }, 3000);
@@ -64,6 +63,7 @@ export function SnackbarProvider() {
   const onClick = () => {
     setAnimate("animate-fade-out");
     setTimeout(() => {
+      setAnimate("animate-fade-in");
       close();
     }, 500);
   };

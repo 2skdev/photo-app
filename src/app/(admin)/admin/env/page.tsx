@@ -1,3 +1,4 @@
+import { MdiInformationOutline } from "@/components/Icons";
 import { BASE_URL } from "@/constants/url";
 
 export default function Page() {
@@ -11,6 +12,15 @@ export default function Page() {
             {key} = {value}
           </div>
         ))}
+
+      <div role="alert" className="alert alert-success animate-fade-in">
+        <MdiInformationOutline />
+        <span>これがないとなぜかSnackbarProviderに反映されない...</span>
+      </div>
+      <div role="alert" className="alert alert-success animate-fade-out">
+        <MdiInformationOutline />
+        <span>これがないとなぜかSnackbarProviderに反映されない...</span>
+      </div>
     </>
   );
 }
