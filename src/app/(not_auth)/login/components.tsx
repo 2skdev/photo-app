@@ -1,7 +1,7 @@
 "use client";
 
 import { signInWithGoogle } from "@/actions/auth";
-import Image from "next/image";
+import { OAuthGoogle } from "@/components/Assets";
 
 export function SignInWithGoogleButton() {
   return (
@@ -9,7 +9,7 @@ export function SignInWithGoogleButton() {
       onClick={() => signInWithGoogle()}
       className="btn btn-block flex flex-row justify-center"
     >
-      <Image src="/oauth-google.svg" alt="Icon" width={24} height={24} />
+      <OAuthGoogle className="h-6 w-6" />
       <div>Sign in with Google</div>
     </button>
   );

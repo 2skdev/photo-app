@@ -41,6 +41,8 @@ const config: Config = {
           "base-100": "#111827",
           "base-200": "#1f2937",
           "base-300": "#374151",
+          "neutral-content": "#e5e5e5",
+          "base-content": "#e5e5e5",
         },
       },
       {

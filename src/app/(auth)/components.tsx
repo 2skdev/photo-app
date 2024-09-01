@@ -2,6 +2,7 @@
 
 import { signOut } from "@/actions/auth";
 import { addPost } from "@/actions/post";
+import { Logo } from "@/components/Assets";
 import {
   MdiAccount,
   MdiArrowLeft,
@@ -14,6 +15,7 @@ import {
 } from "@/components/Icons";
 import { ImagePicker } from "@/components/ImagePicker";
 import { UserAvatar } from "@/components/UserAvatar";
+import { APP_NAME } from "@/constants/string";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,
@@ -58,8 +60,8 @@ export function Sidebar(props: { me: UserImage }) {
   return (
     <div className="sticky top-0 flex h-screen w-80 flex-col border-r border-neutral p-4">
       <div className="mx-4 mb-6 mt-2 flex items-center justify-start">
-        <img src="/icon.svg" alt="Icon" width={24} height={24} />
-        <div className="ml-2">Photo App</div>
+        <Logo className="h-8 w-8" />
+        <div className="ml-2">{APP_NAME}</div>
       </div>
 
       {items.map((item, index) => (
