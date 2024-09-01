@@ -1,3 +1,4 @@
+import { Launch } from "@/components/Launch";
 import { APP_NAME } from "@/constants/string";
 import { ModalProvider } from "@/providers/ModalProvider";
 import { SnackbarProvider } from "@/providers/SnackbarProvider";
@@ -24,6 +25,8 @@ export default function Layout({
       <body className={inter.className}>
         <div id="header" />
         <main>{children}</main>
+
+        <Launch />
 
         <SnackbarProvider />
         <ModalProvider />
