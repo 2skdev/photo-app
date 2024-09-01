@@ -6,7 +6,14 @@ import { getLoginUser } from "@/actions/user";
 import { Header } from "@/components/Header";
 import { MdiCog } from "@/components/Icons";
 import { PostItem } from "@/components/PostItem";
+import { APP_NAME } from "@/constants/string";
 import Link from "next/link";
+
+export async function generateMetadata() {
+  return {
+    title: APP_NAME,
+  };
+}
 
 export default async function Page() {
   const me = await getLoginUser();

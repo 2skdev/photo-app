@@ -2,12 +2,21 @@ import { getFollow, getFollowUsers } from "@/actions/follow";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { UserAvatar } from "@/components/UserAvatar";
+import { APP_NAME } from "@/constants/string";
 import Link from "next/link";
 import { FollowButton } from "../components";
 
 type Props = {
   params: { accountName: string };
 };
+
+export async function generateMetadata(props: Props) {
+  const user = await getUser(props.params.accountName);
+
+  return {
+    title: `${user.displayName}(@${user.accountName})さんのフォロー | ${APP_NAME}`,
+  };
+}
 
 export default async function Page({ params }: Props) {
   const user = await getUser(params.accountName);

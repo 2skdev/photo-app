@@ -1,5 +1,12 @@
+import { APP_NAME } from "@/constants/string";
 import Image from "next/image";
 import { SignInWithGoogleButton } from "./components";
+
+export async function generateMetadata() {
+  return {
+    title: `ログイン | ${APP_NAME}`,
+  };
+}
 
 export default function Page() {
   return (

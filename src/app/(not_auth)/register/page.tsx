@@ -1,5 +1,12 @@
+import { APP_NAME } from "@/constants/string";
 import Image from "next/image";
 import { RegisterForm } from "./components";
+
+export async function generateMetadata() {
+  return {
+    title: `アカウントを登録 | ${APP_NAME}`,
+  };
+}
 
 export default function Page() {
   return (

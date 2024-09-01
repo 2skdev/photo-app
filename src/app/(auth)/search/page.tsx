@@ -1,4 +1,11 @@
 import { Header } from "@/components/Header";
+import { APP_NAME } from "@/constants/string";
+
+export async function generateMetadata() {
+  return {
+    title: `検索 | ${APP_NAME}`,
+  };
+}
 
 export default async function Page() {
   return (
