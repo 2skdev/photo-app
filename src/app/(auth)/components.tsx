@@ -35,7 +35,10 @@ const ubuntu = Ubuntu({
   subsets: ["latin"],
 });
 
-export function Sidebar(props: { me: UserImage }) {
+export function Sidebar(props: {
+  me: UserImage;
+  unreadNotificationCount: number;
+}) {
   const pathname = usePathname();
 
   const items = [
@@ -52,7 +55,14 @@ export function Sidebar(props: { me: UserImage }) {
     {
       href: "/notifications",
       label: "通知",
-      icon: <MdiBell className="h-6 w-6" />,
+      icon: (
+        <div className="indicator">
+          <span className="badge indicator-item badge-primary badge-xs">
+            {props.unreadNotificationCount}
+          </span>
+          <MdiBell className="h-6 w-6" />
+        </div>
+      ),
     },
     {
       href: `/${props.me.accountName}`,
@@ -120,7 +130,10 @@ export function Sidebar(props: { me: UserImage }) {
   );
 }
 
-export function Bottombar(props: { me: UserImage }) {
+export function Bottombar(props: {
+  me: UserImage;
+  unreadNotificationCount: number;
+}) {
   const pathname = usePathname();
 
   const items = [
@@ -137,7 +150,14 @@ export function Bottombar(props: { me: UserImage }) {
     {
       href: "/notifications",
       label: "通知",
-      icon: <MdiBell className="h-6 w-6" />,
+      icon: (
+        <div className="indicator">
+          <span className="badge indicator-item badge-primary badge-xs">
+            {props.unreadNotificationCount}
+          </span>
+          <MdiBell className="h-6 w-6" />
+        </div>
+      ),
     },
     {
       href: `/${props.me.accountName}`,

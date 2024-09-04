@@ -23,7 +23,7 @@ export async function generateMetadata() {
 
 export default async function Page() {
   const me = await getLoginUser();
-  const notifications = await getNotifications(me);
+  const notifications = await getNotifications();
 
   return (
     <>
