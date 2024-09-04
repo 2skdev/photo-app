@@ -122,7 +122,6 @@ export function Sidebar(props: { me: UserImage }) {
 
 export function Bottombar(props: { me: UserImage }) {
   const pathname = usePathname();
-  const [show, setShow] = useState(false);
 
   const items = [
     {
@@ -149,7 +148,7 @@ export function Bottombar(props: { me: UserImage }) {
 
   return (
     <>
-      <div className="fixed bottom-0 flex h-14 w-screen items-center justify-around border-t border-neutral bg-base-100">
+      <div className="fixed bottom-0 z-10 flex h-14 w-screen items-center justify-around border-t border-neutral bg-base-100">
         {items.map((item, index) => (
           <Link
             key={index}
@@ -165,7 +164,7 @@ export function Bottombar(props: { me: UserImage }) {
       </div>
 
       {pathname === "/" && (
-        <div className="fixed bottom-20 right-6">
+        <div className="fixed bottom-20 right-6 z-10">
           <PostFormModalButton className="btn btn-circle btn-primary shadow">
             <MdiPlus className="h-6 w-6" />
           </PostFormModalButton>

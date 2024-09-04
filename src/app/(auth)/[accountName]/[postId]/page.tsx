@@ -3,6 +3,7 @@ import { getPost } from "@/actions/post";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { LikeButton } from "@/components/LikeButton";
+import { Map } from "@/components/Map";
 import { APP_NAME } from "@/constants/string";
 
 type Props = {
@@ -34,6 +35,11 @@ export default async function Page({ params }: Props) {
       <img src={imageUrl!} />
 
       <LikeButton post={post} default={like}></LikeButton>
+
+      <Map
+        center={[139.7670516, 35.6811673]}
+        marker={[139.7670516, 35.6811673]}
+      />
     </div>
   );
 }
