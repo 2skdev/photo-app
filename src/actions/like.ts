@@ -2,6 +2,7 @@
 
 import prisma from "@/libs/prisma/client";
 import { Like, LikeOptionalDefaultsSchema, Post, User } from "@/models/zod";
+import { notFound } from "next/navigation";
 import { getAuthUser } from "./auth";
 
 export async function getLike(user: User, post: Post): Promise<boolean> {
@@ -21,6 +22,26 @@ export async function getLike(user: User, post: Post): Promise<boolean> {
   }
 }
 
+export async function getLikeById(
+  id: number,
+): Promise<Like & { user: User; post: Post }> {
+  const like = await prisma.like.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      user: true,
+      post: true,
+    },
+  });
+
+  if (!like) {
+    notFound();
+  }
+
+  return like;
+}
+
 export async function updateLike(post: Post, status: boolean): Promise<Like> {
   const auth = await getAuthUser();
 
@@ -35,8 +56,8 @@ export async function updateLike(post: Post, status: boolean): Promise<Like> {
   return await prisma.like.upsert({
     where: {
       userId_postId: {
-        userId: auth.id,
-        postId: post.id,
+        userId: data.userId,
+        postId: data.postId,
       },
     },
     create: { ...data },

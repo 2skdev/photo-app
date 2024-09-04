@@ -29,13 +29,13 @@ model User {
   updatedAt   DateTime  @default(now()) @updatedAt
   deletedAt   DateTime?
 
-  posts    Post[]
-  spots    Spot[]
-  comments Comment[]
-  likes    Like[]
-
-  follows   Follow[] @relation("follower")
-  followers Follow[] @relation("followee")
+  posts        Post[]
+  spots        Spot[]
+  comments     Comment[]
+  likes        Like[]
+  follows      Follow[]       @relation("follower")
+  followers    Follow[]       @relation("followee")
+  notification Notification[]
 }
 
 model Post {
@@ -119,6 +119,7 @@ model Like {
 }
 
 model Follow {
+  id           Int       @id @default(autoincrement())
   userId       String    @db.Uuid
   followUserId String    @db.Uuid
   createdAt    DateTime  @default(now())
@@ -128,5 +129,24 @@ model Follow {
   user       User @relation("followee", fields: [userId], references: [id])
   followUser User @relation("follower", fields: [followUserId], references: [id])
 
-  @@id([userId, followUserId])
+  @@unique([userId, followUserId])
+}
+
+enum EventType {
+  Comment
+  Like
+  Follow
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  userId    String    @db.Uuid
+  eventId   Int
+  eventType EventType
+  read      Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id])
 }

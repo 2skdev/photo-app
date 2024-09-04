@@ -24,13 +24,20 @@ export const CommentScalarFieldEnumSchema = z.enum(['id','userId','postId','text
 
 export const LikeScalarFieldEnumSchema = z.enum(['id','userId','postId','createdAt','updatedAt','deletedAt']);
 
-export const FollowScalarFieldEnumSchema = z.enum(['userId','followUserId','createdAt','updatedAt','deletedAt']);
+export const FollowScalarFieldEnumSchema = z.enum(['id','userId','followUserId','createdAt','updatedAt','deletedAt']);
+
+export const NotificationScalarFieldEnumSchema = z.enum(['id','userId','eventId','eventType','read','createdAt','updatedAt','deletedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
+
+export const EventTypeSchema = z.enum(['Comment','Like','Follow']);
+
+export type EventTypeType = `${z.infer<typeof EventTypeSchema>}`
+
 /////////////////////////////////////////
 // MODELS
 /////////////////////////////////////////
@@ -211,6 +218,7 @@ export type LikeOptionalDefaults = z.infer<typeof LikeOptionalDefaultsSchema>
 /////////////////////////////////////////
 
 export const FollowSchema = z.object({
+  id: z.number().int(),
   userId: z.string(),
   followUserId: z.string(),
   createdAt: z.coerce.date(),
@@ -224,8 +232,38 @@ export type Follow = z.infer<typeof FollowSchema>
 //------------------------------------------------------
 
 export const FollowOptionalDefaultsSchema = FollowSchema.merge(z.object({
+  id: z.number().int().optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
 }))
 
 export type FollowOptionalDefaults = z.infer<typeof FollowOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// NOTIFICATION SCHEMA
+/////////////////////////////////////////
+
+export const NotificationSchema = z.object({
+  eventType: EventTypeSchema,
+  id: z.number().int(),
+  userId: z.string(),
+  eventId: z.number().int(),
+  read: z.boolean(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullish(),
+})
+
+export type Notification = z.infer<typeof NotificationSchema>
+
+// NOTIFICATION OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const NotificationOptionalDefaultsSchema = NotificationSchema.merge(z.object({
+  id: z.number().int().optional(),
+  read: z.boolean().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
+}))
+
+export type NotificationOptionalDefaults = z.infer<typeof NotificationOptionalDefaultsSchema>

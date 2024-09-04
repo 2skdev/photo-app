@@ -2,6 +2,7 @@
 
 import prisma from "@/libs/prisma/client";
 import { Follow, FollowOptionalDefaultsSchema, User } from "@/models/zod";
+import { notFound } from "next/navigation";
 import { getAuthUser } from "./auth";
 
 export async function getFollow(
@@ -24,6 +25,29 @@ export async function getFollow(
   }
 }
 
+export async function getFollowById(id: number): Promise<
+  Follow & {
+    user: User;
+    followUser: User;
+  }
+> {
+  const follow = await prisma.follow.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      user: true,
+      followUser: true,
+    },
+  });
+
+  if (!follow) {
+    notFound();
+  }
+
+  return follow;
+}
+
 export async function updateFollow(
   user: User,
   status: boolean,
@@ -41,8 +65,8 @@ export async function updateFollow(
   return await prisma.follow.upsert({
     where: {
       userId_followUserId: {
-        userId: auth.id,
-        followUserId: user.id,
+        userId: data.userId,
+        followUserId: data.followUserId,
       },
     },
     create: { ...data },

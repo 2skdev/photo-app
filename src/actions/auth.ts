@@ -12,6 +12,9 @@ export async function signInWithGoogle() {
     provider: "google",
     options: {
       redirectTo: `${BASE_URL}/auth/callback`,
+      queryParams: {
+        prompt: "select_account",
+      },
     },
   });
 

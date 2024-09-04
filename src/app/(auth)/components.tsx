@@ -37,8 +37,6 @@ const ubuntu = Ubuntu({
 
 export function Sidebar(props: { me: UserImage }) {
   const pathname = usePathname();
-  const { open: openPostForm, close: closePostForm } = useModal();
-  const { open: openAlert, close: closeAlert } = useModal();
 
   const items = [
     {

@@ -22,6 +22,20 @@ export async function getUser(accountName: string): Promise<User> {
   return user;
 }
 
+export async function getUserById(id: string): Promise<User> {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) {
+    notFound();
+  }
+
+  return user;
+}
+
 export async function getLoginUser(): Promise<User> {
   const auth = await getAuthUser();
 
