@@ -162,7 +162,9 @@ export function PostItem(props: Props) {
       </div>
 
       <div className="mt-2">
-        <div className="font-light">{props.post.caption}</div>
+        <div className="whitespace-pre-wrap font-light">
+          {props.post.caption}
+        </div>
       </div>
     </>
   );

@@ -80,7 +80,7 @@ export default async function Page({ params }: Props) {
         </Link>
       </div>
 
-      <div className="mt-4">{user.biography}</div>
+      <div className="mt-4 whitespace-pre-wrap">{user.biography}</div>
 
       {user.externalUrl && (
         <Link
