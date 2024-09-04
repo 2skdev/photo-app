@@ -13,10 +13,7 @@ export function Dropdown(props: Props) {
   return (
     <>
       <div className={clsx("dropdown", props.className)}>
-        <div
-          tabIndex={0}
-          className="btn btn-ghost btn-block flex justify-start"
-        >
+        <div tabIndex={0} className="flex justify-start">
           {props.button}
         </div>
 

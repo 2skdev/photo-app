@@ -10,6 +10,7 @@ import { useSnackbar } from "@/providers/SnackbarProvider";
 import { getDateString } from "@/utils/date";
 import { notFound, useRouter } from "next/navigation";
 import { useState } from "react";
+import { LogoFB, LogoX } from "./Assets";
 import { Dropdown } from "./Dropdown";
 import {
   MaterialSymbolsShare,
@@ -17,6 +18,7 @@ import {
   MdiCardsHeartOutline,
   MdiCommentOutline,
   MdiDotsHorizontal,
+  MdiLink,
 } from "./Icons";
 import { UserAvatar } from "./UserAvatar";
 
@@ -71,7 +73,9 @@ export function PostItem(props: Props) {
 
         <Dropdown
           className="dropdown-end ml-auto"
-          button={<MdiDotsHorizontal className="h-6 w-6" />}
+          button={
+            <MdiDotsHorizontal className="h-6 w-6 cursor-pointer hover:opacity-80" />
+          }
           list={
             <>
               <li>
@@ -157,7 +161,47 @@ export function PostItem(props: Props) {
           <div className="ml-1 text-sm">0</div>
         </div>
         <div className="flex cursor-pointer items-center hover:opacity-80">
-          <MaterialSymbolsShare className="h-6 w-6" />
+          <Dropdown
+            className="dropdown-end ml-auto"
+            button={<MaterialSymbolsShare className="h-6 w-6" />}
+            list={
+              <>
+                <li>
+                  <a
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `${BASE_URL}/${props.user.accountName}/${props.post.id}`,
+                      );
+                      showSnackbar("リンクをコピーしました", "success");
+                    }}
+                  >
+                    <MdiLink className="h-4 w-4 fill-base-content" />
+                    リンクをコピー
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`http://x.com/share?url=${BASE_URL}/${props.user.accountName}/${props.post.id}&text=${props.post.caption}&via=${props.user.accountName}`}
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                  >
+                    <LogoX className="h-4 w-4 fill-base-content" />
+                    <div>Xでシェア</div>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`http://www.facebook.com/share.php?u=yurukei-career.com?u=${BASE_URL}/${props.user.accountName}/${props.post.id}`}
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                  >
+                    <LogoFB className="h-4 w-4 fill-base-content" />
+                    <div>Facebookでシェア</div>
+                  </a>
+                </li>
+              </>
+            }
+          />
         </div>
       </div>
 
