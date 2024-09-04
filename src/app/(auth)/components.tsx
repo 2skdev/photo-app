@@ -217,9 +217,9 @@ function PostFormContent({ onClose }: { onClose: () => void }) {
       title: "キャプションを入力",
       canNext: () => true,
       child: (
-        <div className="grid max-w-screen-md grid-cols-3">
-          <img src={image} className="col-span-2 w-full"></img>
-          <div className="ml-4 border-l border-neutral pl-4">
+        <div className="grid max-w-screen-md md:grid-cols-3">
+          <img src={image} className="w-full md:col-span-2"></img>
+          <div className="md:border-l md:border-neutral md:pl-4">
             <input
               {...register("caption", {
                 required: true,
