@@ -25,6 +25,7 @@ model User {
   /// @zod.string.url()
   externalUrl String?   @db.VarChar(192)
   iconPath    String?   @db.VarChar(192)
+  coverPath   String?   @db.VarChar(192)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
   deletedAt   DateTime?
@@ -43,8 +44,7 @@ model Post {
   id          String    @id @db.VarChar(10)
   userId      String    @db.Uuid
   spotId      Int?
-  title       String    @default("")
-  caption     String    @default("")
+  text        String    @default("")
   imagePath   String    @db.VarChar(192)
   camera      String?   @db.VarChar(192)
   lens        String?   @db.VarChar(192)
@@ -54,6 +54,7 @@ model Post {
   iso         String?   @db.VarChar(192)
   wb          String?   @db.VarChar(192)
   shotAt      DateTime?
+  private     Boolean   @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
   deletedAt   DateTime?
@@ -63,13 +64,13 @@ model Post {
 
   comments Comment[]
   likes    Like[]
-  hashTags HashTag[]
+  hashtags Hashtag[]
 }
 
-model HashTag {
+model Hashtag {
   id     Int    @id @default(autoincrement())
   postId String
-  text   String @db.VarChar(192)
+  tag    String @db.VarChar(192)
 
   post Post @relation(fields: [postId], references: [id])
 }

@@ -65,7 +65,7 @@ language plpgsql
 security definer set search_path = public
 ;
 
--- CreateTriggers
+-- CreateTrigger
 create trigger on_comment_created
     after insert on public."Comment"
     for each row execute procedure public.insert_comment_notification()

@@ -9,6 +9,7 @@ CREATE TABLE "User" (
     "biography" TEXT,
     "externalUrl" VARCHAR(192),
     "iconPath" VARCHAR(192),
+    "coverPath" VARCHAR(192),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP(3),
@@ -21,8 +22,7 @@ CREATE TABLE "Post" (
     "id" VARCHAR(10) NOT NULL,
     "userId" UUID NOT NULL,
     "spotId" INTEGER,
-    "title" TEXT NOT NULL DEFAULT '',
-    "caption" TEXT NOT NULL DEFAULT '',
+    "text" TEXT NOT NULL DEFAULT '',
     "imagePath" VARCHAR(192) NOT NULL,
     "camera" VARCHAR(192),
     "lens" VARCHAR(192),
@@ -32,6 +32,7 @@ CREATE TABLE "Post" (
     "iso" VARCHAR(192),
     "wb" VARCHAR(192),
     "shotAt" TIMESTAMP(3),
+    "private" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP(3),
@@ -40,12 +41,12 @@ CREATE TABLE "Post" (
 );
 
 -- CreateTable
-CREATE TABLE "HashTag" (
+CREATE TABLE "Hashtag" (
     "id" SERIAL NOT NULL,
     "postId" TEXT NOT NULL,
-    "text" VARCHAR(192) NOT NULL,
+    "tag" VARCHAR(192) NOT NULL,
 
-    CONSTRAINT "HashTag_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Hashtag_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -128,7 +129,7 @@ ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFE
 ALTER TABLE "Post" ADD CONSTRAINT "Post_spotId_fkey" FOREIGN KEY ("spotId") REFERENCES "Spot"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "HashTag" ADD CONSTRAINT "HashTag_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Hashtag" ADD CONSTRAINT "Hashtag_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Spot" ADD CONSTRAINT "Spot_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

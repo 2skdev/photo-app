@@ -241,7 +241,7 @@ function PostFormContent({ onClose }: { onClose: () => void }) {
           <img src={image} className="w-full md:col-span-2"></img>
           <div className="md:border-l md:border-neutral md:pl-4">
             <input
-              {...register("caption", {
+              {...register("text", {
                 required: true,
               })}
               className="input input-bordered w-full"

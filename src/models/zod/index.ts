@@ -12,11 +12,11 @@ import type { Prisma } from '@prisma/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','accountName','displayName','biography','externalUrl','iconPath','createdAt','updatedAt','deletedAt']);
+export const UserScalarFieldEnumSchema = z.enum(['id','accountName','displayName','biography','externalUrl','iconPath','coverPath','createdAt','updatedAt','deletedAt']);
 
-export const PostScalarFieldEnumSchema = z.enum(['id','userId','spotId','title','caption','imagePath','camera','lens','focalLength','fnumber','shutter','iso','wb','shotAt','createdAt','updatedAt','deletedAt']);
+export const PostScalarFieldEnumSchema = z.enum(['id','userId','spotId','text','imagePath','camera','lens','focalLength','fnumber','shutter','iso','wb','shotAt','private','createdAt','updatedAt','deletedAt']);
 
-export const HashTagScalarFieldEnumSchema = z.enum(['id','postId','text']);
+export const HashtagScalarFieldEnumSchema = z.enum(['id','postId','tag']);
 
 export const SpotScalarFieldEnumSchema = z.enum(['id','userId','name','title','latitude','longitude','private','createdAt','updatedAt','deletedAt']);
 
@@ -53,6 +53,7 @@ export const UserSchema = z.object({
   biography: z.string().nullish(),
   externalUrl: z.string().url().nullish(),
   iconPath: z.string().nullish(),
+  coverPath: z.string().nullish(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   deletedAt: z.coerce.date().nullish(),
@@ -78,8 +79,7 @@ export const PostSchema = z.object({
   id: z.string().max(10),
   userId: z.string(),
   spotId: z.number().int().nullish(),
-  title: z.string(),
-  caption: z.string(),
+  text: z.string(),
   imagePath: z.string(),
   camera: z.string().nullish(),
   lens: z.string().nullish(),
@@ -89,6 +89,7 @@ export const PostSchema = z.object({
   iso: z.string().nullish(),
   wb: z.string().nullish(),
   shotAt: z.coerce.date().nullish(),
+  private: z.boolean(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   deletedAt: z.coerce.date().nullish(),
@@ -100,8 +101,8 @@ export type Post = z.infer<typeof PostSchema>
 //------------------------------------------------------
 
 export const PostOptionalDefaultsSchema = PostSchema.merge(z.object({
-  title: z.string().optional(),
-  caption: z.string().optional(),
+  text: z.string().optional(),
+  private: z.boolean().optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
 }))
@@ -109,25 +110,25 @@ export const PostOptionalDefaultsSchema = PostSchema.merge(z.object({
 export type PostOptionalDefaults = z.infer<typeof PostOptionalDefaultsSchema>
 
 /////////////////////////////////////////
-// HASH TAG SCHEMA
+// HASHTAG SCHEMA
 /////////////////////////////////////////
 
-export const HashTagSchema = z.object({
+export const HashtagSchema = z.object({
   id: z.number().int(),
   postId: z.string(),
-  text: z.string(),
+  tag: z.string(),
 })
 
-export type HashTag = z.infer<typeof HashTagSchema>
+export type Hashtag = z.infer<typeof HashtagSchema>
 
-// HASH TAG OPTIONAL DEFAULTS SCHEMA
+// HASHTAG OPTIONAL DEFAULTS SCHEMA
 //------------------------------------------------------
 
-export const HashTagOptionalDefaultsSchema = HashTagSchema.merge(z.object({
+export const HashtagOptionalDefaultsSchema = HashtagSchema.merge(z.object({
   id: z.number().int().optional(),
 }))
 
-export type HashTagOptionalDefaults = z.infer<typeof HashTagOptionalDefaultsSchema>
+export type HashtagOptionalDefaults = z.infer<typeof HashtagOptionalDefaultsSchema>
 
 /////////////////////////////////////////
 // SPOT SCHEMA

@@ -58,8 +58,8 @@ export function LikeNotification({
             <UserAvatar src={user.iconSrc} className="h-6 w-6" />
             <div className="ml-2">{user.displayName}さんがいいねしました</div>
           </div>
-          {post.caption && (
-            <div className="mt-1 text-sm font-light">{post.caption}</div>
+          {post.text && (
+            <div className="mt-1 text-sm font-light">{post.text}</div>
           )}
         </div>
         <img className="ml-auto h-12 w-12 rounded-lg" src={post.imageSrc} />

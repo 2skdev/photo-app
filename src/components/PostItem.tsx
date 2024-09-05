@@ -181,7 +181,7 @@ export function PostItem(props: Props) {
                 </li>
                 <li>
                   <a
-                    href={`http://x.com/share?url=${BASE_URL}/${props.user.accountName}/${props.post.id}&text=${props.post.caption}&via=${props.user.accountName}`}
+                    href={`http://x.com/share?url=${BASE_URL}/${props.user.accountName}/${props.post.id}&text=${props.post.text}&via=${props.user.accountName}`}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
                   >
@@ -206,9 +206,7 @@ export function PostItem(props: Props) {
       </div>
 
       <div className="mt-2">
-        <div className="whitespace-pre-wrap font-light">
-          {props.post.caption}
-        </div>
+        <div className="whitespace-pre-wrap font-light">{props.post.text}</div>
       </div>
     </>
   );

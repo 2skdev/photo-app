@@ -15,7 +15,7 @@ export async function generateMetadata(props: Props) {
   const user = await getUser(props.params.accountName);
 
   return {
-    title: `${user.displayName}(@${user.accountName})さんの投稿 ${post.caption !== "" ? `| ${post.caption}` : ""} | ${APP_NAME}`,
+    title: `${user.displayName}(@${user.accountName})さんの投稿 ${post.text !== "" ? `| ${post.text}` : ""} | ${APP_NAME}`,
   };
 }
 
