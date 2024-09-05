@@ -12,6 +12,7 @@ import { notFound, useRouter } from "next/navigation";
 import { useState } from "react";
 import { LogoFB, LogoX } from "./Assets";
 import { Dropdown } from "./Dropdown";
+import { HashtagText } from "./HashtagText";
 import {
   MaterialSymbolsShare,
   MdiCardsHeart,
@@ -206,7 +207,14 @@ export function PostItem(props: Props) {
       </div>
 
       <div className="mt-2">
-        <div className="whitespace-pre-wrap font-light">{props.post.text}</div>
+        <div className="whitespace-pre-wrap font-light">
+          <HashtagText
+            text={props.post.text}
+            onClick={(tag) => {
+              router.push(`/search?q=${encodeURIComponent(tag)}`);
+            }}
+          />
+        </div>
       </div>
     </>
   );
