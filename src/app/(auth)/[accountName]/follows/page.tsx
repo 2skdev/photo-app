@@ -22,7 +22,9 @@ export default async function Page({ params }: Props) {
   const user = await getUser(params.accountName);
   const me = await getLoginUser();
 
-  const follows = await getFollowUsers(user);
+  const follows = (await getFollowUsers(user)).filter(
+    (follow) => follow.id !== me.id,
+  );
 
   // TODO: follow button
 
