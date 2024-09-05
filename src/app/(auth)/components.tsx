@@ -57,9 +57,11 @@ export function Sidebar(props: {
       label: "通知",
       icon: (
         <div className="indicator">
-          <span className="badge indicator-item badge-primary badge-xs">
-            {props.unreadNotificationCount}
-          </span>
+          {props.unreadNotificationCount > 0 && (
+            <span className="badge indicator-item badge-primary badge-xs">
+              {props.unreadNotificationCount}
+            </span>
+          )}
           <MdiBell className="h-6 w-6" />
         </div>
       ),
@@ -152,9 +154,11 @@ export function Bottombar(props: {
       label: "通知",
       icon: (
         <div className="indicator">
-          <span className="badge indicator-item badge-primary badge-xs">
-            {props.unreadNotificationCount}
-          </span>
+          {props.unreadNotificationCount > 0 && (
+            <span className="badge indicator-item badge-primary badge-xs">
+              {props.unreadNotificationCount}
+            </span>
+          )}
           <MdiBell className="h-6 w-6" />
         </div>
       ),
