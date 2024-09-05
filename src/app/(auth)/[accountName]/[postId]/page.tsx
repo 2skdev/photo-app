@@ -16,6 +16,10 @@ export async function generateMetadata(props: Props) {
 
   return {
     title: `${user.displayName}(@${user.accountName})さんの投稿 ${post.text !== "" ? `| ${post.text}` : ""} | ${APP_NAME}`,
+    description: post.text,
+    openGraph: {
+      images: [await getPublicUrl("Post", post.imagePath)],
+    },
   };
 }
 

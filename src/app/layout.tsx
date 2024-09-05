@@ -4,6 +4,7 @@ import { MediaProvider } from "@/providers/MediaProvider";
 import { ModalProvider } from "@/providers/ModalProvider";
 import { SnackbarProvider } from "@/providers/SnackbarProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { Viewport } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
@@ -15,6 +16,13 @@ export async function generateMetadata() {
     title: APP_NAME,
   };
 }
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export default function Layout({
   children,
