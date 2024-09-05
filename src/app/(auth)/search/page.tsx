@@ -1,5 +1,5 @@
-import { Header } from "@/components/Header";
 import { APP_NAME } from "@/constants/string";
+import { SearchForm } from "./components";
 
 export async function generateMetadata() {
   return {
@@ -10,13 +10,7 @@ export async function generateMetadata() {
 export default async function Page() {
   return (
     <>
-      <Header>
-        <input
-          type="text"
-          placeholder="検索"
-          className="input input-sm w-full rounded-full bg-neutral"
-        />
-      </Header>
+      <SearchForm />
     </>
   );
 }

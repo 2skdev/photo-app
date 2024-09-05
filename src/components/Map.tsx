@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 
 type Props = {
+  className?: string;
   center: [number, number];
   marker?: [number, number];
 };
