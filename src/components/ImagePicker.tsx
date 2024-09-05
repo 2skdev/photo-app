@@ -1,6 +1,7 @@
 "use client";
 
 import { useModal } from "@/providers/ModalProvider";
+import imageCompression from "browser-image-compression";
 import { ChangeEvent, ReactNode, useState } from "react";
 import { MdiClose, MdiImageOutline } from "./Icons";
 import { ImageCrop } from "./ImageCrop";
@@ -12,8 +13,14 @@ type Props = {
 };
 
 async function file2base64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const reader = new FileReader();
+
+    const compressed = await imageCompression(file, {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    });
 
     reader.onloadend = () => {
       if (reader.result) {
@@ -22,7 +29,7 @@ async function file2base64(file: File): Promise<string> {
         reject();
       }
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(compressed);
   });
 }
 

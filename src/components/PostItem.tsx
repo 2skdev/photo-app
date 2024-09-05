@@ -132,10 +132,10 @@ export function PostItem(props: Props) {
         />
       </div>
 
-      <div className="mt-2 flex w-full cursor-pointer justify-center rounded-sm bg-black">
+      <div className="mt-2 flex w-full cursor-pointer justify-center rounded bg-black">
         <img
           src={props.post.imageSrc}
-          className="rounded-sm"
+          className="rounded"
           onClick={() =>
             router.push(`/${props.user.accountName}/${props.post.id}`)
           }
