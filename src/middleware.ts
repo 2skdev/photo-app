@@ -8,6 +8,10 @@ export async function middleware(request: NextRequest) {
     request,
   });
 
+  if (request.nextUrl.pathname.startsWith("/terms")) {
+    return supabaseResponse;
+  }
+
   if (request.nextUrl.pathname.startsWith("/admin")) {
     const basic = request.headers.get("authorization");
 

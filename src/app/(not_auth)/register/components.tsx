@@ -7,6 +7,7 @@ import {
   UserOptionalInputSchema,
 } from "@/models/zodExtension";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useForm, useWatch } from "react-hook-form";
 
 export function RegisterForm() {
@@ -70,8 +71,16 @@ export function RegisterForm() {
 
       <div className="w-full border-t border-base-100"></div>
 
+      <div className="text-sm">
+        アカウントを登録すると、
+        <Link className="cursor-pointer text-primary underline" href="/terms">
+          利用規約
+        </Link>
+        に同意したことになります。
+      </div>
+
       <button className="btn btn-primary btn-block" type="submit">
-        登録
+        利用規約に同意して登録
       </button>
     </form>
   );
