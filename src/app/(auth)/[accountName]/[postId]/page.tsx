@@ -21,11 +21,8 @@ export async function generateMetadata(props: Props) {
 
 export default async function Page({ params }: Props) {
   const me = await getLoginUser();
-
   const post = await getPost(params.postId);
-
   const imageUrl = await getPublicUrl("Post", post.imagePath);
-
   const like = await getLike(me, post);
 
   return (
@@ -37,8 +34,8 @@ export default async function Page({ params }: Props) {
       <LikeButton post={post} default={like}></LikeButton>
 
       <Map
-        center={[139.7670516, 35.6811673]}
-        marker={[139.7670516, 35.6811673]}
+        center={[35.6811673, 139.7670516]}
+        marker={[35.6811673, 139.7670516]}
       />
     </div>
   );
