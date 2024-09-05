@@ -33,7 +33,7 @@ export function Leaflet(props: Props) {
     <MapContainer
       center={props.center}
       zoom={13}
-      className={clsx("h-56 w-full rounded md:h-96", props.className)}
+      className={clsx("z-0 h-56 w-full rounded md:h-96", props.className)}
       zoomControl={false}
     >
       <TileLayer
