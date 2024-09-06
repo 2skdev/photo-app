@@ -10,15 +10,8 @@ type ProgressState = {
 export const useProgress = create<ProgressState>()((set) => ({
   running: false,
   withProgress: (fn: () => Promise<void>) => {
-    set({
-      running: true,
-    });
-
-    fn().then(() => {
-      set({
-        running: false,
-      });
-    });
+    set({ running: true });
+    fn().then(() => set({ running: false }));
   },
 }));
 

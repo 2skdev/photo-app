@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export type ThemeType = "dark" | "light" | "auto";
 
@@ -12,20 +13,17 @@ type ThemeState = {
   setDeviceTheme: (theme: ThemeType) => void;
 };
 
-export const useTheme = create<ThemeState>()((set, get) => ({
-  theme: "auto",
-  deviceTheme: "light",
-  setTheme: (theme) => {
-    localStorage.setItem("color-theme", theme);
-    return set({
-      theme,
-    });
-  },
-  setDeviceTheme: (theme) =>
-    set(() => ({
-      deviceTheme: theme,
-    })),
-}));
+export const useTheme = create<ThemeState>()(
+  persist(
+    (set) => ({
+      theme: "auto",
+      deviceTheme: "light",
+      setTheme: (theme: ThemeType) => set({ theme }),
+      setDeviceTheme: (theme: ThemeType) => set({ deviceTheme: theme }),
+    }),
+    { name: "theme" },
+  ),
+);
 
 export function useCurrentTheme() {
   const { theme, deviceTheme } = useTheme();
@@ -33,15 +31,10 @@ export function useCurrentTheme() {
 }
 
 export function ThemeProvider() {
-  const { setTheme, setDeviceTheme } = useTheme();
+  const { setDeviceTheme } = useTheme();
   const currentTheme = useCurrentTheme();
 
   useEffect(() => {
-    const item = localStorage.getItem("color-theme");
-    if (item) {
-      setTheme(item as ThemeType);
-    }
-
     setDeviceTheme(
       window.matchMedia("(prefers-color-scheme: dark)").matches === true
         ? "dark"

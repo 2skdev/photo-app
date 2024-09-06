@@ -21,10 +21,7 @@ export const useModal = create<ModalState>()((set) => ({
         },
       ],
     })),
-  close: () =>
-    set((state) => ({
-      stack: state.stack.slice(0, -1),
-    })),
+  close: () => set((state) => ({ stack: state.stack.slice(0, -1) })),
 }));
 
 export function ModalProvider() {

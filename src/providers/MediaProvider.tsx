@@ -12,11 +12,7 @@ type MediaState = {
 
 export const useMedia = create<MediaState>()((set) => ({
   type: "pc",
-  setMediaType: (type) => {
-    return set({
-      type,
-    });
-  },
+  setMediaType: (type) => set({ type }),
 }));
 
 export function MediaProvider() {

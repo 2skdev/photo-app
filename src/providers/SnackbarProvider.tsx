@@ -29,10 +29,7 @@ export const useSnackbar = create<SnackbarState>()((set) => ({
       message,
       type,
     }),
-  close: () =>
-    set((state) => ({
-      isOpen: false,
-    })),
+  close: () => set({ isOpen: false }),
 }));
 
 export function SnackbarProvider() {
