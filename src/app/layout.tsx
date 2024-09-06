@@ -2,6 +2,7 @@ import { Launch } from "@/components/Launch";
 import { APP_NAME } from "@/constants/string";
 import { MediaProvider } from "@/providers/MediaProvider";
 import { ModalProvider } from "@/providers/ModalProvider";
+import { ProgressProvider } from "@/providers/ProgressProvider";
 import { SnackbarProvider } from "@/providers/SnackbarProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Viewport } from "next";
@@ -38,8 +39,9 @@ export default function Layout({
         <Launch />
 
         <MediaProvider />
-        <SnackbarProvider />
         <ModalProvider />
+        <ProgressProvider />
+        <SnackbarProvider />
         <ThemeProvider />
       </body>
     </html>

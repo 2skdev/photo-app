@@ -6,11 +6,14 @@ import {
   UserOptionalInput,
   UserOptionalInputSchema,
 } from "@/models/zodExtension";
+import { useProgress } from "@/providers/ProgressProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm, useWatch } from "react-hook-form";
 
 export function RegisterForm() {
+  const { withProgress } = useProgress();
+
   const { register, control, handleSubmit, setValue } =
     useForm<UserOptionalInput>({
       resolver: zodResolver(UserOptionalInputSchema),
@@ -19,7 +22,9 @@ export function RegisterForm() {
   const image = useWatch({ name: "iconSrc", control });
 
   const onSubmit = async (data: UserOptionalInput) => {
-    await addUser(data);
+    withProgress(async () => {
+      await addUser(data);
+    });
   };
 
   return (

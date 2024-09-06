@@ -22,6 +22,7 @@ import {
   UserImage,
 } from "@/models/zodExtension";
 import { useModal } from "@/providers/ModalProvider";
+import { useProgress } from "@/providers/ProgressProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { Ubuntu } from "next/font/google";
@@ -200,6 +201,7 @@ export function Bottombar(props: {
 
 function PostFormContent({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(0);
+  const { withProgress } = useProgress();
 
   const {
     register,
@@ -267,8 +269,10 @@ function PostFormContent({ onClose }: { onClose: () => void }) {
     if (step < steps.length - 1) {
       setStep(step + 1);
     } else {
-      await addPost(getValues());
-      onClose();
+      withProgress(async () => {
+        await addPost(getValues());
+        onClose();
+      });
     }
   };
 
