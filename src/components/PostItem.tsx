@@ -78,7 +78,7 @@ export function PostItem(props: Props) {
             <MdiDotsHorizontal className="h-6 w-6 cursor-pointer hover:opacity-80" />
           }
           list={
-            <>
+            <div className="w-72">
               <li>
                 <a
                   onClick={() => {
@@ -128,7 +128,7 @@ export function PostItem(props: Props) {
                   </li>
                 </>
               )}
-            </>
+            </div>
           }
         />
       </div>
@@ -163,10 +163,10 @@ export function PostItem(props: Props) {
         </div>
         <div className="flex cursor-pointer items-center hover:opacity-80">
           <Dropdown
-            className="dropdown-end ml-auto"
+            className="dropdown-top ml-auto"
             button={<MaterialSymbolsShare className="h-6 w-6" />}
             list={
-              <>
+              <div className="w-48">
                 <li>
                   <a
                     onClick={() => {
@@ -200,7 +200,7 @@ export function PostItem(props: Props) {
                     <div>Facebookでシェア</div>
                   </a>
                 </li>
-              </>
+              </div>
             }
           />
         </div>

@@ -19,7 +19,7 @@ export function Dropdown(props: Props) {
 
         <ul
           tabIndex={0}
-          className="menu dropdown-content z-10 mb-2 w-72 rounded-box bg-neutral"
+          className="menu dropdown-content z-10 mb-2 rounded-box bg-neutral"
           onClick={(e) => e.currentTarget.blur()}
         >
           {props.list}
