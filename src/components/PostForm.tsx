@@ -149,10 +149,12 @@ function InputMeta({ postForm }: PostFormStepProps) {
 function InputSpot({ spotForm }: PostFormStepProps) {
   const latitude = useWatch({ name: "latitude", control: spotForm.control });
   const longitude = useWatch({ name: "longitude", control: spotForm.control });
+  const latlon: [number, number] | undefined =
+    latitude && longitude ? [latitude, longitude] : undefined;
 
   return (
     <>
-      <Map center={[latitude, longitude]} marker={[latitude, longitude]} />
+      <Map center={latlon} marker={latlon} />
 
       <div className="label label-text">スポット名称</div>
       <input
@@ -225,6 +227,7 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
   useEffect(() => {
     if (step === 0) {
       postForm.reset();
+      spotForm.reset();
     }
   }, [step === 0]);
 
@@ -233,9 +236,14 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
       setStep(step + 1);
     } else {
       withProgress(async () => {
-        const spot = await addSpot(spotForm.getValues());
-        postForm.setValue("spotId", spot.id);
+        try {
+          // FIXME: use zod parse
+          const spot = await addSpot(spotForm.getValues());
+          postForm.setValue("spotId", spot.id);
+        } catch {}
         await addPost(postForm.getValues());
+
+        onDispose();
       });
     }
   };

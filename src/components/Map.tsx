@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 type Props = {
   className?: string;
-  center: [number, number];
+  center?: [number, number];
   marker?: [number, number];
 };
 
@@ -16,5 +16,5 @@ const Leaflet = dynamic(
 );
 
 export function Map(props: Props) {
-  return <Leaflet {...props} />;
+  return <Leaflet {...props} center={props.center ?? [36, 138]} />;
 }
