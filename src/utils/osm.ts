@@ -1,10 +1,15 @@
-type Place = {
+type PlaceLatLon = {
   name: string;
   lat: number;
   lon: number;
 };
 
-export async function searchPlace(query: string): Promise<Array<Place>> {
+type PlaceAddress = {
+  name: string;
+  address: string;
+};
+
+export async function searchPlace(query: string): Promise<Array<PlaceLatLon>> {
   const ret = await fetch(
     `http://nominatim.openstreetmap.org/search?q=${query}&format=json&countrycodes=jp`,
     {
@@ -13,14 +18,17 @@ export async function searchPlace(query: string): Promise<Array<Place>> {
   );
   const json: Array<any> = await ret.json();
 
-  return json.map<Place>((data) => ({
+  return json.map<PlaceLatLon>((data) => ({
     name: data.name as string,
     lat: parseFloat(data["lat"]),
     lon: parseFloat(data["lon"]),
   }));
 }
 
-export async function getAddress(lat: number, lon: number): Promise<string> {
+export async function getAddress(
+  lat: number,
+  lon: number,
+): Promise<PlaceAddress> {
   const ret = await fetch(
     `http://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
     {
@@ -29,5 +37,8 @@ export async function getAddress(lat: number, lon: number): Promise<string> {
   );
   const json: any = await ret.json();
 
-  return `${json.address.province ?? ""}${json.address.city ?? ""}${json.address.neighbourhood ?? ""}`;
+  return {
+    name: json.name,
+    address: `${json.address.province ?? ""}${json.address.city ?? ""}${json.address.neighbourhood ?? ""}`,
+  };
 }

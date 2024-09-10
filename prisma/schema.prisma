@@ -78,8 +78,7 @@ model Hashtag {
 model Spot {
   id        Int       @id @default(autoincrement())
   userId    String    @db.Uuid
-  name      String?
-  title     String
+  name      String
   latitude  Float
   longitude Float
   private   Boolean   @default(false)

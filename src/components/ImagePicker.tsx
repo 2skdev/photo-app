@@ -20,6 +20,7 @@ async function file2base64(file: File): Promise<string> {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
+      preserveExif: true,
     });
 
     reader.onloadend = () => {

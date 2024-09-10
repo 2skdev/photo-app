@@ -18,7 +18,7 @@ export const PostScalarFieldEnumSchema = z.enum(['id','userId','spotId','text','
 
 export const HashtagScalarFieldEnumSchema = z.enum(['id','postId','tag']);
 
-export const SpotScalarFieldEnumSchema = z.enum(['id','userId','name','title','latitude','longitude','private','createdAt','updatedAt','deletedAt']);
+export const SpotScalarFieldEnumSchema = z.enum(['id','userId','name','latitude','longitude','private','createdAt','updatedAt','deletedAt']);
 
 export const CommentScalarFieldEnumSchema = z.enum(['id','userId','postId','text','createdAt','updatedAt','deletedAt']);
 
@@ -137,8 +137,7 @@ export type HashtagOptionalDefaults = z.infer<typeof HashtagOptionalDefaultsSche
 export const SpotSchema = z.object({
   id: z.number().int(),
   userId: z.string(),
-  name: z.string().nullish(),
-  title: z.string(),
+  name: z.string(),
   latitude: z.number(),
   longitude: z.number(),
   private: z.boolean(),

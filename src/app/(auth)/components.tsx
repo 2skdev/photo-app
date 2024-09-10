@@ -1,35 +1,23 @@
 "use client";
 
 import { signOut } from "@/actions/auth";
-import { addPost } from "@/actions/post";
 import { Logo } from "@/components/Assets";
 import {
   MdiAccount,
-  MdiArrowLeft,
   MdiBell,
-  MdiClose,
   MdiDotsHorizontal,
   MdiHome,
   MdiMagnify,
   MdiPlus,
 } from "@/components/Icons";
-import { ImagePicker } from "@/components/ImagePicker";
+import { PostFormModalButton } from "@/components/PostForm";
 import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
-import {
-  PostOptionalInput,
-  PostOptionalInputSchema,
-  UserImage,
-} from "@/models/zodExtension";
-import { useModal } from "@/providers/ModalProvider";
-import { useProgress } from "@/providers/ProgressProvider";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { UserImage } from "@/models/zodExtension";
 import clsx from "clsx";
 import { Ubuntu } from "next/font/google";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
 
 const ubuntu = Ubuntu({
   weight: "700",
@@ -196,165 +184,5 @@ export function Bottombar(props: {
         </div>
       )}
     </>
-  );
-}
-
-function PostFormContent({ onClose }: { onClose: () => void }) {
-  const [step, setStep] = useState(0);
-  const { withProgress } = useProgress();
-
-  const {
-    register,
-    control,
-    getValues,
-    setValue,
-    formState: { isDirty, dirtyFields },
-    reset,
-  } = useForm<PostOptionalInput>({
-    resolver: zodResolver(PostOptionalInputSchema),
-    defaultValues: {
-      imageSrc: undefined,
-    },
-  });
-  const image = useWatch({ name: "imageSrc", control });
-
-  useEffect(() => {
-    if (step === 0) reset();
-  }, [step === 0]);
-
-  const steps = [
-    {
-      title: "画像を選択",
-      canNext: () => {
-        return image !== undefined;
-      },
-      child: (
-        <ImagePicker
-          onChange={(base64) => {
-            if (base64) {
-              setValue("imageSrc", base64);
-              onNext();
-            }
-          }}
-        />
-      ),
-    },
-    {
-      title: "キャプションを入力",
-      canNext: () => true,
-      child: (
-        <div className="grid max-w-screen-md md:grid-cols-3">
-          <img src={image} className="w-full md:col-span-2"></img>
-          <div className="md:border-l md:border-neutral md:pl-4">
-            <input
-              {...register("text", {
-                required: true,
-              })}
-              className="input input-bordered w-full"
-              placeholder="タイトル"
-            ></input>
-
-            <textarea
-              rows={4}
-              className="textarea textarea-bordered mt-4 w-full resize-none"
-              placeholder="説明"
-            ></textarea>
-          </div>
-        </div>
-      ),
-    },
-  ];
-
-  const onNext = async () => {
-    if (step < steps.length - 1) {
-      setStep(step + 1);
-    } else {
-      withProgress(async () => {
-        await addPost(getValues());
-        onClose();
-      });
-    }
-  };
-
-  const onPrev = () => {
-    if (step > 0) {
-      setStep(step - 1);
-    } else {
-      onClose();
-    }
-  };
-
-  return (
-    <>
-      <div className="mb-4 flex items-center justify-between">
-        <button className="btn btn-square btn-ghost btn-sm" onClick={onPrev}>
-          {step === 0 ? <MdiClose /> : <MdiArrowLeft />}
-        </button>
-        <div className="ml-2 font-bold">{steps[step].title}</div>
-
-        <button
-          className="btn btn-primary btn-sm ml-auto"
-          disabled={!steps[step].canNext()}
-          onClick={onNext}
-        >
-          {step === steps.length - 1 ? "投稿する" : "次へ"}
-        </button>
-      </div>
-      <div>{steps[step].child}</div>
-    </>
-  );
-}
-
-function PostFormModalButton({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const { open: openForm, close: closeForm } = useModal();
-  const { open: openAlert, close: closeAlert } = useModal();
-
-  const onDispose = () => {
-    closeAlert();
-    closeForm();
-  };
-
-  const Alert = () => {
-    return (
-      <>
-        <div className="my-2 text-lg">変更を破棄しますか？</div>
-        <div className="text-sm">
-          このまま移動すると、編集内容は保存されません
-        </div>
-        <div className="mt-4 border-t border-neutral pt-2">
-          <button
-            className="btn btn-ghost btn-block text-error"
-            onClick={() => {
-              onDispose();
-            }}
-          >
-            破棄
-          </button>
-          <button className="btn btn-ghost btn-block" onClick={closeAlert}>
-            キャンセル
-          </button>
-        </div>
-      </>
-    );
-  };
-
-  return (
-    <button
-      className={className}
-      onClick={() => {
-        openForm(<PostFormContent onClose={onDispose} />, () => {
-          openAlert(<Alert />);
-          return false;
-        });
-      }}
-    >
-      {children}
-    </button>
   );
 }
