@@ -3,8 +3,8 @@
 import { getHashtagPosts } from "@/actions/hashtag";
 import { Header } from "@/components/Header";
 import { Map } from "@/components/Map";
-import { searchPlace } from "@/libs/osm";
 import { Post } from "@/models/zod";
+import { searchPlace } from "@/utils/osm";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
