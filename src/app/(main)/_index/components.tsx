@@ -3,6 +3,7 @@
 import { addFollow, deleteFollow } from "@/actions/follow";
 import { addLike, deleteLike, getLikeUserCount } from "@/actions/like";
 import { deletePost } from "@/actions/post";
+import { addSpam } from "@/actions/spam";
 import { LogoFB, LogoX } from "@/components/Assets";
 import { Dropdown } from "@/components/Dropdown";
 import { HashtagText } from "@/components/HashtagText";
@@ -10,18 +11,61 @@ import {
   MaterialSymbolsShare,
   MdiCardsHeart,
   MdiCardsHeartOutline,
+  MdiChevronRight,
   MdiCommentOutline,
   MdiDotsHorizontal,
   MdiLink,
 } from "@/components/Icons";
 import { UserAvatar } from "@/components/UserAvatar";
 import { BASE_URL } from "@/constants/url";
+import { useModal } from "@/providers/ModalProvider";
 import { useSnackbar } from "@/providers/SnackbarProvider";
+import { Post, SpamTypeType } from "@/types/zod";
 import { getDateString } from "@/utils/date";
 import { getPublicUrl } from "@/utils/storage";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { getTimelinePosts, TimelinePost } from "./actions";
+
+function SpamForm({ post, onClose }: { post: Post; onClose: () => void }) {
+  const titles: { [key in SpamTypeType]: string } = {
+    Spam: "スパム",
+    Hate: "中傷または差別的",
+    Violent: "暴力的な発言",
+    Sensitive: "センシティブなメディア",
+    Nude: "ヌードまたは性的行為",
+    Privacy: "個人情報の侵害",
+    Illegal: "違法なコンテンツ",
+  };
+
+  const onClick = async (type: SpamTypeType) => {
+    await addSpam({
+      userId: "", // set by server action
+      type,
+      postId: post.id,
+    });
+    onClose();
+  };
+
+  return (
+    <div>
+      <div className="mb-2 font-bold">報告する問題の種類を教えてください</div>
+
+      {Object.entries(titles).map(([key, value]) => (
+        <div
+          key={key}
+          className="flex h-8 cursor-pointer items-center justify-between px-4 py-6 hover:bg-neutral"
+          onClick={() => {
+            onClick(key as SpamTypeType);
+          }}
+        >
+          <div>{value}</div>
+          <MdiChevronRight />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 type TimelineItemProps = {
   item: TimelinePost;
@@ -29,6 +73,7 @@ type TimelineItemProps = {
 function TimelineItem(props: TimelineItemProps) {
   const router = useRouter();
   const { open: showSnackbar } = useSnackbar();
+  const { open: openModal, close: closeModal } = useModal();
 
   const [item, setItem] = useState(props.item);
 
@@ -131,7 +176,9 @@ function TimelineItem(props: TimelineItemProps) {
                     <a
                       className="text-error"
                       onClick={() => {
-                        throw new Error("Not implemented");
+                        openModal(
+                          <SpamForm post={item.post} onClose={closeModal} />,
+                        );
                       }}
                     >
                       報告する

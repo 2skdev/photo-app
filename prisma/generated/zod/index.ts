@@ -24,6 +24,8 @@ export const CommentScalarFieldEnumSchema = z.enum(['id','userId','postId','text
 
 export const LikeScalarFieldEnumSchema = z.enum(['id','userId','postId','createdAt','updatedAt','deletedAt']);
 
+export const SpamScalarFieldEnumSchema = z.enum(['id','userId','postId','type','createdAt','updatedAt','deletedAt']);
+
 export const FollowScalarFieldEnumSchema = z.enum(['id','userId','followUserId','createdAt','updatedAt','deletedAt']);
 
 export const NotificationScalarFieldEnumSchema = z.enum(['id','userId','eventId','eventType','read','createdAt','updatedAt','deletedAt']);
@@ -33,6 +35,10 @@ export const SortOrderSchema = z.enum(['asc','desc']);
 export const QueryModeSchema = z.enum(['default','insensitive']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
+
+export const SpamTypeSchema = z.enum(['Spam','Hate','Violent','Sensitive','Nude','Privacy','Illegal']);
+
+export type SpamTypeType = `${z.infer<typeof SpamTypeSchema>}`
 
 export const EventTypeSchema = z.enum(['Comment','Like','Follow']);
 
@@ -212,6 +218,33 @@ export const LikeOptionalDefaultsSchema = LikeSchema.merge(z.object({
 }))
 
 export type LikeOptionalDefaults = z.infer<typeof LikeOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// SPAM SCHEMA
+/////////////////////////////////////////
+
+export const SpamSchema = z.object({
+  type: SpamTypeSchema,
+  id: z.number().int(),
+  userId: z.string(),
+  postId: z.string(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullish(),
+})
+
+export type Spam = z.infer<typeof SpamSchema>
+
+// SPAM OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const SpamOptionalDefaultsSchema = SpamSchema.merge(z.object({
+  id: z.number().int().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
+}))
+
+export type SpamOptionalDefaults = z.infer<typeof SpamOptionalDefaultsSchema>
 
 /////////////////////////////////////////
 // FOLLOW SCHEMA

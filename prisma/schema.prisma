@@ -36,6 +36,7 @@ model User {
   follows      Follow[]       @relation("follower")
   followers    Follow[]       @relation("followee")
   notification Notification[]
+  Spam         Spam[]
 }
 
 model Post {
@@ -64,6 +65,7 @@ model Post {
   comments Comment[]
   likes    Like[]
   hashtags Hashtag[]
+  Spam     Spam[]
 }
 
 model Hashtag {
@@ -115,6 +117,31 @@ model Like {
   post Post @relation(fields: [postId], references: [id])
 
   @@unique([userId, postId])
+}
+
+enum SpamType {
+  Spam
+  Hate
+  Violent
+  Sensitive
+  Nude
+  Privacy
+  Illegal
+}
+
+model Spam {
+  id        Int       @id @default(autoincrement())
+  userId    String    @db.Uuid
+  postId    String
+  type      SpamType
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+
+  @@unique([userId, postId, type])
 }
 
 model Follow {
