@@ -27,6 +27,32 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { getTimelinePosts, TimelinePost } from "./actions";
 
+function DeleteForm({
+  onDelete,
+  onCancel,
+}: {
+  onDelete: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <>
+      <div className="my-2 text-lg">投稿を削除しますか？</div>
+      <div className="text-sm">この操作は取り消せません</div>
+      <div className="mt-4 border-t border-neutral pt-2">
+        <button
+          className="btn btn-ghost btn-block text-error"
+          onClick={onDelete}
+        >
+          削除
+        </button>
+        <button className="btn btn-ghost btn-block" onClick={onCancel}>
+          キャンセル
+        </button>
+      </div>
+    </>
+  );
+}
+
 function SpamForm({ post, onClose }: { post: Post; onClose: () => void }) {
   const titles: { [key in SpamTypeType]: string } = {
     Spam: "スパム",
@@ -152,8 +178,16 @@ function TimelineItem(props: TimelineItemProps) {
                   <a
                     className="text-error"
                     onClick={() => {
-                      // todo: confirm dialog
-                      deletePost(item.post);
+                      openModal(
+                        <DeleteForm
+                          onDelete={async () => {
+                            await deletePost(item.post);
+                            closeModal();
+                            window.location.reload();
+                          }}
+                          onCancel={closeModal}
+                        />,
+                      );
                     }}
                   >
                     投稿を削除
