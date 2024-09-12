@@ -59,7 +59,7 @@ export async function getLoginUser(): Promise<User> {
   return user;
 }
 
-export async function addUser(input: UserOptionalInput, image?: string) {
+export async function upsertUser(input: UserOptionalInput, image?: string) {
   const auth = await getAuthUser();
 
   if (!auth) {
@@ -80,57 +80,16 @@ export async function addUser(input: UserOptionalInput, image?: string) {
 
     const data = UserOptionalDefaultsSchema.parse({
       ...input,
-      // TODO: id to optional(use auth.uid())
       id: auth.id,
       iconPath: path,
     });
 
-    const { accountName } = await prisma.user.create({
-      data: { ...data },
-    });
-
-    redirectTo = `/${accountName}`;
-  } catch (e) {
-    // TODO: need error handling
-    console.log(e);
-  }
-
-  if (redirectTo) {
-    redirect(redirectTo);
-  }
-}
-
-export async function updateUser(input: UserOptionalInput, image?: string) {
-  const auth = await getAuthUser();
-
-  if (!auth) {
-    redirect("/login");
-  }
-
-  let redirectTo = undefined;
-
-  try {
-    let path = undefined;
-
-    if (image) {
-      path = await uploadImage("User", image, {
-        path: `${auth.id}`,
-        upsert: true,
-      });
-    }
-
-    const data = UserOptionalDefaultsSchema.parse({
-      ...input,
-      // TODO: id to optional(use auth.uid())
-      id: auth.id,
-      iconPath: path,
-    });
-
-    const { accountName } = await prisma.user.update({
+    const { accountName } = await prisma.user.upsert({
       where: {
         id: auth.id,
       },
-      data: { ...data },
+      create: { ...data },
+      update: { ...data },
     });
 
     redirectTo = `/${accountName}`;

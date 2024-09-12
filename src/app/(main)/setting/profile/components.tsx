@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUser } from "@/actions/user";
+import { upsertUser } from "@/actions/user";
 import { MdiPencil } from "@/components/Icons";
 import { ImagePicker } from "@/components/ImagePicker";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
@@ -25,7 +25,7 @@ export function ProfileForm({
     });
 
   const onSubmit = async (data: UserOptionalInput) => {
-    await updateUser(data, image);
+    await upsertUser(data, image);
   };
 
   function IconPicker() {

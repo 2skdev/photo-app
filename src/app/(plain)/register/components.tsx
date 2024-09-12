@@ -1,6 +1,6 @@
 "use client";
 
-import { addUser } from "@/actions/user";
+import { upsertUser } from "@/actions/user";
 import { ImagePicker } from "@/components/ImagePicker";
 import { useProgress } from "@/providers/ProgressProvider";
 import { UserOptionalInput, UserOptionalInputSchema } from "@/types/zod";
@@ -20,7 +20,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: UserOptionalInput) => {
     withProgress(async () => {
-      await addUser(data, image);
+      await upsertUser(data, image);
     });
   };
 
