@@ -1,18 +1,11 @@
 "use client";
 
-import { updateFollow } from "@/actions/follow";
-import { updateLike } from "@/actions/like";
+import { addFollow, deleteFollow } from "@/actions/follow";
+import { addLike, deleteLike, getLikeUserCount } from "@/actions/like";
 import { deletePost } from "@/actions/post";
-import { BASE_URL } from "@/constants/url";
-import { User } from "@/models/zod";
-import { PostImage, UserImage } from "@/models/zodExtension";
-import { useSnackbar } from "@/providers/SnackbarProvider";
-import { getDateString } from "@/utils/date";
-import { notFound, useRouter } from "next/navigation";
-import { useState } from "react";
-import { LogoFB, LogoX } from "./Assets";
-import { Dropdown } from "./Dropdown";
-import { HashtagText } from "./HashtagText";
+import { LogoFB, LogoX } from "@/components/Assets";
+import { Dropdown } from "@/components/Dropdown";
+import { HashtagText } from "@/components/HashtagText";
 import {
   MaterialSymbolsShare,
   MdiCardsHeart,
@@ -20,37 +13,52 @@ import {
   MdiCommentOutline,
   MdiDotsHorizontal,
   MdiLink,
-} from "./Icons";
-import { UserAvatar } from "./UserAvatar";
+} from "@/components/Icons";
+import { UserAvatar } from "@/components/UserAvatar";
+import { BASE_URL } from "@/constants/url";
+import { useSnackbar } from "@/providers/SnackbarProvider";
+import { getDateString } from "@/utils/date";
+import { getPublicUrl } from "@/utils/storage";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { getTimelinePosts, TimelinePost } from "./actions";
 
-type Props = {
-  post: PostImage;
-  user: UserImage;
-  me: User;
-  follow: boolean;
-  like: boolean;
-  likeCount: number;
+type TimelineItemProps = {
+  item: TimelinePost;
 };
-
-export function PostItem(props: Props) {
+function TimelineItem(props: TimelineItemProps) {
   const router = useRouter();
-  const [follow, _setFollow] = useState(props.follow);
-  const [like, _setLike] = useState(props.like);
-
   const { open: showSnackbar } = useSnackbar();
 
-  if (!props.post.imageSrc) {
-    notFound();
-  }
+  const [item, setItem] = useState(props.item);
 
-  const setFollow = (state: boolean) => {
-    _setFollow(state);
-    updateFollow(props.user, state);
+  const toggleFollow = async () => {
+    let newItem = { ...item };
+
+    if (item.follow) {
+      await deleteFollow(item.user);
+      newItem.follow = null;
+    } else {
+      newItem.follow = await addFollow(item.user);
+    }
+
+    // todo: apply ui before update state
+    setItem(newItem);
   };
 
-  const setLike = (state: boolean) => {
-    _setLike(state);
-    updateLike(props.post, state);
+  const toggleLike = async () => {
+    let newItem = { ...item };
+
+    if (item.like) {
+      await deleteLike(item.post);
+      newItem.like = null;
+    } else {
+      newItem.like = await addLike(item.post);
+    }
+
+    // todo: apply ui before update state
+    newItem.count.like = await getLikeUserCount(item.post);
+    setItem(newItem);
   };
 
   return (
@@ -59,17 +67,20 @@ export function PostItem(props: Props) {
         <div
           className="flex cursor-pointer items-center"
           onClick={() => {
-            router.push(`/${props.user.accountName}`);
+            router.push(`/${item.user.accountName}`);
           }}
         >
-          <UserAvatar src={props.user.iconSrc} className="h-10 w-10" />
-          <div className="ml-2">{props.user.displayName}</div>
+          <UserAvatar
+            src={getPublicUrl("User", item.user.iconPath)}
+            className="h-10 w-10"
+          />
+          <div className="ml-2">{item.user.displayName}</div>
           <div className="ml-1 text-sm font-light">
-            @{props.user.accountName}
+            @{item.user.accountName}
           </div>
         </div>
         <div className="ml-2 pt-1 text-sm font-light">
-          • {getDateString(props.post.createdAt)}
+          • {getDateString(item.post.createdAt)}
         </div>
 
         <Dropdown
@@ -83,7 +94,7 @@ export function PostItem(props: Props) {
                 <a
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${BASE_URL}/${props.user.accountName}/${props.post.id}`,
+                      `${BASE_URL}/${item.user.accountName}/${item.post.id}`,
                     );
                     showSnackbar("リンクをコピーしました", "success");
                   }}
@@ -91,29 +102,29 @@ export function PostItem(props: Props) {
                   リンクをコピー
                 </a>
               </li>
-              {props.post.userId === props.me.id && (
+              {item.post.userId === item.me.id && (
                 <li>
                   <a
                     className="text-error"
                     onClick={() => {
                       // todo: confirm dialog
-                      deletePost(props.post);
+                      deletePost(item.post);
                     }}
                   >
                     投稿を削除
                   </a>
                 </li>
               )}
-              {props.post.userId !== props.me.id && (
+              {item.post.userId !== item.me.id && (
                 <>
                   <li>
                     <a
-                      onClick={() => setFollow(!follow)}
-                      className={follow ? "text-error" : ""}
+                      onClick={toggleFollow}
+                      className={item.follow ? "text-error" : ""}
                     >
-                      {follow
+                      {item.follow
                         ? "フォローをやめる"
-                        : `@${props.user.accountName}さんをフォロー`}
+                        : `@${item.user.accountName}さんをフォロー`}
                     </a>
                   </li>
                   <li>
@@ -135,10 +146,10 @@ export function PostItem(props: Props) {
 
       <div className="mt-2 flex w-full cursor-pointer justify-center rounded bg-black">
         <img
-          src={props.post.imageSrc}
+          src={getPublicUrl("Post", item.post.imagePath)!}
           className="rounded"
           onClick={() =>
-            router.push(`/${props.user.accountName}/${props.post.id}`)
+            router.push(`/${item.user.accountName}/${item.post.id}`)
           }
         />
       </div>
@@ -146,20 +157,18 @@ export function PostItem(props: Props) {
       <div className="mt-4 flex items-center space-x-4">
         <div
           className="flex w-10 cursor-pointer items-center hover:opacity-80"
-          onClick={() => setLike(!like)}
+          onClick={toggleLike}
         >
-          {like ? (
+          {item.like ? (
             <MdiCardsHeart className="h-6 w-6 fill-red-500" />
           ) : (
             <MdiCardsHeartOutline className="h-6 w-6" />
           )}
-          <div className="ml-1 text-sm">
-            {props.likeCount - (props.like ? 1 : 0) + (like ? 1 : 0)}
-          </div>
+          <div className="ml-1 text-sm">{item.count.like}</div>
         </div>
         <div className="flex w-10 cursor-pointer items-center hover:opacity-80">
           <MdiCommentOutline className="h-6 w-6" />
-          <div className="ml-1 text-sm">0</div>
+          <div className="ml-1 text-sm">{item.count.comment}</div>
         </div>
         <div className="flex cursor-pointer items-center hover:opacity-80">
           <Dropdown
@@ -171,7 +180,7 @@ export function PostItem(props: Props) {
                   <a
                     onClick={() => {
                       navigator.clipboard.writeText(
-                        `${BASE_URL}/${props.user.accountName}/${props.post.id}`,
+                        `${BASE_URL}/${item.user.accountName}/${item.post.id}`,
                       );
                       showSnackbar("リンクをコピーしました", "success");
                     }}
@@ -182,7 +191,7 @@ export function PostItem(props: Props) {
                 </li>
                 <li>
                   <a
-                    href={`http://x.com/share?url=${BASE_URL}/${props.user.accountName}/${props.post.id}&text=${props.post.text}&via=${props.user.accountName}`}
+                    href={`http://x.com/share?url=${BASE_URL}/${item.user.accountName}/${item.post.id}&text=${item.post.text}&via=${item.user.accountName}`}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
                   >
@@ -192,7 +201,7 @@ export function PostItem(props: Props) {
                 </li>
                 <li>
                   <a
-                    href={`http://www.facebook.com/share.php?u=yurukei-career.com?u=${BASE_URL}/${props.user.accountName}/${props.post.id}`}
+                    href={`http://www.facebook.com/share.php?u=yurukei-career.com?u=${BASE_URL}/${item.user.accountName}/${item.post.id}`}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
                   >
@@ -209,12 +218,60 @@ export function PostItem(props: Props) {
       <div className="mt-2">
         <div className="whitespace-pre-wrap font-light">
           <HashtagText
-            text={props.post.text}
+            text={item.post.text}
             onClick={(tag) => {
               router.push(`/search?q=${encodeURIComponent(tag)}`);
             }}
           />
         </div>
+      </div>
+    </>
+  );
+}
+
+type TimelineProps = {
+  default: Array<TimelinePost>;
+};
+export function Timeline(props: TimelineProps) {
+  const [items, setItems] = useState<Array<TimelinePost>>(props.default);
+  const [loading, setLoading] = useState(false);
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setLoading(true);
+          getTimelinePosts(items.length).then((newItems) => {
+            setItems([...items, ...newItems]);
+            setLoading(false);
+          });
+        }
+      },
+      { threshold: 1 },
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <>
+      {items.map((item) => (
+        <>
+          <TimelineItem key={item.post.id} item={item} />
+          <div className="my-4 w-full border-b border-neutral" />
+        </>
+      ))}
+      <div ref={observerRef} className="flex w-full justify-center">
+        {loading && <span className="loading loading-dots"></span>}
       </div>
     </>
   );

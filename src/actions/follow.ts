@@ -48,6 +48,43 @@ export async function getFollowById(id: number): Promise<
   return follow;
 }
 
+export async function addFollow(followUser: User) {
+  const auth = await getAuthUser();
+
+  const data = FollowOptionalDefaultsSchema.parse({
+    userId: auth.id,
+    followUserId: followUser.id,
+    deletedAt: null,
+  });
+
+  return await prisma.follow.upsert({
+    where: {
+      userId_followUserId: {
+        userId: data.userId,
+        followUserId: data.followUserId,
+      },
+    },
+    create: { ...data },
+    update: { deletedAt: null },
+  });
+}
+
+export async function deleteFollow(followUser: User) {
+  const auth = await getAuthUser();
+
+  await prisma.follow.update({
+    where: {
+      userId_followUserId: {
+        userId: auth.id,
+        followUserId: followUser.id,
+      },
+    },
+    data: {
+      deletedAt: new Date(),
+    },
+  });
+}
+
 export async function updateFollow(
   user: User,
   status: boolean,

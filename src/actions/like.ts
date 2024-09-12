@@ -42,6 +42,43 @@ export async function getLikeById(
   return like;
 }
 
+export async function addLike(post: Post) {
+  const auth = await getAuthUser();
+
+  const data = LikeOptionalDefaultsSchema.parse({
+    userId: auth.id,
+    postId: post.id,
+    deletedAt: null,
+  });
+
+  return await prisma.like.upsert({
+    where: {
+      userId_postId: {
+        userId: data.userId,
+        postId: data.postId,
+      },
+    },
+    create: { ...data },
+    update: { deletedAt: data.deletedAt },
+  });
+}
+
+export async function deleteLike(post: Post) {
+  const auth = await getAuthUser();
+
+  await prisma.like.update({
+    where: {
+      userId_postId: {
+        userId: auth.id,
+        postId: post.id,
+      },
+    },
+    data: {
+      deletedAt: new Date(),
+    },
+  });
+}
+
 export async function updateLike(post: Post, status: boolean): Promise<Like> {
   const auth = await getAuthUser();
 
