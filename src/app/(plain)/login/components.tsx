@@ -14,10 +14,7 @@ export function SignInWithGoogleButton() {
   };
 
   return (
-    <button
-      onClick={onSignIn}
-      className="btn btn-block flex flex-row justify-center"
-    >
+    <button onClick={onSignIn} className="btn flex flex-row justify-center">
       <OAuthGoogle className="h-6 w-6" />
       <div>Sign in with Google</div>
     </button>
