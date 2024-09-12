@@ -1,9 +1,12 @@
 "use server";
 
-// import { User } from "@/models/zod";
+// import { User } from "@/types/zod";
 import prisma from "@/libs/prisma/client";
-import { User, UserOptionalDefaultsSchema } from "@/models/zod";
-import { UserOptionalInput } from "@/models/zodExtension";
+import {
+  User,
+  UserOptionalDefaultsSchema,
+  UserOptionalInput,
+} from "@/types/zod";
 import { notFound, redirect } from "next/navigation";
 import { getAuthUser } from "./auth";
 import { uploadImage } from "./storage";

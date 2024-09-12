@@ -5,11 +5,7 @@ import { MdiPencil } from "@/components/Icons";
 import { ImagePicker } from "@/components/ImagePicker";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
 import { UserAvatar } from "@/components/UserAvatar";
-import { User } from "@/models/zod";
-import {
-  UserOptionalInput,
-  UserOptionalInputSchema,
-} from "@/models/zodExtension";
+import { User, UserOptionalInput, UserOptionalInputSchema } from "@/types/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 

@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/libs/prisma/client";
-import { Like, LikeOptionalDefaultsSchema, Post, User } from "@/models/zod";
+import { Like, LikeOptionalDefaultsSchema, Post, User } from "@/types/zod";
 import { notFound } from "next/navigation";
 import { getAuthUser } from "./auth";
 

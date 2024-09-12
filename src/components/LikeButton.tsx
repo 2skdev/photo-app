@@ -1,7 +1,7 @@
 "use client";
 
 import { updateLike } from "@/actions/like";
-import { Post } from "@/models/zod";
+import { Post } from "@/types/zod";
 import { useState } from "react";
 import { MdiCardsHeart, MdiCardsHeartOutline } from "./Icons";
 

@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/libs/prisma/client";
-import { Post } from "@/models/zod";
+import { Post } from "@/types/zod";
 
 export async function getHashtagPosts(tag: string): Promise<Array<Post>> {
   const hashtags = await prisma.hashtag.findMany({

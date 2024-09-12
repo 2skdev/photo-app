@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/libs/prisma/client";
-import { SpotOptionalDefaults, SpotOptionalDefaultsSchema } from "@/models/zod";
+import { SpotOptionalDefaults, SpotOptionalDefaultsSchema } from "@/types/zod";
 import { getAuthUser } from "./auth";
 
 export async function addSpot(input: SpotOptionalDefaults) {

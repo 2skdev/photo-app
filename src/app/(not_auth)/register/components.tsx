@@ -2,11 +2,8 @@
 
 import { addUser } from "@/actions/user";
 import { ImagePicker } from "@/components/ImagePicker";
-import {
-  UserOptionalInput,
-  UserOptionalInputSchema,
-} from "@/models/zodExtension";
 import { useProgress } from "@/providers/ProgressProvider";
+import { UserOptionalInput, UserOptionalInputSchema } from "@/types/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm, useWatch } from "react-hook-form";

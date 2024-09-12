@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/libs/prisma/client";
-import { Follow, FollowOptionalDefaultsSchema, User } from "@/models/zod";
+import { Follow, FollowOptionalDefaultsSchema, User } from "@/types/zod";
 import { notFound } from "next/navigation";
 import { getAuthUser } from "./auth";
 

@@ -6,8 +6,7 @@ import {
   MdiCommentOutline,
 } from "@/components/Icons";
 import { UserAvatar } from "@/components/UserAvatar";
-import { Comment, User } from "@/models/zod";
-import { PostImage, UserImage } from "@/models/zodExtension";
+import { Comment, PostImage, User, UserImage } from "@/types/zod";
 import Link from "next/link";
 
 export function CommentNotification({

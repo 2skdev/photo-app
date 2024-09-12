@@ -13,7 +13,7 @@ import {
 import { PostFormModalButton } from "@/components/PostForm";
 import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
-import { UserImage } from "@/models/zodExtension";
+import { UserImage } from "@/types/zod";
 import clsx from "clsx";
 import { Ubuntu } from "next/font/google";
 import Link from "next/link";

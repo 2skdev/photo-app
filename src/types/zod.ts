@@ -1,10 +1,12 @@
+export * from "../../prisma/generated/zod";
+
 import { z } from "zod";
 import {
   PostOptionalDefaultsSchema,
   PostSchema,
   UserOptionalDefaultsSchema,
   UserSchema,
-} from "../zod";
+} from "../../prisma/generated/zod";
 
 export const PostImageSchema = PostSchema.merge(
   z.object({

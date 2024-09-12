@@ -7,7 +7,7 @@ import {
   CommentOptionalDefaultsSchema,
   Post,
   User,
-} from "@/models/zod";
+} from "@/types/zod";
 import { notFound } from "next/navigation";
 import { getAuthUser } from "./auth";
 

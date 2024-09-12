@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/libs/prisma/client";
-import { Notification } from "@/models/zod";
+import { Notification } from "@/types/zod";
 import { getAuthUser } from "./auth";
 
 export async function getNotifications(): Promise<Array<Notification>> {

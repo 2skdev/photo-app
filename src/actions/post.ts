@@ -3,8 +3,12 @@
 import { uploadImage } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
-import { Post, PostOptionalDefaultsSchema, User } from "@/models/zod";
-import { PostOptionalInput } from "@/models/zodExtension";
+import {
+  Post,
+  PostOptionalDefaultsSchema,
+  PostOptionalInput,
+  User,
+} from "@/types/zod";
 import random from "@/utils/random";
 import { notFound, redirect } from "next/navigation";
 

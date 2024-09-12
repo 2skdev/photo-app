@@ -1,8 +1,7 @@
 "use client";
 
 import { updateFollow } from "@/actions/follow";
-import { User } from "@/models/zod";
-import { PostImage, UserImage } from "@/models/zodExtension";
+import { PostImage, User, UserImage } from "@/types/zod";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

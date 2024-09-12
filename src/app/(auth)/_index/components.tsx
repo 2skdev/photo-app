@@ -265,10 +265,10 @@ export function Timeline(props: TimelineProps) {
   return (
     <>
       {items.map((item) => (
-        <>
-          <TimelineItem key={item.post.id} item={item} />
+        <div key={item.post.id}>
+          <TimelineItem item={item} />
           <div className="my-4 w-full border-b border-neutral" />
-        </>
+        </div>
       ))}
       <div ref={observerRef} className="flex w-full justify-center">
         {loading && <span className="loading loading-dots"></span>}

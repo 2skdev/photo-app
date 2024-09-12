@@ -2,7 +2,7 @@
 
 import { getLoginUser } from "@/actions/user";
 import prisma from "@/libs/prisma/client";
-import { Follow, Like, Post, User } from "@/models/zod";
+import { Follow, Like, Post, User } from "@/types/zod";
 
 export type TimelinePost = {
   post: Post;

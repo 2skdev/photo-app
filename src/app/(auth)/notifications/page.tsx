@@ -7,7 +7,7 @@ import { getLoginUser } from "@/actions/user";
 import { Header } from "@/components/Header";
 import { MdiCog } from "@/components/Icons";
 import { APP_NAME } from "@/constants/string";
-import { PostImage, UserImage } from "@/models/zodExtension";
+import { PostImage, UserImage } from "@/types/zod";
 import Link from "next/link";
 import {
   CommentNotification,

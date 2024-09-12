@@ -2,7 +2,7 @@ import { getUnreadNotificationCount } from "@/actions/notification";
 import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
-import { UserImage } from "@/models/zodExtension";
+import { UserImage } from "@/types/zod";
 import { ReactNode } from "react";
 import { Bottombar, Sidebar } from "./components";
 

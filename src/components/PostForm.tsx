@@ -3,13 +3,14 @@
 import { addPost } from "@/actions/post";
 import { addSpot } from "@/actions/spot";
 import { Map } from "@/components/Map";
-import { SpotOptionalDefaults, SpotOptionalDefaultsSchema } from "@/models/zod";
+import { useModal } from "@/providers/ModalProvider";
+import { useProgress } from "@/providers/ProgressProvider";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,
-} from "@/models/zodExtension";
-import { useModal } from "@/providers/ModalProvider";
-import { useProgress } from "@/providers/ProgressProvider";
+  SpotOptionalDefaults,
+  SpotOptionalDefaultsSchema,
+} from "@/types/zod";
 import { getAddress } from "@/utils/osm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import exifr from "exifr";
