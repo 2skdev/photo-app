@@ -48,13 +48,13 @@ export async function getPosts(
   return posts;
 }
 
-export async function addPost(input: PostOptionalInput) {
+export async function addPost(input: PostOptionalInput, image: string) {
   const me = await getLoginUser();
 
   let redirectTo = undefined;
 
   try {
-    const path = await uploadImage(input.imageSrc, "Post");
+    const path = await uploadImage("Post", image);
 
     const data = PostOptionalDefaultsSchema.parse({
       ...input,
@@ -69,7 +69,7 @@ export async function addPost(input: PostOptionalInput) {
 
     redirectTo = `/${me.accountName}/${id}`;
   } catch (e) {
-    // TODO: need error handling
+    // TODO: need error handling(delete uploaded image)
     console.log(e);
   }
 

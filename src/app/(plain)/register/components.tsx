@@ -6,21 +6,21 @@ import { useProgress } from "@/providers/ProgressProvider";
 import { UserOptionalInput, UserOptionalInputSchema } from "@/types/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useForm, useWatch } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export function RegisterForm() {
   const { withProgress } = useProgress();
 
+  const [image, setImage] = useState<string>();
   const { register, control, handleSubmit, setValue } =
     useForm<UserOptionalInput>({
       resolver: zodResolver(UserOptionalInputSchema),
     });
 
-  const image = useWatch({ name: "iconSrc", control });
-
   const onSubmit = async (data: UserOptionalInput) => {
     withProgress(async () => {
-      await addUser(data);
+      await addUser(data, image);
     });
   };
 
@@ -55,11 +55,7 @@ export function RegisterForm() {
         <div className="mb-2 text-sm">アイコン</div>
         <ImagePicker
           crop
-          onChange={(base64) => {
-            if (base64) {
-              setValue("iconSrc", base64);
-            }
-          }}
+          onChange={setImage}
           picker={
             image ? (
               <img

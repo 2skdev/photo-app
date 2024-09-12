@@ -59,7 +59,7 @@ export async function getLoginUser(): Promise<User> {
   return user;
 }
 
-export async function addUser(input: UserOptionalInput) {
+export async function addUser(input: UserOptionalInput, image?: string) {
   const auth = await getAuthUser();
 
   if (!auth) {
@@ -71,8 +71,8 @@ export async function addUser(input: UserOptionalInput) {
   try {
     let path = undefined;
 
-    if (input.iconSrc) {
-      path = await uploadImage(input.iconSrc, "User", {
+    if (image) {
+      path = await uploadImage("User", image, {
         path: `${auth.id}`,
         upsert: true,
       });
@@ -100,7 +100,7 @@ export async function addUser(input: UserOptionalInput) {
   }
 }
 
-export async function updateUser(input: UserOptionalInput) {
+export async function updateUser(input: UserOptionalInput, image?: string) {
   const auth = await getAuthUser();
 
   if (!auth) {
@@ -112,8 +112,8 @@ export async function updateUser(input: UserOptionalInput) {
   try {
     let path = undefined;
 
-    if (input.iconSrc) {
-      path = await uploadImage(input.iconSrc, "User", {
+    if (image) {
+      path = await uploadImage("User", image, {
         path: `${auth.id}`,
         upsert: true,
       });

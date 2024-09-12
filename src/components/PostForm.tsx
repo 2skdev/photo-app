@@ -25,16 +25,20 @@ type PostFormStepProps = {
   spotForm: UseFormReturn<SpotOptionalDefaults>;
 };
 
-function UploadImage({ onNext, postForm, spotForm }: PostFormStepProps) {
+function UploadImage({
+  onNext,
+  postForm,
+  spotForm,
+  setImage,
+}: PostFormStepProps & { setImage: (base64: string) => void }) {
   const { withProgress } = useProgress();
 
   const onChange = async (base64?: string) => {
     if (!base64) return;
 
-    postForm.setValue("imageSrc", base64);
+    setImage(base64);
 
     const exif = await exifr.parse(base64);
-
     if (exif) {
       postForm.setValue(
         "camera",
@@ -86,9 +90,7 @@ function UploadImage({ onNext, postForm, spotForm }: PostFormStepProps) {
   );
 }
 
-function InputMeta({ postForm }: PostFormStepProps) {
-  const image = useWatch({ name: "imageSrc", control: postForm.control });
-
+function InputMeta({ postForm, image }: PostFormStepProps & { image: string }) {
   return (
     <div className="flex flex-col items-center space-y-1">
       <img src={image} className="max-h-56 max-w-56 rounded object-contain" />
@@ -215,6 +217,7 @@ function InputComment({ postForm }: PostFormStepProps) {
 
 export function PostForm({ onDispose }: { onDispose: () => void }) {
   const [step, setStep] = useState(0);
+  const [image, setImage] = useState<string>();
   const { withProgress } = useProgress();
 
   const postForm: UseFormReturn<PostOptionalInput> = useForm<PostOptionalInput>(
@@ -242,7 +245,8 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
           const spot = await addSpot(spotForm.getValues());
           postForm.setValue("spotId", spot.id);
         } catch {}
-        await addPost(postForm.getValues());
+
+        await addPost(postForm.getValues(), image!);
 
         onDispose();
       });
@@ -262,14 +266,24 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
       title: "画像を選択",
       canNext: () => false,
       child: (
-        <UploadImage onNext={onNext} postForm={postForm} spotForm={spotForm} />
+        <UploadImage
+          onNext={onNext}
+          postForm={postForm}
+          spotForm={spotForm}
+          setImage={setImage}
+        />
       ),
     },
     {
       title: "撮影情報を入力",
       canNext: () => true,
       child: (
-        <InputMeta onNext={onNext} postForm={postForm} spotForm={spotForm} />
+        <InputMeta
+          onNext={onNext}
+          postForm={postForm}
+          spotForm={spotForm}
+          image={image!}
+        />
       ),
     },
     {

@@ -7,7 +7,8 @@ import { MediaSwitcher } from "@/components/MediaSwitcher";
 import { UserAvatar } from "@/components/UserAvatar";
 import { User, UserOptionalInput, UserOptionalInputSchema } from "@/types/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export function ProfileForm({
   me,
@@ -16,16 +17,15 @@ export function ProfileForm({
   me?: User;
   iconUrl?: string | null;
 }) {
+  const [image, setImage] = useState<string>();
   const { register, control, handleSubmit, setValue } =
     useForm<UserOptionalInput>({
       defaultValues: { ...me },
       resolver: zodResolver(UserOptionalInputSchema),
     });
 
-  const image = useWatch({ name: "iconSrc", control });
-
   const onSubmit = async (data: UserOptionalInput) => {
-    await updateUser(data);
+    await updateUser(data, image);
   };
 
   function IconPicker() {
@@ -33,9 +33,7 @@ export function ProfileForm({
       <div className="flex items-center justify-center">
         <ImagePicker
           crop
-          onChange={(base64) => {
-            setValue("iconSrc", base64);
-          }}
+          onChange={setImage}
           picker={
             <div className="relative flex flex-col">
               <UserAvatar

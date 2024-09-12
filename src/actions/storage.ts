@@ -8,8 +8,8 @@ import { decode } from "base64-arraybuffer";
 import { getAuthUser } from "./auth";
 
 export async function uploadImage(
-  base64: string,
   bucket: Bucket,
+  base64: string,
   { path, upsert }: { path?: string; upsert?: boolean } = {},
 ): Promise<string | null> {
   const supabase = createClient();
