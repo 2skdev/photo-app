@@ -89,7 +89,7 @@ function SpamForm({ post, onClose }: { post: Post; onClose: () => void }) {
 type TimelineItemProps = {
   item: TimelinePost;
 };
-function TimelineItem(props: TimelineItemProps) {
+export function TimelineItem(props: TimelineItemProps) {
   const router = useRouter();
   const { open: showSnackbar } = useSnackbar();
   const { open: openModal, close: closeModal } = useModal();
