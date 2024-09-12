@@ -1,6 +1,7 @@
 import { getLike } from "@/actions/like";
 import { getPost } from "@/actions/post";
 import { getLoginUser, getUser } from "@/actions/user";
+import { Header } from "@/components/Header";
 import { Map } from "@/components/Map";
 import { APP_NAME } from "@/constants/string";
 import prisma from "@/libs/prisma/client";
@@ -45,6 +46,10 @@ export default async function Page({ params }: Props) {
 
   return (
     <div>
+      <Header spOnly back>
+        投稿
+      </Header>
+
       {/* TODO: move to components */}
       <TimelineItem
         item={{

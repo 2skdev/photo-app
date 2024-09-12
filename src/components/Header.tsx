@@ -44,7 +44,7 @@ export function Header(props: Props = { spOnly: false }) {
             ) : (
               props.children
             )}
-            {props.action && <div className="h-6 w-6">{props.action}</div>}
+            <div className="h-6 w-6">{props.action}</div>
           </div>,
           document.getElementById("header")!,
         )
