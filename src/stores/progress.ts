@@ -1,6 +1,5 @@
 "use client";
 
-import { Progress } from "@/components/Progress";
 import { create } from "zustand";
 
 type ProgressState = {
@@ -15,9 +14,3 @@ export const useProgress = create<ProgressState>()((set) => ({
     fn().then(() => set({ running: false }));
   },
 }));
-
-export function ProgressProvider() {
-  const { running } = useProgress();
-
-  return <>{running && <Progress />}</>;
-}

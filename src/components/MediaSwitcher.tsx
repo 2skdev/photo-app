@@ -1,6 +1,6 @@
 "use client";
 
-import { useMedia } from "@/providers/MediaProvider";
+import { useMedia } from "@/stores/media";
 import { ReactNode } from "react";
 
 type Props = {

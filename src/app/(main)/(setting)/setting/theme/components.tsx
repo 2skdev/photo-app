@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeType, useTheme } from "@/providers/ThemeProvider";
+import { ThemeType, useTheme } from "@/stores/theme";
 
 export function ThemePicker() {
   const { theme, setTheme } = useTheme();

@@ -2,7 +2,7 @@
 
 import { upsertUser } from "@/actions/user";
 import { ImagePicker } from "@/components/ImagePicker";
-import { useProgress } from "@/providers/ProgressProvider";
+import { useProgress } from "@/stores/progress";
 import { UserOptionalInput, UserOptionalInputSchema } from "@/types/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";

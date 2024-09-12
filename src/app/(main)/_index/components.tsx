@@ -18,8 +18,8 @@ import {
 } from "@/components/Icons";
 import { UserAvatar } from "@/components/UserAvatar";
 import { BASE_URL } from "@/constants/url";
-import { useModal } from "@/providers/ModalProvider";
-import { useSnackbar } from "@/providers/SnackbarProvider";
+import { useModal } from "@/stores/modal";
+import { useSnackbar } from "@/stores/snackbar";
 import { Post, SpamTypeType } from "@/types/zod";
 import { getDateString } from "@/utils/date";
 import { getPublicUrl } from "@/utils/storage";

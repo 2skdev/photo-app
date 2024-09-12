@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -48,24 +47,4 @@ export const useTheme = create<ThemeState>()(
 export function useCurrentTheme() {
   const { theme, deviceTheme } = useTheme();
   return theme === "auto" ? deviceTheme : theme;
-}
-
-export function ThemeProvider() {
-  const { setDeviceTheme } = useTheme();
-  const currentTheme = useCurrentTheme();
-
-  useEffect(() => {
-    setDeviceTheme(
-      window.matchMedia("(prefers-color-scheme: dark)").matches === true
-        ? "dark"
-        : "light",
-    );
-  }, []);
-
-  useEffect(() => {
-    const html = document.getElementsByTagName("html")[0];
-    html.setAttribute("data-theme", currentTheme);
-  }, [currentTheme]);
-
-  return <></>;
 }

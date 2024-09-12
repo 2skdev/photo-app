@@ -1,14 +1,10 @@
 import { Launch } from "@/components/Launch";
 import { APP_NAME } from "@/constants/string";
-import { MediaProvider } from "@/providers/MediaProvider";
-import { ModalProvider } from "@/providers/ModalProvider";
-import { ProgressProvider } from "@/providers/ProgressProvider";
-import { SnackbarProvider } from "@/providers/SnackbarProvider";
-import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Viewport } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
+import { AppState, Modal, Progress, Snackbar } from "./components";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -51,12 +47,10 @@ export default function Layout({
         <main>{children}</main>
 
         <Launch />
-
-        <MediaProvider />
-        <ModalProvider />
-        <ProgressProvider />
-        <SnackbarProvider />
-        <ThemeProvider />
+        <AppState />
+        <Modal />
+        <Progress />
+        <Snackbar />
       </body>
     </html>
   );

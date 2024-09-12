@@ -2,7 +2,7 @@
 
 import { signInWithGoogle } from "@/actions/auth";
 import { OAuthGoogle } from "@/components/Assets";
-import { useProgress } from "@/providers/ProgressProvider";
+import { useProgress } from "@/stores/progress";
 
 export function SignInWithGoogleButton() {
   const { withProgress } = useProgress();

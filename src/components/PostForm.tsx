@@ -3,8 +3,8 @@
 import { addPost } from "@/actions/post";
 import { addSpot } from "@/actions/spot";
 import { Map } from "@/components/Map";
-import { useModal } from "@/providers/ModalProvider";
-import { useProgress } from "@/providers/ProgressProvider";
+import { useModal } from "@/stores/modal";
+import { useProgress } from "@/stores/progress";
 import {
   PostOptionalInput,
   PostOptionalInputSchema,

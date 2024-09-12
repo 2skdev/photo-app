@@ -1,6 +1,6 @@
 "use client";
 
-import { useModal } from "@/providers/ModalProvider";
+import { useModal } from "@/stores/modal";
 import imageCompression from "browser-image-compression";
 import { ChangeEvent, ReactNode, useState } from "react";
 import { MdiClose, MdiImageOutline } from "./Icons";
