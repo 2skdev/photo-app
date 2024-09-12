@@ -50,6 +50,7 @@ export default async function Page({ params }: Props) {
         item={{
           post,
           user: post.user,
+          spot: post.spot,
           me,
           like: await prisma.like.findUnique({
             where: {
