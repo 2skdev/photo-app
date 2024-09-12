@@ -1,6 +1,6 @@
 "use client";
 
-import { MdiChevronRight, MdiOpenInNew } from "@/components/Icons";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,7 +21,7 @@ export function SettingList({ className }: { className?: string }) {
         )}
       >
         <div>アカウント</div>
-        <MdiChevronRight />
+        <Icon icon="mdi:chevron-right" />
       </Link>
       <Link
         href="/setting/theme"
@@ -31,11 +31,11 @@ export function SettingList({ className }: { className?: string }) {
         )}
       >
         <div>テーマ</div>
-        <MdiChevronRight />
+        <Icon icon="mdi:chevron-right" />
       </Link>
       <Link href="/terms" target="_blank" className={clsx(defaultClassNames)}>
         <div>利用規約</div>
-        <MdiOpenInNew />
+        <Icon icon="mdi:open-in-new" />
       </Link>
     </div>
   );

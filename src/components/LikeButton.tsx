@@ -2,8 +2,8 @@
 
 import { updateLike } from "@/actions/like";
 import { Post } from "@/types/zod";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
-import { MdiCardsHeart, MdiCardsHeartOutline } from "./Icons";
 
 type Props = {
   post: Post;
@@ -20,7 +20,11 @@ export function LikeButton(props: Props) {
 
   return (
     <button onClick={onClick}>
-      {like ? <MdiCardsHeart /> : <MdiCardsHeartOutline />}
+      {like ? (
+        <Icon icon="mdi:cards-heart" />
+      ) : (
+        <Icon icon="mdi:cards-heart-outline" />
+      )}
     </button>
   );
 }

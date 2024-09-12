@@ -2,19 +2,12 @@
 
 import { signOut } from "@/actions/auth";
 import { Logo } from "@/components/Assets";
-import {
-  MdiAccount,
-  MdiBell,
-  MdiDotsHorizontal,
-  MdiHome,
-  MdiMagnify,
-  MdiPlus,
-} from "@/components/Icons";
 import { PostFormModalButton } from "@/components/PostForm";
 import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
 import { User } from "@/types/zod";
 import { getPublicUrl } from "@/utils/storage";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import clsx from "clsx";
 import { Ubuntu } from "next/font/google";
 import Link from "next/link";
@@ -32,12 +25,12 @@ export function Sidebar(props: { me: User; unreadNotificationCount: number }) {
     {
       href: "/",
       label: "ホーム",
-      icon: <MdiHome className="h-6 w-6" />,
+      icon: <Icon icon="mdi:home" className="h-6 w-6" />,
     },
     {
       href: "/search",
       label: "検索",
-      icon: <MdiMagnify className="h-6 w-6" />,
+      icon: <Icon icon="mdi:magnify" className="h-6 w-6" />,
     },
     {
       href: "/notifications",
@@ -49,14 +42,14 @@ export function Sidebar(props: { me: User; unreadNotificationCount: number }) {
               {props.unreadNotificationCount}
             </span>
           )}
-          <MdiBell className="h-6 w-6" />
+          <Icon icon="mdi:bell" className="h-6 w-6" />
         </div>
       ),
     },
     {
       href: `/${props.me.accountName}`,
       label: "プロフィール",
-      icon: <MdiAccount className="h-6 w-6" />,
+      icon: <Icon icon="mdi:account" className="h-6 w-6" />,
     },
   ];
 
@@ -102,7 +95,7 @@ export function Sidebar(props: { me: User; unreadNotificationCount: number }) {
             <div className="text-sm font-light">@{props.me.accountName}</div>
           </div>
           <div className="ml-auto">
-            <MdiDotsHorizontal className="h-6 w-6" />
+            <Icon icon="mdi:dots-horizontal" className="h-6 w-6" />
           </div>
         </div>
 
@@ -132,12 +125,12 @@ export function Bottombar(props: {
     {
       href: "/",
       label: "ホーム",
-      icon: <MdiHome className="h-6 w-6" />,
+      icon: <Icon icon="mdi:home" className="h-6 w-6" />,
     },
     {
       href: "/search",
       label: "検索",
-      icon: <MdiMagnify className="h-6 w-6" />,
+      icon: <Icon icon="mdi:magnify" className="h-6 w-6" />,
     },
     {
       href: "/notifications",
@@ -149,14 +142,14 @@ export function Bottombar(props: {
               {props.unreadNotificationCount}
             </span>
           )}
-          <MdiBell className="h-6 w-6" />
+          <Icon icon="mdi:bell" className="h-6 w-6" />
         </div>
       ),
     },
     {
       href: `/${props.me.accountName}`,
       label: "プロフィール",
-      icon: <MdiAccount className="h-6 w-6" />,
+      icon: <Icon icon="mdi:account" className="h-6 w-6" />,
     },
   ];
 
@@ -180,7 +173,7 @@ export function Bottombar(props: {
       {pathname === "/" && (
         <div className="fixed bottom-20 right-6 z-10">
           <PostFormModalButton className="btn btn-circle btn-primary shadow">
-            <MdiPlus className="h-6 w-6" />
+            <Icon icon="mdi:plus" className="h-6 w-6" />
           </PostFormModalButton>
         </div>
       )}

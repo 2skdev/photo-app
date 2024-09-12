@@ -1,10 +1,10 @@
 import { getFollow, getFollowCount, getFollowerCount } from "@/actions/follow";
 import { getPosts } from "@/actions/post";
 import { getLoginUser, getUser } from "@/actions/user";
-import { MdiLink } from "@/components/Icons";
 import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
 import { getPublicUrl } from "@/utils/storage";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { FollowButton, PostGridItem } from "./components";
 
@@ -88,7 +88,7 @@ export default async function Page({ params }: Props) {
           href={user.externalUrl}
           target="_blank"
         >
-          <MdiLink />
+          <Icon icon="mdi:link" />
           <div>{user.externalUrl}</div>
         </Link>
       )}

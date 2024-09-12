@@ -1,5 +1,5 @@
-import { MdiInformationOutline } from "@/components/Icons";
 import { BASE_URL } from "@/constants/url";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function Page() {
   return (
@@ -14,11 +14,11 @@ export default function Page() {
         ))}
 
       <div role="alert" className="alert alert-success animate-fade-in">
-        <MdiInformationOutline />
+        <Icon icon="mdi:information-outline" />
         <span>これがないとなぜかSnackbarProviderに反映されない...</span>
       </div>
       <div role="alert" className="alert alert-success animate-fade-out">
-        <MdiInformationOutline />
+        <Icon icon="mdi:information-outline" />
         <span>これがないとなぜかSnackbarProviderに反映されない...</span>
       </div>
     </>

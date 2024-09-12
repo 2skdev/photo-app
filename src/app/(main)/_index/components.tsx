@@ -7,15 +7,6 @@ import { addSpam } from "@/actions/spam";
 import { LogoFB, LogoX } from "@/components/Assets";
 import { Dropdown } from "@/components/Dropdown";
 import { HashtagText } from "@/components/HashtagText";
-import {
-  MaterialSymbolsShare,
-  MdiCardsHeart,
-  MdiCardsHeartOutline,
-  MdiChevronRight,
-  MdiCommentOutline,
-  MdiDotsHorizontal,
-  MdiLink,
-} from "@/components/Icons";
 import { UserAvatar } from "@/components/UserAvatar";
 import { BASE_URL } from "@/constants/url";
 import { useModal } from "@/stores/modal";
@@ -23,8 +14,10 @@ import { useSnackbar } from "@/stores/snackbar";
 import { Post, SpamTypeType } from "@/types/zod";
 import { getDateString } from "@/utils/date";
 import { getPublicUrl } from "@/utils/storage";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import colors from "tailwindcss/colors";
 import { getTimelinePosts, TimelinePost } from "./actions";
 
 function DeleteForm({
@@ -86,7 +79,7 @@ function SpamForm({ post, onClose }: { post: Post; onClose: () => void }) {
           }}
         >
           <div>{value}</div>
-          <MdiChevronRight />
+          <Icon icon="mdi:chevron-right" />
         </div>
       ))}
     </div>
@@ -157,7 +150,10 @@ function TimelineItem(props: TimelineItemProps) {
         <Dropdown
           className="dropdown-end ml-auto"
           button={
-            <MdiDotsHorizontal className="h-6 w-6 cursor-pointer hover:opacity-80" />
+            <Icon
+              icon="mdi:dots-horizontal"
+              className="h-6 w-6 cursor-pointer hover:opacity-80"
+            />
           }
           list={
             <div className="w-72">
@@ -241,9 +237,13 @@ function TimelineItem(props: TimelineItemProps) {
           onClick={toggleLike}
         >
           {item.like ? (
-            <MdiCardsHeart className="h-6 w-6 fill-red-500" />
+            <Icon
+              icon="mdi:cards-heart"
+              className="h-6 w-6"
+              color={colors.red[500]}
+            />
           ) : (
-            <MdiCardsHeartOutline className="h-6 w-6" />
+            <Icon icon="mdi:cards-heart-outline" className="h-6 w-6" />
           )}
           <div className="ml-1 text-sm">{item.count.like}</div>
         </div>
@@ -253,13 +253,13 @@ function TimelineItem(props: TimelineItemProps) {
             router.push(`/${item.user.accountName}/${item.post.id}`)
           }
         >
-          <MdiCommentOutline className="h-6 w-6" />
+          <Icon icon="mdi:comment-outline" className="h-6 w-6" />
           <div className="ml-1 text-sm">{item.count.comment}</div>
         </div>
         <div className="flex cursor-pointer items-center hover:opacity-80">
           <Dropdown
             className="dropdown-top ml-auto"
-            button={<MaterialSymbolsShare className="h-6 w-6" />}
+            button={<Icon icon="mdi:share-variant" className="h-6 w-6" />}
             list={
               <div className="w-48">
                 <li>
@@ -271,7 +271,10 @@ function TimelineItem(props: TimelineItemProps) {
                       showSnackbar("リンクをコピーしました", "success");
                     }}
                   >
-                    <MdiLink className="h-4 w-4 fill-base-content" />
+                    <Icon
+                      icon="mdi:link"
+                      className="h-4 w-4 fill-base-content"
+                    />
                     リンクをコピー
                   </a>
                 </li>

@@ -1,12 +1,12 @@
 "use client";
 
 import { upsertUser } from "@/actions/user";
-import { MdiPencil } from "@/components/Icons";
 import { ImagePicker } from "@/components/ImagePicker";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
 import { UserAvatar } from "@/components/UserAvatar";
 import { User, UserOptionalInput, UserOptionalInputSchema } from "@/types/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -41,7 +41,7 @@ export function ProfileForm({
                 className="h-36 w-36 cursor-pointer"
               />
               <div className="btn btn-sm absolute -left-4 bottom-2 bg-opacity-90">
-                <MdiPencil />
+                <Icon icon="mdi:pencil" />
                 変更
               </div>
             </div>

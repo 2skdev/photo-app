@@ -1,9 +1,9 @@
 "use client";
 
 import { useModal } from "@/stores/modal";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import imageCompression from "browser-image-compression";
 import { ChangeEvent, ReactNode, useState } from "react";
-import { MdiClose, MdiImageOutline } from "./Icons";
 import { ImageCrop } from "./ImageCrop";
 
 type Props = {
@@ -54,7 +54,7 @@ function ImageCropContent(props: {
           className="btn btn-square btn-ghost btn-sm"
           onClick={props.onCancel}
         >
-          <MdiClose />
+          <Icon icon="mdi:close" />
         </button>
 
         <div className="ml-2 font-bold">画像範囲を選択</div>
@@ -75,7 +75,7 @@ export function ImagePicker(props: Props) {
 
   const picker = props.picker ?? (
     <div className="btn flex h-48 min-w-64 items-center justify-center">
-      <MdiImageOutline className="h-6 w-6" />
+      <Icon icon="mdi:image-outline" className="h-6 w-6" />
       <div>写真を選択</div>
     </div>
   );

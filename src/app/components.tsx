@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  MdiAlertBoxOutline,
-  MdiCheckCircleOutline,
-  MdiCloseOctagonOutline,
-  MdiInformationOutline,
-} from "@/components/Icons";
 import { useMedia } from "@/stores/media";
 import { useModal } from "@/stores/modal";
 import { useProgress } from "@/stores/progress";
 import { useSnackbar } from "@/stores/snackbar";
 import { useCurrentTheme, useTheme } from "@/stores/theme";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
@@ -115,13 +110,13 @@ export function Snackbar() {
   const symbol = (() => {
     switch (type) {
       case "success":
-        return <MdiCheckCircleOutline />;
+        return <Icon icon="mdi:check-circle-outline" />;
       case "warning":
-        return <MdiAlertBoxOutline />;
+        return <Icon icon="mdi:alert-box-outline" />;
       case "error":
-        return <MdiCloseOctagonOutline />;
+        return <Icon icon="mdi:close-octagon-outline" />;
       default:
-        return <MdiInformationOutline />;
+        return <Icon icon="mdi:information-outline" />;
     }
   })();
 

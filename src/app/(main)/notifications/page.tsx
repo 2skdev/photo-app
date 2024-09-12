@@ -4,8 +4,8 @@ import { getLikeById } from "@/actions/like";
 import { getNotifications } from "@/actions/notification";
 import { getLoginUser } from "@/actions/user";
 import { Header } from "@/components/Header";
-import { MdiCog } from "@/components/Icons";
 import { APP_NAME } from "@/constants/string";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import {
   CommentNotification,
@@ -28,7 +28,7 @@ export default async function Page() {
       <Header
         action={
           <Link href="/setting/notifications">
-            <MdiCog className="h-6 w-6" />
+            <Icon icon="mdi:cog" className="h-6 w-6" />
           </Link>
         }
       >

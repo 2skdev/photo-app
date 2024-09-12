@@ -13,20 +13,18 @@ import {
 } from "@/types/zod";
 import { getAddress } from "@/utils/osm";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import exifr from "exifr";
 import { ReactNode, useEffect, useState } from "react";
 import { useForm, UseFormReturn, useWatch } from "react-hook-form";
-import { MdiArrowLeft, MdiClose } from "./Icons";
 import { ImagePicker } from "./ImagePicker";
 
 type PostFormStepProps = {
-  onNext: () => void;
   postForm: UseFormReturn<PostOptionalInput>;
   spotForm: UseFormReturn<SpotOptionalDefaults>;
 };
 
 function UploadImage({
-  onNext,
   postForm,
   spotForm,
   setImage,
@@ -35,8 +33,6 @@ function UploadImage({
 
   const onChange = async (base64?: string) => {
     if (!base64) return;
-
-    setImage(base64);
 
     const exif = await exifr.parse(base64);
     if (exif) {
@@ -82,7 +78,8 @@ function UploadImage({
         spotForm.setValue("name", name);
       }
     }
-    onNext();
+
+    setImage(base64);
   };
 
   return (
@@ -267,10 +264,12 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
       canNext: () => false,
       child: (
         <UploadImage
-          onNext={onNext}
           postForm={postForm}
           spotForm={spotForm}
-          setImage={setImage}
+          setImage={(base64) => {
+            setImage(base64);
+            onNext();
+          }}
         />
       ),
     },
@@ -278,27 +277,18 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
       title: "撮影情報を入力",
       canNext: () => true,
       child: (
-        <InputMeta
-          onNext={onNext}
-          postForm={postForm}
-          spotForm={spotForm}
-          image={image!}
-        />
+        <InputMeta postForm={postForm} spotForm={spotForm} image={image!} />
       ),
     },
     {
       title: "撮影スポットを入力",
       canNext: () => true,
-      child: (
-        <InputSpot onNext={onNext} postForm={postForm} spotForm={spotForm} />
-      ),
+      child: <InputSpot postForm={postForm} spotForm={spotForm} />,
     },
     {
       title: "コメントを入力",
       canNext: () => true,
-      child: (
-        <InputComment onNext={onNext} postForm={postForm} spotForm={spotForm} />
-      ),
+      child: <InputComment postForm={postForm} spotForm={spotForm} />,
     },
   ];
 
@@ -306,7 +296,11 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <button className="btn btn-square btn-ghost btn-sm" onClick={onPrev}>
-          {step === 0 ? <MdiClose /> : <MdiArrowLeft />}
+          {step === 0 ? (
+            <Icon icon="mdi:close" />
+          ) : (
+            <Icon icon="mdi:arrow-left" />
+          )}
         </button>
         <div className="ml-2 font-bold">{steps[step].title}</div>
 
