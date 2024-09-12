@@ -247,7 +247,12 @@ function TimelineItem(props: TimelineItemProps) {
           )}
           <div className="ml-1 text-sm">{item.count.like}</div>
         </div>
-        <div className="flex w-10 cursor-pointer items-center hover:opacity-80">
+        <div
+          className="flex w-10 cursor-pointer items-center hover:opacity-80"
+          onClick={() =>
+            router.push(`/${item.user.accountName}/${item.post.id}`)
+          }
+        >
           <MdiCommentOutline className="h-6 w-6" />
           <div className="ml-1 text-sm">{item.count.comment}</div>
         </div>
