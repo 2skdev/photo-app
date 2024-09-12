@@ -10,7 +10,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
-function mediaState() {
+function MediaState() {
   const { setMediaType } = useMedia();
   const onChange = (matches: boolean) => setMediaType(matches ? "sp" : "pc");
 
@@ -24,9 +24,11 @@ function mediaState() {
       mql.onchange = null;
     };
   }, []);
+
+  return <></>;
 }
 
-function themeState() {
+function ThemeState() {
   const { setDeviceTheme } = useTheme();
   const currentTheme = useCurrentTheme();
 
@@ -42,13 +44,17 @@ function themeState() {
     const html = document.getElementsByTagName("html")[0];
     html.setAttribute("data-theme", currentTheme);
   }, [currentTheme]);
+
+  return <></>;
 }
 
 export function AppHandler() {
-  mediaState();
-  themeState();
-
-  return <></>;
+  return (
+    <>
+      <MediaState />
+      <ThemeState />
+    </>
+  );
 }
 
 export function ModalHandler() {
