@@ -1,5 +1,6 @@
 "use client";
 
+import { Progress } from "@/components/Progress";
 import { useMedia } from "@/stores/media";
 import { useModal } from "@/stores/modal";
 import { useProgress } from "@/stores/progress";
@@ -43,14 +44,14 @@ function themeState() {
   }, [currentTheme]);
 }
 
-export function AppState() {
+export function AppHandler() {
   mediaState();
   themeState();
 
   return <></>;
 }
 
-export function Modal() {
+export function ModalHandler() {
   const { stack, close } = useModal();
   const [stackCount, setStackCount] = useState(0);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -97,13 +98,13 @@ export function Modal() {
   );
 }
 
-export function Progress() {
+export function ProgressHandler() {
   const { running } = useProgress();
 
   return <>{running && <Progress />}</>;
 }
 
-export function Snackbar() {
+export function SnackbarHandler() {
   const { isOpen, message, type, close } = useSnackbar();
   const [animate, setAnimate] = useState("animate-fade-in");
 

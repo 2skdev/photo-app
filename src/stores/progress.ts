@@ -11,6 +11,8 @@ export const useProgress = create<ProgressState>()((set) => ({
   running: false,
   withProgress: (fn: () => Promise<void>) => {
     set({ running: true });
-    fn().then(() => set({ running: false }));
+    fn().finally(() => {
+      set({ running: false });
+    });
   },
 }));

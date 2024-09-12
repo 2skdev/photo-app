@@ -4,7 +4,12 @@ import { Viewport } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
-import { AppState, Modal, Progress, Snackbar } from "./components";
+import {
+  AppHandler,
+  ModalHandler,
+  ProgressHandler,
+  SnackbarHandler,
+} from "./components";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -47,10 +52,10 @@ export default function Layout({
         <main>{children}</main>
 
         <Launch />
-        <AppState />
-        <Modal />
-        <Progress />
-        <Snackbar />
+        <AppHandler />
+        <ModalHandler />
+        <ProgressHandler />
+        <SnackbarHandler />
       </body>
     </html>
   );
