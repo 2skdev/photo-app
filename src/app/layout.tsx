@@ -7,6 +7,7 @@ import { SnackbarProvider } from "@/providers/SnackbarProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Viewport } from "next";
 import { Inter } from "next/font/google";
+import { cookies } from "next/headers";
 import { ReactNode } from "react";
 import "./globals.css";
 
@@ -30,8 +31,21 @@ export default function Layout({
 }: Readonly<{
   children: ReactNode;
 }>) {
+  // set initial theme from cookie
+  const theme = (() => {
+    const cookie = cookies();
+    const theme = cookie.get("theme")?.value;
+
+    if (theme) {
+      const state = JSON.parse(theme)["state"];
+      return state["theme"] === "auto" ? state["deviceTheme"] : state["theme"];
+    } else {
+      return "light";
+    }
+  })();
+
   return (
-    <html lang="ja">
+    <html lang="ja" data-theme={theme}>
       <body className={inter.className}>
         <div id="header" />
         <main>{children}</main>
