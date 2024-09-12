@@ -7,6 +7,7 @@ import { addSpam } from "@/actions/spam";
 import { LogoFB, LogoX } from "@/components/Assets";
 import { Dropdown } from "@/components/Dropdown";
 import { HashtagText } from "@/components/HashtagText";
+import { PostFormModalButton } from "@/components/PostForm";
 import { UserAvatar } from "@/components/UserAvatar";
 import { BASE_URL } from "@/constants/url";
 import { useModal } from "@/stores/modal";
@@ -170,25 +171,34 @@ export function TimelineItem(props: TimelineItemProps) {
                 </a>
               </li>
               {item.post.userId === item.me.id && (
-                <li>
-                  <a
-                    className="text-error"
-                    onClick={() => {
-                      openModal(
-                        <DeleteForm
-                          onDelete={async () => {
-                            await deletePost(item.post);
-                            closeModal();
-                            window.location.reload();
-                          }}
-                          onCancel={closeModal}
-                        />,
-                      );
-                    }}
-                  >
-                    投稿を削除
-                  </a>
-                </li>
+                <>
+                  <li>
+                    <PostFormModalButton
+                      edit={{ ...item.post, spot: item.spot }}
+                    >
+                      投稿を編集
+                    </PostFormModalButton>
+                  </li>
+                  <li>
+                    <a
+                      className="text-error"
+                      onClick={() => {
+                        openModal(
+                          <DeleteForm
+                            onDelete={async () => {
+                              await deletePost(item.post);
+                              closeModal();
+                              window.location.reload();
+                            }}
+                            onCancel={closeModal}
+                          />,
+                        );
+                      }}
+                    >
+                      投稿を削除
+                    </a>
+                  </li>
+                </>
               )}
               {item.post.userId !== item.me.id && (
                 <>

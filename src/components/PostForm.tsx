@@ -1,17 +1,20 @@
 "use client";
 
-import { addPost } from "@/actions/post";
-import { addSpot } from "@/actions/spot";
+import { addPost, updatePost } from "@/actions/post";
+import { addSpot, updateSpot } from "@/actions/spot";
 import { Map } from "@/components/Map";
 import { useModal } from "@/stores/modal";
 import { useProgress } from "@/stores/progress";
 import {
+  Post,
   PostOptionalInput,
   PostOptionalInputSchema,
+  Spot,
   SpotOptionalDefaults,
   SpotOptionalDefaultsSchema,
 } from "@/types/zod";
 import { getAddress } from "@/utils/osm";
+import { getPublicUrl } from "@/utils/storage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import exifr from "exifr";
@@ -212,17 +215,29 @@ function InputComment({ postForm }: PostFormStepProps) {
   );
 }
 
-export function PostForm({ onDispose }: { onDispose: () => void }) {
+function PostForm({
+  onDispose,
+  edit,
+}: {
+  onDispose: () => void;
+  edit?: Post & { spot: Spot | null };
+}) {
   const [step, setStep] = useState(0);
-  const [image, setImage] = useState<string>();
+  const [image, setImage] = useState<string | null>(
+    getPublicUrl("Post", edit?.imagePath),
+  );
   const { withProgress } = useProgress();
 
   const postForm: UseFormReturn<PostOptionalInput> = useForm<PostOptionalInput>(
-    { resolver: zodResolver(PostOptionalInputSchema) },
+    {
+      resolver: zodResolver(PostOptionalInputSchema),
+      defaultValues: { ...edit },
+    },
   );
   const spotForm: UseFormReturn<SpotOptionalDefaults> =
     useForm<SpotOptionalDefaults>({
       resolver: zodResolver(SpotOptionalDefaultsSchema),
+      defaultValues: { ...edit?.spot },
     });
 
   useEffect(() => {
@@ -237,14 +252,25 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
       setStep(step + 1);
     } else {
       withProgress(async () => {
-        try {
-          // FIXME: use zod parse
-          const spot = await addSpot(spotForm.getValues());
-          postForm.setValue("spotId", spot.id);
-        } catch {}
+        if (edit) {
+          try {
+            // FIXME: use zod parse
+            const spot = edit.spot
+              ? await updateSpot(spotForm.getValues())
+              : await addSpot(spotForm.getValues());
+            postForm.setValue("spotId", spot.id);
+          } catch {}
 
-        await addPost(postForm.getValues(), image!);
+          await updatePost(postForm.getValues());
+        } else {
+          try {
+            // FIXME: use zod parse
+            const spot = await addSpot(spotForm.getValues());
+            postForm.setValue("spotId", spot.id);
+          } catch {}
 
+          await addPost(postForm.getValues(), image!);
+        }
         onDispose();
       });
     }
@@ -259,20 +285,24 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
   };
 
   const steps = [
-    {
-      title: "画像を選択",
-      canNext: () => false,
-      child: (
-        <UploadImage
-          postForm={postForm}
-          spotForm={spotForm}
-          setImage={(base64) => {
-            setImage(base64);
-            onNext();
-          }}
-        />
-      ),
-    },
+    ...(edit
+      ? []
+      : [
+          {
+            title: "画像を選択",
+            canNext: () => false,
+            child: (
+              <UploadImage
+                postForm={postForm}
+                spotForm={spotForm}
+                setImage={(base64) => {
+                  setImage(base64);
+                  onNext();
+                }}
+              />
+            ),
+          },
+        ]),
     {
       title: "撮影情報を入力",
       canNext: () => true,
@@ -309,7 +339,7 @@ export function PostForm({ onDispose }: { onDispose: () => void }) {
           disabled={!steps[step].canNext()}
           onClick={onNext}
         >
-          {step === steps.length - 1 ? "投稿する" : "次へ"}
+          {step === steps.length - 1 ? (edit ? "完了" : "投稿") : "次へ"}
         </button>
       </div>
       <div className="md:w-[70vw]">{steps[step].child}</div>
@@ -348,9 +378,11 @@ function DisposeAlert({
 export function PostFormModalButton({
   children,
   className,
+  edit,
 }: {
   children: ReactNode;
   className?: string;
+  edit?: Post & { spot: Spot | null };
 }) {
   const { open: openForm, close: closeForm } = useModal();
   const { open: openAlert, close: closeAlert } = useModal();
@@ -361,10 +393,10 @@ export function PostFormModalButton({
   };
 
   return (
-    <button
+    <div
       className={className}
       onClick={() => {
-        openForm(<PostForm onDispose={onDispose} />, () => {
+        openForm(<PostForm onDispose={onDispose} edit={edit} />, () => {
           openAlert(
             <DisposeAlert onCancel={closeAlert} onDispose={onDispose} />,
           );
@@ -373,6 +405,6 @@ export function PostFormModalButton({
       }}
     >
       {children}
-    </button>
+    </div>
   );
 }
