@@ -1,12 +1,11 @@
 "use server";
 
 import { createClient } from "@/libs/supabase/server";
+import { Bucket } from "@/types/storage";
 import { getFileType } from "@/utils/image";
 import random from "@/utils/random";
 import { decode } from "base64-arraybuffer";
 import { getAuthUser } from "./auth";
-
-type Bucket = "User" | "Post";
 
 export async function uploadImage(
   base64: string,
@@ -44,21 +43,4 @@ export async function uploadImage(
   }
 
   return null;
-}
-
-export async function getPublicUrl(
-  bucket: Bucket,
-  path?: string | null,
-): Promise<string | null> {
-  const supabase = createClient();
-
-  if (path) {
-    const {
-      data: { publicUrl },
-    } = await supabase.storage.from(bucket).getPublicUrl(path);
-
-    return publicUrl;
-  } else {
-    return null;
-  }
 }

@@ -13,7 +13,8 @@ import {
 import { PostFormModalButton } from "@/components/PostForm";
 import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
-import { UserImage } from "@/types/zod";
+import { User } from "@/types/zod";
+import { getPublicUrl } from "@/utils/storage";
 import clsx from "clsx";
 import { Ubuntu } from "next/font/google";
 import Link from "next/link";
@@ -24,10 +25,7 @@ const ubuntu = Ubuntu({
   subsets: ["latin"],
 });
 
-export function Sidebar(props: {
-  me: UserImage;
-  unreadNotificationCount: number;
-}) {
+export function Sidebar(props: { me: User; unreadNotificationCount: number }) {
   const pathname = usePathname();
 
   const items = [
@@ -95,7 +93,10 @@ export function Sidebar(props: {
           role="button"
           className="btn btn-ghost btn-block flex justify-start"
         >
-          <UserAvatar src={props.me.iconSrc} className="h-10 w-10" />
+          <UserAvatar
+            src={getPublicUrl("User", props.me.iconPath)}
+            className="h-10 w-10"
+          />
           <div className="flex flex-col items-start">
             <div>{props.me.accountName}</div>
             <div className="text-sm font-light">@{props.me.accountName}</div>
@@ -122,7 +123,7 @@ export function Sidebar(props: {
 }
 
 export function Bottombar(props: {
-  me: UserImage;
+  me: User;
   unreadNotificationCount: number;
 }) {
   const pathname = usePathname();

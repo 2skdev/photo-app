@@ -1,8 +1,6 @@
 import { getUnreadNotificationCount } from "@/actions/notification";
-import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser } from "@/actions/user";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
-import { UserImage } from "@/types/zod";
 import { ReactNode } from "react";
 import { Bottombar, Sidebar } from "./components";
 
@@ -11,8 +9,7 @@ export default async function Layout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const me: UserImage = await getLoginUser();
-  me.iconSrc = (await getPublicUrl("User", me.iconPath)) ?? undefined;
+  const me = await getLoginUser();
 
   const unreadNotificationCount = await getUnreadNotificationCount();
 

@@ -1,6 +1,5 @@
 import { createClient } from "@/libs/supabase/client";
-
-type Bucket = "User" | "Post";
+import { Bucket } from "@/types/storage";
 
 export function getPublicUrl(
   bucket: Bucket,

@@ -1,7 +1,8 @@
 "use client";
 
 import { updateFollow } from "@/actions/follow";
-import { PostImage, User, UserImage } from "@/types/zod";
+import { Post, User } from "@/types/zod";
+import { getPublicUrl } from "@/utils/storage";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -32,7 +33,7 @@ export function FollowButton(props: {
   );
 }
 
-export function PostGridItem(props: { post: PostImage; user: UserImage }) {
+export function PostGridItem(props: { post: Post; user: User }) {
   const router = useRouter();
 
   return (
@@ -42,7 +43,7 @@ export function PostGridItem(props: { post: PostImage; user: UserImage }) {
     >
       <img
         className="h-full w-full rounded-lg object-cover hover:object-scale-down"
-        src={props.post.imageSrc}
+        src={getPublicUrl("Post", props.post.imagePath)!}
       ></img>
     </button>
   );

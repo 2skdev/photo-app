@@ -3,39 +3,21 @@ export * from "../../prisma/generated/zod";
 import { z } from "zod";
 import {
   PostOptionalDefaultsSchema,
-  PostSchema,
   UserOptionalDefaultsSchema,
-  UserSchema,
 } from "../../prisma/generated/zod";
-
-export const PostImageSchema = PostSchema.merge(
-  z.object({
-    imageSrc: z.string(),
-  }),
-);
-export type PostImage = z.infer<typeof PostImageSchema>;
 
 export const PostOptionalInputSchema = PostOptionalDefaultsSchema.merge(
   z.object({
     id: z.string().optional(),
-    imagePath: z.string().nullish().optional(),
-    imageSrc: z.string(),
+    imagePath: z.string().nullish(),
   }),
 );
 export type PostOptionalInput = z.infer<typeof PostOptionalInputSchema>;
 
-export const UserImageSchema = UserSchema.merge(
-  z.object({
-    iconSrc: z.string().optional(),
-  }),
-);
-export type UserImage = z.infer<typeof UserImageSchema>;
-
 export const UserOptionalInputSchema = UserOptionalDefaultsSchema.merge(
   z.object({
     id: z.string().optional(),
-    iconPath: z.string().nullish().optional(),
-    iconSrc: z.string().optional(),
+    iconPath: z.string().nullish(),
   }),
 );
 export type UserOptionalInput = z.infer<typeof UserOptionalInputSchema>;

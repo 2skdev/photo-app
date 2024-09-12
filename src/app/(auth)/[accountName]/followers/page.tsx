@@ -1,8 +1,8 @@
 import { getFollow, getFollowerUsers } from "@/actions/follow";
-import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
+import { getPublicUrl } from "@/utils/storage";
 import Link from "next/link";
 import { FollowButton } from "../components";
 
@@ -40,7 +40,7 @@ export default async function Page({ params }: Props) {
               href={`/${follower.accountName}`}
             >
               <UserAvatar
-                src={await getPublicUrl("User", follower.iconPath)}
+                src={getPublicUrl("User", follower.iconPath)}
                 className="h-10 w-10"
               />
 

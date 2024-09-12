@@ -1,10 +1,10 @@
 import { getFollow, getFollowCount, getFollowerCount } from "@/actions/follow";
 import { getPosts } from "@/actions/post";
-import { getPublicUrl } from "@/actions/storage";
 import { getLoginUser, getUser } from "@/actions/user";
 import { MdiLink } from "@/components/Icons";
 import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
+import { getPublicUrl } from "@/utils/storage";
 import Link from "next/link";
 import { FollowButton, PostGridItem } from "./components";
 
@@ -36,7 +36,7 @@ export default async function Page({ params }: Props) {
   return (
     <>
       <UserAvatar
-        src={await getPublicUrl("User", user.iconPath)}
+        src={getPublicUrl("User", user.iconPath)}
         className="h-24 w-24"
       />
       <div className="mt-4 flex w-full items-center">
@@ -97,17 +97,7 @@ export default async function Page({ params }: Props) {
 
       <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
         {posts.map(async (post) => (
-          <PostGridItem
-            key={post.id}
-            post={{
-              ...post,
-              imageSrc: (await getPublicUrl("Post", post.imagePath))!,
-            }}
-            user={{
-              ...user,
-              iconSrc: (await getPublicUrl("User", user.iconPath)) ?? undefined,
-            }}
-          />
+          <PostGridItem key={post.id} post={post} user={user} />
         ))}
       </div>
     </>
