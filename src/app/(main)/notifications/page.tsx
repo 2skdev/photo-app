@@ -63,7 +63,7 @@ export default async function Page() {
             <FollowNotification
               key={index}
               me={me}
-              user={follow.followUser}
+              user={follow.user}
             ></FollowNotification>
           );
         }
