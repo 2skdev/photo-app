@@ -1,35 +1,23 @@
 import { getFollow, getFollowCount, getFollowerCount } from "@/actions/follow";
-import { getPosts } from "@/actions/post";
 import { getLoginUser, getUser } from "@/actions/user";
 import { UserAvatar } from "@/components/UserAvatar";
-import { APP_NAME } from "@/constants/string";
 import { getPublicUrl } from "@/utils/storage";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
-import { FollowButton, PostGridItem } from "./components";
+import { ReactNode } from "react";
+import { FollowButton, ProfileNavBar } from "./components";
 
 type Props = {
+  children: ReactNode;
   params: { accountName: string };
 };
 
-export async function generateMetadata(props: Props) {
+export default async function Layout(props: Props) {
   const user = await getUser(props.params.accountName);
-
-  return {
-    title: `${user.displayName}(@${user.accountName}) | ${APP_NAME}`,
-  };
-}
-
-export default async function Page({ params }: Props) {
-  const user = await getUser(params.accountName);
   const me = await getLoginUser();
 
   const isMypage = user.id === me.id;
-
   const follow = isMypage ? false : await getFollow(me, user);
-
-  // todo: load next
-  const posts = await getPosts(user);
 
   // TODO: icon image cached and change not applied
 
@@ -93,13 +81,9 @@ export default async function Page({ params }: Props) {
         </Link>
       )}
 
-      <div className="my-4 w-full border-t border-neutral" />
+      <ProfileNavBar user={user} />
 
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-        {posts.map(async (post) => (
-          <PostGridItem key={post.id} post={post} user={user} />
-        ))}
-      </div>
+      {props.children}
     </>
   );
 }

@@ -4,8 +4,45 @@ import { updateFollow } from "@/actions/follow";
 import { Post, User } from "@/types/zod";
 import { getPublicUrl } from "@/utils/storage";
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+
+export function ProfileNavBar({ user }: { user: User }) {
+  const pathname = usePathname();
+
+  return (
+    <div className="my-1 grid grid-cols-3 gap-2">
+      <Link
+        className={clsx(
+          "flex cursor-pointer justify-center border-primary py-2 hover:bg-neutral",
+          pathname === `/${user.accountName}` ? "border-b-2" : "",
+        )}
+        href={`/${user.accountName}`}
+      >
+        投稿
+      </Link>
+      <Link
+        className={clsx(
+          "flex cursor-pointer justify-center border-primary py-2 hover:bg-neutral",
+          pathname === `/${user.accountName}/spot` ? "border-b-2" : "",
+        )}
+        href={`/${user.accountName}/spot`}
+      >
+        スポット
+      </Link>
+      <Link
+        className={clsx(
+          "flex cursor-pointer justify-center border-primary py-2 hover:bg-neutral",
+          pathname === `/${user.accountName}/device` ? "border-b-2" : "",
+        )}
+        href={`/${user.accountName}/device`}
+      >
+        デバイス
+      </Link>
+    </div>
+  );
+}
 
 export function FollowButton(props: {
   user: User;

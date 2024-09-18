@@ -4,7 +4,7 @@ import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
 import { getPublicUrl } from "@/utils/storage";
 import Link from "next/link";
-import { FollowButton } from "../components";
+import { FollowButton } from "../(profile)/components";
 
 type Props = {
   params: { accountName: string };
