@@ -114,43 +114,43 @@ export default async function Page({ params }: Props) {
         />
         <div className="order-first flex w-full flex-col md:order-last">
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">カメラ</div>
+            <div className="mr-2 text-nowrap text-xs">カメラ</div>
             <div>{post.camera ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">レンズ</div>
+            <div className="mr-2 text-nowrap text-xs">レンズ</div>
             <div>{post.lens ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">焦点距離</div>
+            <div className="mr-2 text-nowrap text-xs">焦点距離</div>
             <div>{post.focalLength ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">F値</div>
+            <div className="mr-2 text-nowrap text-xs">F値</div>
             <div>{post.fnumber ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">シャッタースピード</div>
+            <div className="mr-2 text-nowrap text-xs">シャッタースピード</div>
             <div>{post.shutter ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">ISO</div>
+            <div className="mr-2 text-nowrap text-xs">ISO</div>
             <div>{post.iso ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">ホワイトバランス</div>
+            <div className="mr-2 text-nowrap text-xs">ホワイトバランス</div>
             <div>{post.wb ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">緯度</div>
+            <div className="mr-2 text-nowrap text-xs">緯度</div>
             <div>{post.spot?.latitude ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">経度</div>
+            <div className="mr-2 text-nowrap text-xs">経度</div>
             <div>{post.spot?.longitude ?? "-"}</div>
           </div>
           <div className="flex items-end justify-between border-b border-b-neutral p-1">
-            <div className="text-xs">撮影日時</div>
+            <div className="mr-2 text-nowrap text-xs">撮影日時</div>
             <div>{post.shotAt?.toLocaleString() ?? "-"}</div>
           </div>
         </div>
