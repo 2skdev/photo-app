@@ -111,9 +111,9 @@ export function LogoFB(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function FocusRafiki() {
+export function FocusRafiki(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props}>
       <g id="freepik--background-simple--inject-61">
         <path
           d="M303.88,169.82c-30.71-18.75-49.1-84.2-89.58-65.31-24.58,11.48-18.11,22-47.24,13-19.46-6-32.3-18.77-60.45-10.37C-1.57,139.5,54.66,291.51,149.9,304.42c27.84,3.78,34.6-22.8,56-28.2,21.71-5.49,42.93,14,60.15,23.62,42.78,24,86.38,25.58,128.15-4.2C426,273,441,218.55,410.45,187.6,383.45,160.25,337.78,190.51,303.88,169.82Z"

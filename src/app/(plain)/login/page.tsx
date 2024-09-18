@@ -15,7 +15,7 @@ export default function Page() {
     <div className="flex h-screen w-screen items-center justify-center bg-base-200">
       <div className="grid h-screen w-screen bg-base-100 shadow-xl md:h-[60%] md:w-[80%] md:grid-cols-2 md:rounded-xl">
         <div className="hidden items-center justify-center rounded-l-xl bg-gradient-to-br from-sky-500 via-blue-500 to-indigo-500 md:flex">
-          <FocusRafiki />
+          <FocusRafiki className="h-[32rem] w-[32rem]" />
         </div>
 
         <div className="flex flex-col items-center justify-center">
