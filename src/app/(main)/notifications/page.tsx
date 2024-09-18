@@ -1,7 +1,7 @@
 import { getCommentById } from "@/actions/comment";
 import { getFollowById } from "@/actions/follow";
 import { getLikeById } from "@/actions/like";
-import { getNotifications } from "@/actions/notification";
+import { getNotifications, readNotifications } from "@/actions/notification";
 import { getLoginUser } from "@/actions/user";
 import { Header } from "@/components/Header";
 import { APP_NAME } from "@/constants/string";
@@ -22,6 +22,9 @@ export async function generateMetadata() {
 export default async function Page() {
   const me = await getLoginUser();
   const notifications = await getNotifications();
+
+  // TODO: layout count not updated before page reload
+  await readNotifications(notifications);
 
   return (
     <>

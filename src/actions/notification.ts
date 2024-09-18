@@ -16,6 +16,19 @@ export async function getNotifications(): Promise<Array<Notification>> {
   return notifications;
 }
 
+export async function readNotifications(notifications: Array<Notification>) {
+  await prisma.notification.updateMany({
+    where: {
+      id: {
+        in: notifications.map((notification) => notification.id),
+      },
+    },
+    data: {
+      read: true,
+    },
+  });
+}
+
 export async function getUnreadNotificationCount(): Promise<number> {
   const auth = await getAuthUser();
 
