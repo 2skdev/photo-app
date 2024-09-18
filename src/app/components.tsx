@@ -95,7 +95,7 @@ export function ModalHandler() {
           className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50"
           onClick={onBackdropClick}
         >
-          <div className="relative z-10 h-screen w-screen overflow-y-auto rounded bg-base-100 p-4 md:h-auto md:w-auto">
+          <div className="relative z-10 h-screen w-screen overflow-y-auto rounded bg-base-100 p-4 md:h-auto md:max-h-[95%] md:w-auto">
             {item.child}
           </div>
         </div>
