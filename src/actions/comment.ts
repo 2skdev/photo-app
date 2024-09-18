@@ -3,8 +3,8 @@
 import prisma from "@/libs/prisma/client";
 import {
   Comment,
-  CommentOptionalDefaults,
   CommentOptionalDefaultsSchema,
+  CommentOptionalInput,
   Post,
   User,
 } from "@/types/zod";
@@ -31,11 +31,12 @@ export async function getCommentById(
   return comment;
 }
 
-export async function addComment(input: CommentOptionalDefaults) {
+export async function addComment(input: CommentOptionalInput) {
   const auth = await getAuthUser();
 
   const data = CommentOptionalDefaultsSchema.parse({
     ...input,
+    userId: auth.id,
   });
 
   return await prisma.comment.create({

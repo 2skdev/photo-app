@@ -1,13 +1,15 @@
-import { getLike } from "@/actions/like";
 import { getPost } from "@/actions/post";
 import { getLoginUser, getUser } from "@/actions/user";
 import { Header } from "@/components/Header";
 import { Map } from "@/components/Map";
+import { UserAvatar } from "@/components/UserAvatar";
 import { APP_NAME } from "@/constants/string";
 import prisma from "@/libs/prisma/client";
+import { getDateString } from "@/utils/date";
 import { getPublicUrl } from "@/utils/storage";
 import { notFound } from "next/navigation";
 import { TimelineItem } from "../../_index/components";
+import { CommentForm } from "./components";
 
 type Props = {
   params: { accountName: string; postId: string };
@@ -39,10 +41,19 @@ export default async function Page({ params }: Props) {
       spot: true,
     },
   });
+
   if (!post) {
     notFound();
   }
-  const like = await getLike(me, post);
+
+  const comments = await prisma.comment.findMany({
+    where: {
+      postId: post.id,
+    },
+    include: {
+      user: true,
+    },
+  });
 
   return (
     <div>
@@ -143,6 +154,31 @@ export default async function Page({ params }: Props) {
             <div>{post.shotAt?.toLocaleString() ?? "-"}</div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-4 border-t border-neutral pt-4">
+        <div className="mb-2">
+          <CommentForm post={post} />
+        </div>
+
+        {comments.map((comment) => (
+          <div className="py-2" key={comment.id}>
+            <div className="flex items-center">
+              <UserAvatar
+                className="h-8 w-8"
+                src={getPublicUrl("User", comment.user.iconPath)}
+              />
+              <div className="ml-2">{comment.user.displayName}</div>
+              <div className="ml-1 text-sm font-light">
+                @{comment.user.accountName}
+              </div>
+              <div className="ml-2 pt-1 text-sm font-light">
+                • {getDateString(comment.createdAt)}
+              </div>
+            </div>
+            <div className="mt-2">{comment.text}</div>
+          </div>
+        ))}
       </div>
     </div>
   );

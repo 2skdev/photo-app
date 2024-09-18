@@ -2,6 +2,7 @@ export * from "../../prisma/generated/zod";
 
 import { z } from "zod";
 import {
+  CommentOptionalDefaultsSchema,
   PostOptionalDefaultsSchema,
   UserOptionalDefaultsSchema,
 } from "../../prisma/generated/zod";
@@ -21,3 +22,11 @@ export const UserOptionalInputSchema = UserOptionalDefaultsSchema.merge(
   }),
 );
 export type UserOptionalInput = z.infer<typeof UserOptionalInputSchema>;
+
+export const CommentOptionalInputSchema = CommentOptionalDefaultsSchema.merge(
+  z.object({
+    id: z.string().optional(),
+    userId: z.string().nullish(),
+  }),
+);
+export type CommentOptionalInput = z.infer<typeof CommentOptionalInputSchema>;
