@@ -231,10 +231,10 @@ export function TimelineItem(props: TimelineItemProps) {
         />
       </div>
 
-      <div className="mt-2 flex w-full cursor-pointer justify-center rounded bg-black">
+      <div className="mt-2 flex max-h-[32rem] w-full cursor-pointer justify-center rounded bg-black shadow">
         <img
           src={getPublicUrl("Post", item.post.imagePath)!}
-          className="rounded"
+          className="rounded object-contain"
           onClick={() =>
             router.push(`/${item.user.accountName}/${item.post.id}`)
           }
