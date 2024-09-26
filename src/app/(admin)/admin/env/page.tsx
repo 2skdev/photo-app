@@ -1,25 +1,33 @@
 import { BASE_URL } from "@/constants/url";
-import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function Page() {
+  const table: { [key: string]: string | undefined } = {
+    BASE_URL: BASE_URL,
+  };
+
+  Object.entries(process.env)
+    .filter(([key]) => key.startsWith("NEXT_PUBLIC"))
+    .forEach(([key, value]) => (table[key] = value));
+
   return (
     <>
-      <div>BASE_URL = {BASE_URL}</div>
-      {Object.entries(process.env)
-        .filter(([key]) => key.startsWith("NEXT_PUBLIC"))
-        .map(([key, value]) => (
-          <div key={key}>
-            {key} = {value}
-          </div>
-        ))}
-
-      <div role="alert" className="alert alert-success animate-fade-in">
-        <Icon icon="mdi:information-outline" />
-        <span>これがないとなぜかSnackbarProviderに反映されない...</span>
-      </div>
-      <div role="alert" className="alert alert-success animate-fade-out">
-        <Icon icon="mdi:information-outline" />
-        <span>これがないとなぜかSnackbarProviderに反映されない...</span>
+      <div className="overflow-x-scroll">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>変数名</th>
+              <th>値</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(table).map(([key, value], index) => (
+              <tr key={index}>
+                <th>{key}</th>
+                <td>{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   );
