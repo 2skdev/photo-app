@@ -1,1 +1,1 @@
-export const APP_NAME = "Photo App";
+export const APP_NAME = "Cloud Snaps";
