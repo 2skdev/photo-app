@@ -1,9 +1,20 @@
 "use client";
 
+import { Header } from "@/components/Header";
+import { MediaSwitcher } from "@/components/MediaSwitcher";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+export function SettingHeader() {
+  return (
+    <MediaSwitcher
+      sp={<Header>設定</Header>}
+      pc={<div className="py-4 pl-4 font-bold">設定</div>}
+    />
+  );
+}
 
 export function SettingList({ className }: { className?: string }) {
   const pathname = usePathname();

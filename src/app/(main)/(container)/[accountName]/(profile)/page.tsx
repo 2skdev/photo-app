@@ -1,5 +1,5 @@
 import { getPosts } from "@/actions/post";
-import { getUser } from "@/actions/user";
+import { getLoginUser, getUser } from "@/actions/user";
 import { APP_NAME } from "@/constants/string";
 import { PostGridItem } from "./components";
 
@@ -16,7 +16,11 @@ export async function generateMetadata(props: Props) {
 }
 
 export default async function Page(props: Props) {
-  const user = await getUser(props.params.accountName);
+  const user = props.params.accountName
+    ? await getUser(props.params.accountName)
+    : await getLoginUser();
+
+  // todo: unknownを判定
 
   // todo: load next
   const posts = await getPosts(user);

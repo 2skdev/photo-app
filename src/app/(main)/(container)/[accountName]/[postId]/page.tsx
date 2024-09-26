@@ -8,7 +8,7 @@ import prisma from "@/libs/prisma/client";
 import { getDateString } from "@/utils/date";
 import { getPublicUrl } from "@/utils/storage";
 import { notFound } from "next/navigation";
-import { TimelineItem } from "../../_index/components";
+import { TimelineItem } from "../../timeline/components";
 import { CommentForm } from "./components";
 
 type Props = {

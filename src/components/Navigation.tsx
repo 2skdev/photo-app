@@ -28,6 +28,11 @@ export function Sidebar(props: { me: User; unreadNotificationCount: number }) {
       icon: <Icon icon="mdi:home" className="h-6 w-6" />,
     },
     {
+      href: "/timeline",
+      label: "タイムライン",
+      icon: <Icon icon="mdi:format-list-bulleted-type" className="h-6 w-6" />,
+    },
+    {
       href: "/search",
       label: "検索",
       icon: <Icon icon="mdi:magnify" className="h-6 w-6" />,
@@ -126,6 +131,11 @@ export function Bottombar(props: {
       href: "/",
       label: "ホーム",
       icon: <Icon icon="mdi:home" className="h-6 w-6" />,
+    },
+    {
+      href: "/timeline",
+      label: "タイムライン",
+      icon: <Icon icon="mdi:format-list-bulleted-type" className="h-6 w-6" />,
     },
     {
       href: "/search",

@@ -1,8 +1,8 @@
 import { getUnreadNotificationCount } from "@/actions/notification";
 import { getLoginUser } from "@/actions/user";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
+import { Bottombar, Sidebar } from "@/components/Navigation";
 import { ReactNode } from "react";
-import { Bottombar, Sidebar } from "./components";
 
 export default async function Layout({
   children,
@@ -32,9 +32,7 @@ export default async function Layout({
         />
 
         {/* margin for bottom nav height */}
-        <div className="container mx-auto mb-14 max-w-3xl p-4 md:mb-0 md:p-10">
-          {children}
-        </div>
+        <div className="mb-14 w-full md:mb-0">{children}</div>
       </div>
     </>
   );
