@@ -1,13 +1,45 @@
+import { APP_NAME } from "@/constants/string";
+import clsx from "clsx";
+import { Saira } from "next/font/google";
 import { SVGProps } from "react";
 
-export function Logo(props: SVGProps<SVGSVGElement>) {
+const saira = Saira({
+  weight: "400",
+  subsets: ["latin"],
+});
+
+export function AppIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" {...props}>
+    <svg
+      id="e"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 300 300"
+      {...props}
+    >
       <path
-        className="stroke-miterlimit fill-none stroke-base-content stroke-[12px]"
-        d="M412.03,311.87c-8.36-8.29-21.92-8.29-30.21.13l-3.09,3.09-5-55.68,25.87-25.87c35.61-35.35,55.55-83.46,55.42-133.68,0-23.63-19.15-42.78-42.78-42.78-50.16-.13-98.34,19.81-133.68,55.42l-25.67,25.67-55.68-5,2.9-2.9s.07-.07.13-.13c8.29-8.36,8.29-21.92-.13-30.21-8.36-8.29-21.79-8.29-30.15,0l-28.24,28.24-35.48-3.23c-12.77-1.25-25.41,3.29-34.42,12.37l-38.31,39.16s-.07.07-.13.13c-8.29,8.36-8.29,21.92.13,30.21l75.96,74.58-.26.26c-8.03,8.1-12.44,19.02-12.37,30.34,0,11.32,4.48,22.12,12.37,30.15l60.75,60.75h0c16.72,16.72,43.77,16.72,60.49,0l.26-.26,74.58,75.96c8.29,8.36,21.85,8.43,30.21.13l.13-.13,39.16-38.31c9.02-9.08,13.49-21.72,12.18-34.42l-3.16-35.28,28.43-28.43c8.29-8.36,8.29-21.79,0-30.15,0,0-.07-.07-.13-.13h-.07ZM257.49,328.59c-40.87,0-74.05-33.17-74.05-74.05s33.17-74.05,74.05-74.05,74.05,33.17,74.05,74.05-33.17,74.05-74.05,74.05Z"
+        d="M199.76,75c24.25,16.12,40.24,43.69,40.24,75s-15.99,58.88-40.24,75h80.24V75h-80.24Z"
+        className="fill-base-content"
+      />
+      <path
+        d="M80,55h-40v20h-20v150h40v-75c0-31.31,15.99-58.88,40.24-75h-20.24v-20Z"
+        className="fill-base-content"
+      />
+      <path
+        d="M150,75c-41.28,0-74.77,33.36-74.99,74.59h-.01v75h67.18c2.57.27,5.18.41,7.82.41,41.42,0,75-33.58,75-75s-33.58-75-75-75ZM150,175c-13.81,0-25-11.19-25-25s11.19-25,25-25,25,11.19,25,25-11.19,25-25,25Z"
+        className="fill-base-content"
       />
     </svg>
+  );
+}
+
+export function AppLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <div className="flex items-center">
+      <AppIcon className="h-8 w-8" {...props} />
+      <div className={clsx("ml-2 select-none", saira.className)}>
+        {APP_NAME}
+      </div>
+    </div>
   );
 }
 

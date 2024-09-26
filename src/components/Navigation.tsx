@@ -1,22 +1,15 @@
 "use client";
 
 import { signOut } from "@/actions/auth";
-import { Logo } from "@/components/Assets";
 import { PostFormModalButton } from "@/components/PostForm";
 import { UserAvatar } from "@/components/UserAvatar";
-import { APP_NAME } from "@/constants/string";
 import { User } from "@/types/zod";
 import { getPublicUrl } from "@/utils/storage";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import clsx from "clsx";
-import { Ubuntu } from "next/font/google";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const ubuntu = Ubuntu({
-  weight: "700",
-  subsets: ["latin"],
-});
+import { AppLogo } from "./Assets";
 
 export function Sidebar(props: { me: User; unreadNotificationCount: number }) {
   const pathname = usePathname();
@@ -60,10 +53,9 @@ export function Sidebar(props: { me: User; unreadNotificationCount: number }) {
 
   return (
     <div className="sticky top-0 flex h-screen w-80 flex-col border-r border-neutral p-4">
-      <div className="mx-4 mb-6 mt-2 flex items-center justify-start">
-        <Logo className="h-8 w-8" />
-        <div className={clsx("ml-2", ubuntu.className)}>{APP_NAME}</div>
-      </div>
+      <Link className="mx-4 mb-6 mt-2" href="/">
+        <AppLogo className="h-8 w-8" />
+      </Link>
 
       {items.map((item, index) => (
         <Link

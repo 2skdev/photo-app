@@ -1,4 +1,4 @@
-import { FocusRafiki, Logo } from "@/components/Assets";
+import { AppLogo, FocusRafiki } from "@/components/Assets";
 import { MediaSwitcher } from "@/components/MediaSwitcher";
 import { APP_NAME } from "@/constants/string";
 import Link from "next/link";
@@ -19,7 +19,7 @@ export default function Page() {
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <Logo className="mb-4 h-16 w-16" />
+          <AppLogo />
           <div className="my-4 text-lg">ログイン</div>
           <SignInWithGoogleButton />
         </div>
